@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Data blueprint · Kedah Silver Economy</title>
+<meta name="description" content="The data sheets and fields the Kedah Silver Economy dashboard needs before it can be used for real.">
+<script>try{var t=localStorage.getItem('kse-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}(function(){var P=['index','ecosystem','network','scenario','roadmap','evidence','data','app'],f=(location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''),i=P.indexOf(f),d=document.documentElement;if(i<0)i=0;function go(){try{var p=parseInt(sessionStorage.getItem('kse-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('kse-idx',i)}catch(e){}}if(document.prerendering)document.addEventListener('prerenderingchange',go,{once:true});else go()})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/kse.css?v=20261002ios"><link rel="stylesheet" href="assets/css/kse-ios.css?v=20261002ios"><script src="assets/js/kse-data.js?v=20261002ios"></script>
+</head>
+<body data-page="data"><script src="assets/js/kse-shell.js?v=20261002ios"></script>
+<main id="main">
+  <section class="band pagehead"><div class="wrap pagehead-grid">
+    <div>
+      <p class="step" data-step></p>
+      <h1 data-i18n="dpTitle">What the dashboard needs to work</h1>
+      <p class="lede" data-i18n="dpLede">This prototype runs on sample logic. These linked sheets list the data we would collect, check and update before the score can be used for real.</p>
+    </div>
+    <div class="headstat"><b>11</b><span data-i18n="dpStat">linked workbook sheets</span></div>
+  </div></section>
+
+  <div class="wrap"><section class="section">
+    <details class="notice notice-toggle" open>
+      <summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.2v.3"/></svg><b data-i18n="dpNoticeTitle">Example data only</b><i aria-hidden="true"><span></span></i></summary>
+      <div class="notice-body"><span data-i18n="dpNoticeBody">The workbook contains linked example profiles, needs, districts, providers, contact fields and referral rows. The phone numbers and assistance amounts are illustrative demo data, not live promises. Real records will only be added after consent, data rules and source checks are approved.</span></div>
+    </details>
+
+    <div class="data-hero">
+      <div>
+        <p class="label label-paddy" data-i18n="dpHeroLabel">Download the workbook</p>
+        <h2 data-i18n="dpHeroTitle">One workbook that links each person to the help around them.</h2>
+        <p data-i18n="dpHeroBody">Each sheet says who fills it in, how often it is updated and which part of the dashboard uses it.</p>
+      </div>
+      <a class="button button-gold" href="assets/data/kedah-silver-data-blueprint.xlsx" download><span data-i18n="dpDownload">Download Excel file</span> <span aria-hidden="true">↓</span></a>
+    </div>
+
+    <div class="data-grid">
+      <article class="card data-card"><span class="data-no">01</span><h3 data-i18n="dp1t">Person profile</h3><p data-i18n="dp1b">Who is asking for help, where they live and how they like to be contacted.</p><code>person_id · age · sex · district · village · language · consent_status</code><small data-i18n="dp1o">Kept by the field team · updated at the first visit</small></article>
+      <article class="card data-card"><span class="data-no">02</span><h3 data-i18n="dp2t">Needs assessment</h3><p data-i18n="dp2b">One person can have more than one need, each with how urgent it is and the evidence.</p><code>assessment_id · person_id · need_code · severity · frequency · urgency</code><small data-i18n="dp2o">Kept by the assessor · updated at each review</small></article>
+      <article class="card data-card"><span class="data-no">03</span><h3 data-i18n="dp3t">Household and eligibility</h3><p data-i18n="dp3b">Income, family support, current aid and the rules used to decide who qualifies.</p><code>household_size · monthly_income · carer_present · benefit_status</code><small data-i18n="dp3o">Kept by the welfare partner · updated every 3 months</small></article>
+      <article class="card data-card"><span class="data-no">04</span><h3 data-i18n="dp4t">Providers and services</h3><p data-i18n="dp4b">Who can help, what they offer, where they work and whether they have space.</p><code>provider_id · organisation · service_code · district · capacity · status</code><small data-i18n="dp4o">Kept by the network lead · updated every month</small></article>
+      <article class="card data-card"><span class="data-no">05</span><h3 data-i18n="dp5t">Referrals and outcomes</h3><p data-i18n="dp5b">Each referral, reply, waiting time and result, so we can see if the matching worked.</p><code>referral_id · person_id · need_code · provider_id · outcome · closed_at</code><small data-i18n="dp5o">Kept by the coordinator · updated after every referral</small></article>
+      <article class="card data-card"><span class="data-no">06</span><h3 data-i18n="dp6t">Lists and scoring</h3><p data-i18n="dp6b">Fixed lists and open weights that turn checked data into the score.</p><code>need_code · district_adj · severity_weight · capacity_weight</code><small data-i18n="dp6o">Kept by the research team · each change gets a version number</small></article>
+    </div>
+
+    <div class="card data-table-wrap">
+      <div class="data-table-head"><div><p class="label label-paddy" data-i18n="dpMapLabel">Sheet map</p><h2 data-i18n="dpMapTitle">How each sheet feeds the dashboard</h2></div><span class="demo-tag" data-i18n="dpMapTag">Example rows only</span></div>
+      <div class="table-scroll"><table class="data-table">
+        <thead><tr><th data-i18n="dpThSheet">Workbook sheet</th><th data-i18n="dpThQ">Question it answers</th><th data-i18n="dpThUse">Used in the dashboard</th><th data-i18n="dpThRef">Updated at least</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="dpSheet1">Person profile</td><td data-i18n="dpR1q">Who needs help?</td><td data-i18n="dpR1u">Person choice, district map</td><td data-i18n="dpR1r">At the first visit</td></tr>
+          <tr><td data-i18n="dpSheet2">Needs assessment</td><td data-i18n="dpR2q">What does this person need?</td><td data-i18n="dpR2u">Needs choice, suggested steps</td><td data-i18n="dpR2r">At each review</td></tr>
+          <tr><td data-i18n="dpSheet3">Household eligibility</td><td data-i18n="dpR3q">What limits apply?</td><td data-i18n="dpR3u">Score changes, main problem</td><td data-i18n="dpR3r">Every 3 months</td></tr>
+          <tr><td data-i18n="dpSheet4">Providers and services</td><td data-i18n="dpR4q">Who can help here?</td><td data-i18n="dpR4u">Who could help, confirmed count</td><td data-i18n="dpR4r">Every month</td></tr>
+          <tr><td data-i18n="dpSheet5">Referrals and outcomes</td><td data-i18n="dpR5q">Did the help arrive?</td><td data-i18n="dpR5u">Outcome score, waiting time</td><td data-i18n="dpR5r">After every referral</td></tr>
+          <tr><td data-i18n="dpSheet6">Reference weights</td><td data-i18n="dpR6q">How is the score worked out?</td><td data-i18n="dpR6u">Every score on the dashboard</td><td data-i18n="dpR6r">With each new version</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section></div>
+</main><script src="assets/vendor/lottie_light.min.js"></script><script src="assets/js/kse-lottie.js?v=20261002ios"></script><script src="assets/js/kse-viz.js?v=20261002ios"></script><script src="assets/js/kse-pages.js?v=20261002ios"></script>
+</body></html>
+
+
+

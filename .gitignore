@@ -1,0 +1,11 @@
+# System files
+desktop.ini
+.DS_Store
+Thumbs.db
+
+# Secrets and local notes
+*.local.md
+.env
+
+# Claude Code instructions stay local (they may hold private notes)
+CLAUDE.md

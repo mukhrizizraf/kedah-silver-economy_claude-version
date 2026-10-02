@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>How It Works · Kedah Silver Economy</title>
+<meta name="description" content="How an older person's needs are matched to help, and the three lists of data behind it.">
+<script>try{var t=localStorage.getItem('kse-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}(function(){var P=['index','ecosystem','network','scenario','roadmap','evidence','data','app'],f=(location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''),i=P.indexOf(f),d=document.documentElement;if(i<0)i=0;function go(){try{var p=parseInt(sessionStorage.getItem('kse-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('kse-idx',i)}catch(e){}}if(document.prerendering)document.addEventListener('prerenderingchange',go,{once:true});else go()})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/kse.css?v=20261002ios"><link rel="stylesheet" href="assets/css/kse-ios.css?v=20261002ios">
+<script src="assets/js/kse-data.js?v=20261002ios"></script>
+</head>
+<body data-page="ecosystem">
+<script src="assets/js/kse-shell.js?v=20261002ios"></script>
+
+<main id="main">
+  <section class="band pagehead">
+    <div class="wrap pagehead-grid">
+      <div>
+        <p class="step" data-step></p>
+        <h1 data-i18n="ecoTitle">How an older person is matched to help</h1>
+        <p class="lede" data-i18n="ecoSub">There are three parts: what the person needs, who can help, and a step that matches the two. It shows what help exists and what is still missing.</p>
+      </div>
+      <div class="headstat"><b data-count="3">3</b><span data-i18n="ecoStat">types of data we collect</span></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="section">
+      <div class="shead">
+        <div><p class="eyebrow" data-i18n="flowEyebrow">How it works</p><h2 data-i18n="flowTitle">Need, match, help</h2></div>
+      </div>
+      <div class="flow">
+        <div class="lane">
+          <p class="lane-h" data-i18n="demand">The older person</p>
+          <div class="enode"><strong data-i18n="profile">About them</strong><small data-i18n="profileSub">Age, district, income, household, health, wishes</small></div>
+          <div class="enode"><strong data-i18n="needs">What they need</strong><small data-i18n="needsSub">Transport, company, food, home care, welfare, health care</small></div>
+          <div class="enode"><strong data-i18n="context">Limits</strong><small data-i18n="contextSub">Who qualifies, distance, free places, referrals and cost</small></div>
+        </div>
+        <div class="arrow a0" aria-hidden="true"><svg viewBox="0 0 48 16"><path d="M4 8h38M36 3l6 5-6 5"/></svg></div>
+        <div class="arrow a1" aria-hidden="true"><svg viewBox="0 0 48 16"><path d="M4 8h38M36 3l6 5-6 5"/></svg></div>
+        <div class="engine" tabindex="0" role="button" aria-expanded="false" aria-describedby="engineHelp">
+          <div class="engine-mark" aria-hidden="true">
+            <svg viewBox="0 0 96 96"><rect class="sq" x="22" y="22" width="52" height="52" rx="3"/><rect class="sq" x="22" y="22" width="52" height="52" rx="3" transform="rotate(45 48 48)"/><circle class="ctr" cx="48" cy="48" r="26"/></svg>
+            <span data-i18n="engineCircle">MATCH</span>
+          </div>
+          <h3 data-i18n="engineTitle">Matching step</h3>
+          <p data-i18n="engineBody">Finds who can help, based on the rules, the location, free places and how urgent the need is.</p>
+          <ul class="chips"><li data-i18n="chipNeed">Right need</li><li data-i18n="chipDistrict">Same district</li><li data-i18n="chipCapacity">Has space</li><li data-i18n="chipReferral">Referral</li></ul>
+          <div class="engine-popover" id="engineHelp" role="tooltip"><b data-i18n="engineTipTitle">What this box does</b><span data-i18n="engineTipBody">It turns a person’s needs into a short, explainable route to the organisations that can help.</span></div>
+        </div>
+        <div class="arrow a2" aria-hidden="true"><svg viewBox="0 0 48 16"><path d="M44 8H6M12 3 6 8l6 5"/></svg></div>
+        <div class="lane lane-supply">
+          <p class="lane-h" data-i18n="supply">Who can help</p>
+          <div class="enode"><strong data-i18n="institutions">Agencies</strong><small>MAIK · LZNK · JKM · PAWE</small></div>
+          <div class="enode"><strong data-i18n="providers">Care providers</strong><small data-i18n="providersSub">Health care · home care · takaful · NGOs · community</small></div>
+          <div class="enode"><strong data-i18n="volunteers">Volunteers</strong><small data-i18n="volunteersSub">Company, transport, visits and daily help</small></div>
+        </div>
+        <div class="arrow a3" aria-hidden="true"><svg viewBox="0 0 48 16"><path d="M4 8h38M36 3l6 5-6 5"/></svg></div>
+        <div class="result"><strong data-i18n="pathway">Result</strong><small data-i18n="pathwaySub">The help to give, where to refer, and any need still not met</small></div>
+      </div>
+
+      <div class="worked">
+        <p class="label label-paddy" data-i18n="workedLabel">The same three steps, on one real case</p>
+        <ol id="worked"></ol>
+        <a class="btn btn-paddy" href="scenario.html"><span class="btn-ai" data-icon="scenario"></span><span data-i18n="workedGo">Change the person and the need yourself</span><span class="btn-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+    </section>
+
+    <details class="section page-drawer" open>
+      <summary class="shead page-drawer-summary">
+        <div><p class="eyebrow" data-i18n="fitEyebrow">Where it fits</p><h2 data-i18n="fitTitle">It adds to the national system. It does not replace it.</h2></div>
+        <span class="page-drawer-toggle" aria-hidden="true"><b></b><i></i></span>
+      </summary>
+      <div class="page-drawer-body">
+        <p class="page-drawer-note" data-i18n="fitSub">This is Figure 2 of the application, in four layers.</p>
+        <div class="fit" id="fit"></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="tint">
+    <div class="wrap">
+      <details class="section page-drawer">
+        <summary class="shead page-drawer-summary">
+          <div><p class="eyebrow" data-i18n="dataEyebrow">The data</p><h2 data-i18n="dataTitle">Three lists behind the matching</h2></div>
+          <span class="page-drawer-toggle" aria-hidden="true"><b></b><i></i></span>
+        </summary>
+        <div class="page-drawer-body">
+          <p class="page-drawer-note" data-i18n="dataSub">These lists hold everything the matching step needs. In Phase 1 we fill them with checked data.</p>
+          <div class="schema" id="schema"></div>
+          <p class="footnote" data-i18n="dataNote">This dashboard uses sample records to show how it works. Records that still need checking, and example records, are clearly marked.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script><script src="assets/js/kse-lottie.js?v=20261002ios"></script><script src="assets/js/kse-viz.js?v=20261002ios"></script>
+<script src="assets/js/kse-pages.js?v=20261002ios"></script>
+</body>
+</html>
+
+
+

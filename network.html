@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Who Can Help · Kedah Silver Economy</title>
+<meta name="description" content="A sample list of 30 organisations in Kedah, by type, district and whether they are confirmed.">
+<script>try{var t=localStorage.getItem('kse-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}(function(){var P=['index','ecosystem','network','scenario','roadmap','evidence','data','app'],f=(location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''),i=P.indexOf(f),d=document.documentElement;if(i<0)i=0;function go(){try{var p=parseInt(sessionStorage.getItem('kse-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('kse-idx',i)}catch(e){}}if(document.prerendering)document.addEventListener('prerenderingchange',go,{once:true});else go()})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/kse.css?v=20261002ios"><link rel="stylesheet" href="assets/css/kse-ios.css?v=20261002ios">
+<script src="assets/js/kse-data.js?v=20261002ios"></script>
+</head>
+<body data-page="network">
+<script src="assets/js/kse-shell.js?v=20261002ios"></script>
+
+<main id="main">
+  <section class="band pagehead">
+    <div class="wrap pagehead-grid">
+      <div>
+        <p class="step" data-step></p>
+        <h1 data-i18n="netTitle">30 organisations that could help</h1>
+        <p class="lede" data-i18n="netSub">This is a sample list to show how matching works. Each one is marked confirmed, to check or example, so nobody mistakes it for a full, checked list for Kedah.</p>
+      </div>
+      <div class="headstat"><b>5 / 30</b><span data-i18n="netStat">confirmed so far</span></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="section">
+      <div class="filters">
+        <div class="field"><label for="typeFilter" data-i18n="fType">Type</label>
+          <div class="select"><select id="typeFilter">
+            <option value="all" data-i18n="optAllTypes">All types</option>
+            <option value="Institution" data-i18n="optInst">Agencies</option>
+            <option value="NGO" data-i18n="optNGO">NGOs</option>
+            <option value="Mosque" data-i18n="optMosque">Masjids</option>
+            <option value="Provider" data-i18n="optProvider">Care providers</option>
+            <option value="Volunteer" data-i18n="optVolunteer">Volunteer groups</option>
+          </select></div></div>
+        <div class="field"><label for="districtFilter" data-i18n="fDistrict">District</label>
+          <div class="select"><select id="districtFilter">
+            <option value="all" data-i18n="optAllDistricts">All districts</option>
+            <option value="Kota Setar">Kota Setar</option>
+            <option value="Sungai Petani">Sungai Petani</option>
+            <option value="Kubang Pasu">Kubang Pasu</option>
+            <option value="Kulim">Kulim</option>
+            <option value="Baling">Baling</option>
+            <option value="Langkawi">Langkawi</option>
+          </select></div></div>
+        <div class="field"><label for="statusFilter" data-i18n="fStatus">Status</label>
+          <div class="select"><select id="statusFilter">
+            <option value="all" data-i18n="optAllStatus">All statuses</option>
+            <option value="Verified" data-i18n="optVerified">Confirmed</option>
+            <option value="Candidate" data-i18n="optCandidate">To check</option>
+            <option value="Demo" data-i18n="optDemo">Example</option>
+          </select></div></div>
+        <div class="field field-search"><label for="search" data-i18n="fSearch">Search</label>
+          <div class="input-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+            <input id="search" type="search" list="networkSearchHints" autocomplete="off" placeholder="Name or service">
+          </div>
+          <datalist id="networkSearchHints"><option value="MAIK"><option value="transport"><option value="Kota Setar"><option value="home care"><option value="masjid"></datalist>
+          <div class="search-suggestions" aria-label="Search examples"><span>Try:</span><button type="button" data-search-example="MAIK">MAIK</button><button type="button" data-search-example="transport">transport</button><button type="button" data-search-example="Kota Setar">Kota Setar</button></div>
+        </div>
+        <p class="count" id="recordCount" aria-live="polite"></p>
+      </div>
+
+      <ul class="statusbar" id="statusBar"></ul>
+
+      <div class="net">
+        <div class="card table-card">
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr>
+                <th><button type="button" class="sort" data-sort="name"><span data-i18n="thOrg">Organisation</span></button></th>
+                <th><button type="button" class="sort" data-sort="type"><span data-i18n="thType">Type</span></button></th>
+                <th><button type="button" class="sort" data-sort="district"><span data-i18n="thDistrict">District</span></button></th>
+                <th><span data-i18n="thCap">What they do</span></th>
+                <th><button type="button" class="sort" data-sort="status"><span data-i18n="thStatus">Status</span></button></th>
+              </tr></thead>
+              <tbody id="records"></tbody>
+            </table>
+          </div>
+          <div class="table-foot">
+            <ul class="keys" id="statusKeys"></ul>
+            <p class="tip-line"><b data-i18n="pitchTipLabel">When presenting:</b> <span data-i18n="pitchTip">start with the ones marked "to check". Explain that Phase 1 checks each one's services, who qualifies, free places, contact and how to refer.</span></p>
+          </div>
+        </div>
+
+        <div class="net-side">
+          <div class="card">
+            <div class="card-head">
+              <p class="label label-paddy" data-i18n="chartTag">By district</p>
+              <h2 class="as-h3" data-i18n="chartTitle">Organisations in each district</h2>
+              <p data-i18n="chartNote">The bars follow the filters above. Point at a bar to see the number.</p>
+            </div>
+            <div class="dlegend" id="dLegend"></div>
+            <div class="dchart" id="districtChart"></div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <p class="label" data-i18n="chainTag">What we will test</p>
+              <h2 class="as-h3" data-i18n="chainTitle">How a referral should work</h2>
+            </div>
+            <div class="chain">
+              <div class="enode"><strong data-i18n="chain1">Older person</strong><small data-i18n="chain1s">Their need, district and whether they qualify</small></div>
+              <div class="chain-link"><i aria-hidden="true">?</i><span data-i18n="chainLink">Not tested yet</span></div>
+              <div class="enode coord"><strong data-i18n="chain2">One coordinator</strong><small data-i18n="chain2s">One contact for welfare, health and community help</small></div>
+              <div class="chain-link"><i aria-hidden="true">?</i><span data-i18n="chainLink">Not tested yet</span></div>
+              <div class="enode"><strong data-i18n="chain3">Help team</strong><small data-i18n="chain3s">Care provider, volunteer and money support</small></div>
+            </div>
+            <p class="footnote" data-i18n="chainNote">We want to know who is out there, and also how a person moves from one to the next.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script><script src="assets/js/kse-lottie.js?v=20261002ios"></script><script src="assets/js/kse-viz.js?v=20261002ios"></script>
+<script src="assets/js/kse-pages.js?v=20261002ios"></script>
+</body>
+</html>
+
+
+
+

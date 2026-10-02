@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Try a Case · Kedah Silver Economy</title>
+<meta name="description" content="Pick a person, district, need and income to see the suggested steps, the score and the main problem.">
+<script>try{var t=localStorage.getItem('kse-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}(function(){var P=['index','ecosystem','network','scenario','roadmap','evidence','data','app'],f=(location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''),i=P.indexOf(f),d=document.documentElement;if(i<0)i=0;function go(){try{var p=parseInt(sessionStorage.getItem('kse-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('kse-idx',i)}catch(e){}}if(document.prerendering)document.addEventListener('prerenderingchange',go,{once:true});else go()})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/css/kse.css?v=20261002ios"><link rel="stylesheet" href="assets/css/kse-ios.css?v=20261002ios">
+<script src="assets/js/kse-data.js?v=20261002ios"></script>
+</head>
+<body data-page="scenario">
+<script src="assets/js/kse-shell.js?v=20261002ios"></script>
+
+<main id="main">
+  <section class="band pagehead">
+    <div class="wrap pagehead-grid">
+      <div>
+        <p class="step" data-step></p>
+        <h1 data-i18n="labTitle">Pick a person and a need. See what help they get.</h1>
+        <p class="lede" data-i18n="labSub">Change the options below. The steps, the score and the main problem change straight away.</p>
+      </div>
+      <div class="headstat"><b data-count="558">558</b><span data-i18n="labStat">cases you can try</span></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="section">
+      <details class="notice notice-toggle" open>
+        <summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.2v.3"/></svg><b data-i18n="noticeTitle">Nothing on this page is a real measurement.</b><i aria-hidden="true"><span></span></i></summary>
+        <div class="notice-body"><span data-i18n="noticeBody">The score below is worked out from weights we chose, to show how matching would run. Phase 1 replaces every weight with checked data. The organisation names are real records from our list, and each one carries its own status.</span></div>
+      </details>
+
+      <div class="case-modes" role="group" aria-label="Choose intake mode">
+        <button type="button" class="case-mode is-on" data-mode="guided">Guided intake</button>
+        <button type="button" class="case-mode" data-mode="quick">Quick demo</button>
+      </div>
+
+      <div class="intake-wizard" id="intakeWizard">
+        <div class="intake-progress"><span id="intakeStepLabel">Step 1 of 5</span><i id="intakeProgressBar" style="--v:20%"></i></div>
+        <section class="intake-step is-active" data-step="1">
+          <p class="label label-paddy">About you</p><h2>How old are you?</h2><p class="intake-help">Choose an age range. You do not need to remember your exact date of birth.</p>
+          <div class="choice-grid" data-choice-group="ageBand"><button type="button" data-value="60-64">60-64</button><button type="button" data-value="65-69">65-69</button><button type="button" data-value="70-74">70-74</button><button type="button" data-value="75-79">75-79</button><button type="button" data-value="80-84">80-84</button><button type="button" data-value="85+">85 or older</button></div>
+          <h3>How should we record your gender?</h3><div class="choice-grid compact" data-choice-group="gender"><button type="button" data-value="woman">Woman</button><button type="button" data-value="man">Man</button><button type="button" data-value="prefer-not">Prefer not to say</button></div>
+        </section>
+        <section class="intake-step" data-step="2">
+          <p class="label label-paddy">Where you live</p><h2>Which area in Kedah?</h2><p class="intake-help">Choose your district, then your nearest mukim or town.</p>
+          <div class="intake-fields"><label>District<select id="wizardDistrict"></select></label><label>Mukim / nearest area<select id="wizardMukim"></select></label></div>
+        </section>
+        <section class="intake-step" data-step="3">
+          <p class="label label-paddy">Daily life</p><h2>How do you manage day to day?</h2>
+          <div class="choice-grid" data-choice-group="persona"><button type="button" data-value="independent">🟢 I manage by myself</button><button type="button" data-value="vulnerable">🟡 I need some help</button><button type="button" data-value="highneed">🟠 I need regular help</button></div>
+          <h3>Who is available to help you?</h3><div class="choice-grid compact multi-choice" data-multi-group="support"><button type="button" data-value="alone">I live alone</button><button type="button" data-value="spouse">Spouse / partner</button><button type="button" data-value="children">Children nearby</button><button type="button" data-value="family">Other family</button><button type="button" data-value="neighbours">Friends / neighbours</button><button type="button" data-value="none">No regular help</button></div>
+        </section>
+        <section class="intake-step" data-step="4">
+          <p class="label label-paddy">Money and home</p><h2>What is your approximate monthly income?</h2>
+          <div class="choice-grid compact" data-choice-group="income"><button type="button" data-value="0">No regular income</button><button type="button" data-value="800">Below RM1,000</button><button type="button" data-value="1500">RM1,000–RM1,999</button><button type="button" data-value="2500">RM2,000–RM2,999</button><button type="button" data-value="3500">RM3,000–RM4,999</button><button type="button" data-value="5000">RM5,000 and above</button><button type="button" data-value="prefer-not">Prefer not to say</button></div>
+          <h3>Do you receive regular financial support?</h3><div class="choice-grid compact multi-choice" data-multi-group="financialSupport"><button type="button" data-value="pension">Pension</button><button type="button" data-value="welfare">Welfare assistance</button><button type="button" data-value="family">Children / family</button><button type="button" data-value="zakat">Zakat / Baitulmal</button><button type="button" data-value="none">No regular support</button></div>
+          <h3>Where do you live now?</h3><div class="choice-grid compact" data-choice-group="living"><button type="button" data-value="alone">Own home, alone</button><button type="button" data-value="spouse">With spouse</button><button type="button" data-value="family">With children / family</button><button type="button" data-value="care">Residential care</button></div>
+        </section>
+        <section class="intake-step" data-step="5">
+          <p class="label label-paddy">What you need</p><h2>What kind of help are you looking for?</h2><p class="intake-help">Select one or more. You can change this later.</p>
+          <div class="choice-grid compact multi-choice" data-multi-group="needs"><button type="button" data-value="companion">Someone to accompany me</button><button type="button" data-value="transport">Transport</button><button type="button" data-value="homecare">Help at home</button><button type="button" data-value="food">Food / daily necessities</button><button type="button" data-value="welfare">Financial / welfare help</button></div>
+          <h3>How soon do you need help?</h3><div class="choice-grid compact" data-choice-group="urgency"><button type="button" data-value="info">Just looking for information</button><button type="button" data-value="weeks">Within the next few weeks</button><button type="button" data-value="soon">I need help soon</button><button type="button" data-value="urgent">I need help urgently</button></div>
+          <label class="intake-note">Anything else you want us to know? <textarea id="wizardNote" rows="2" placeholder="Optional"></textarea></label>
+        </section>
+        <div class="intake-actions"><button type="button" class="btn btn-quiet" id="intakeBack">Back</button><button type="button" class="btn btn-paddy" id="intakeNext">Next</button></div>
+      </div>
+
+      <div class="presets quick-only"><span class="lbl" data-i18n="presetLabel">Simulated examples</span><span id="presetList" style="display:contents"></span></div>
+
+      <div class="controls quick-only">
+        <div class="field"><label for="ageBand">Age range</label>
+          <div class="select"><select id="ageBand"><option value="60-64">60-64</option><option value="65-69">65-69</option><option value="70-74">70-74</option><option value="75-79">75-79</option><option value="80+">80 and above</option></select></div></div>
+        <div class="field"><label for="gender">Gender</label>
+          <div class="select"><select id="gender"><option value="woman">Woman</option><option value="man">Man</option><option value="prefer-not">Prefer not to say</option></select></div></div>
+        <div class="field"><label for="persona" data-i18n="personaLabel">Person</label>
+          <div class="select"><select id="persona">
+            <option value="independent" data-i18n="pIndependent">Can manage alone</option>
+            <option value="vulnerable" data-i18n="pVulnerable">Needs some help</option>
+            <option value="highneed" data-i18n="pHighneed">Needs a lot of help</option>
+          </select></div></div>
+        <div class="field"><label for="district" data-i18n="districtLabel">District</label>
+          <div class="select"><select id="district">
+            <option>Kubang Pasu</option><option selected>Kota Setar</option><option>Sungai Petani</option><option>Kulim</option><option>Baling</option><option>Langkawi</option><option>Padang Terap</option><option>Pokok Sena</option><option>Pendang</option><option>Sik</option><option>Yan</option><option>Bandar Baharu</option>
+          </select></div></div>
+        <div class="field"><label for="mukim">Mukim / town</label>
+          <div class="select"><select id="mukim"></select></div></div>
+        <div class="field"><span class="field-label" id="needsLabel" data-i18n="needLabel">Needs</span>
+          <details class="multi-select" id="needPicker">
+            <summary aria-labelledby="needsLabel needSummary"><span id="needSummary">Company or hospital escort</span><span class="multi-chevron" aria-hidden="true"></span></summary>
+            <div class="multi-options" role="group" aria-labelledby="needsLabel">
+              <label><input type="checkbox" name="needs" value="companion" checked><span data-i18n="nCompanion">Company or hospital escort</span></label>
+              <label><input type="checkbox" name="needs" value="transport"><span data-i18n="nTransport">Transport</span></label>
+              <label><input type="checkbox" name="needs" value="homecare"><span data-i18n="nHomecare">Home care</span></label>
+              <label><input type="checkbox" name="needs" value="welfare"><span data-i18n="nWelfare">Money or welfare help</span></label>
+              <label><input type="checkbox" name="needs" value="food"><span data-i18n="nFood">Food</span></label>
+            </div>
+          </details>
+          <input id="need" type="hidden" value="companion">
+        </div>
+        <div class="field"><label for="living">Living arrangement</label>
+          <div class="select"><select id="living"><option value="alone">Lives alone</option><option value="spouse">With spouse</option><option value="family">With family</option><option value="care">Residential care</option></select></div></div>
+        <div class="field"><label for="income" data-i18n="incomeLabel">Household income a month</label>
+          <div class="select"><select id="income"><option value="0">No regular income</option><option value="800">Below RM1,000</option><option value="1500">RM1,000–RM1,999</option><option value="2500">RM2,000–RM2,999</option><option value="3500" selected>RM3,000–RM4,999</option><option value="5000">RM5,000 and above</option></select></div></div>
+      </div>
+      <p class="case-context" id="caseContext" aria-live="polite"></p>
+
+      <section class="route-map" id="routeMap" aria-labelledby="routeTitle">
+        <div class="route-head">
+          <div><h2 id="routeTitle" data-i18n="routeTitle">Your route to help</h2><p data-i18n="routeIntro">A quick view of how this example case could move from a need to a contact.</p></div>
+          <span class="route-demo" data-i18n="routeDemo">Sample route</span>
+        </div>
+        <div class="route-flow" id="routeFlow">
+          <div class="route-stage route-request"><span class="route-stage-label" data-i18n="routeRequest">Your request</span><div id="routeRequest"></div></div>
+          <span class="route-connector" aria-hidden="true"><i></i></span>
+          <div class="route-stage route-steps"><span class="route-stage-label" data-i18n="routeSteps">Suggested steps</span><ol id="routeSteps"></ol></div>
+          <span class="route-connector" aria-hidden="true"><i></i></span>
+          <div class="route-stage route-contacts"><span class="route-stage-label" data-i18n="routeContacts">Possible contacts</span><div class="route-end-mark" id="routeEndMark" aria-hidden="true"></div><ul id="routeContacts"></ul></div>
+        </div>
+        <p class="route-note" data-i18n="routeNote">This is a demonstration. Check an organisation and its contact details before making a referral.</p>
+      </section>
+
+      <div class="lab">
+        <div class="cov">
+          <div class="cov-top"><p class="label" data-i18n="coverageLabel">How well needs are covered</p><span class="demo-tag" data-i18n="demoTag">Sample data only</span></div>
+          <div class="cov-top"><span class="cov-num" id="coverage" aria-live="polite">-</span><span class="state" id="coverageState"></span></div>
+          <div>
+            <div class="meter"><span id="coverageBar"></span></div>
+            <div class="mticks" aria-hidden="true"><span style="left:0">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span></div>
+          </div>
+          <div class="cov-rows">
+            <div><span data-i18n="confirmedLabel">Confirmed on our list</span><b id="confirmed"></b></div>
+            <div><span data-i18n="steps">Number of referrals</span><b id="steps"></b></div>
+          </div>
+          <p class="cov-note" id="confirmedNote" aria-live="polite"></p>
+        </div>
+        <div class="card">
+          <p class="label label-paddy" data-i18n="pathLabel">Suggested steps</p>
+          <ol class="path" id="pathwayList"></ol>
+        </div>
+        <div class="card">
+          <p class="label label-paddy" data-i18n="providersLabel">Who could help</p>
+          <ul class="nodes" id="providerList"></ul>
+        </div>
+      </div>
+
+      <div class="lab-2">
+        <div class="card">
+          <div class="label-with-info"><p class="label label-paddy" data-i18n="workingLabel">How this score is built</p><button class="info-btn" id="scoreInfo" type="button" aria-label="How the score is calculated">i</button></div>
+          <ol class="working" id="working"></ol>
+          <p class="footnote" id="workingNote"></p>
+        </div>
+        <div class="card">
+          <p class="label label-paddy" data-i18n="compareLabel">Every district</p>
+          <ul class="compare" id="compare"></ul>
+          <p class="footnote" id="compareNote"></p>
+        </div>
+      </div>
+      <div class="gapline">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.2v.3"/></svg>
+        <p><b data-i18n="gapLabel">Main problem to check</b><span id="gap" aria-live="polite"></span></p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="assets/vendor/lottie_light.min.js"></script><script src="assets/js/kse-lottie.js?v=20261002ios"></script><script src="assets/js/kse-viz.js?v=20261002ios"></script>
+
+<script src="assets/js/kse-route-lottie.js"></script>
+<script src="assets/js/kse-pages.js?v=20261002ios"></script>
+</body>
+</html>
+
+
+
+
+
+
