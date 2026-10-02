@@ -611,18 +611,18 @@ body[data-page="roadmap"] .page-character img{width:260px;height:190px;object-fi
 .partner-list b{font:700 16px/1 var(--display);font-stretch:88%;letter-spacing:.02em;color:var(--ink-2)}
 .people{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .person{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}
-.avatar{width:52px;height:52px;flex:none;border-radius:50%;display:block;background-color:var(--paddy-soft);background-image:url('../img/team-avatar-sprite.webp?v=20260930d');background-size:300% 200%;background-repeat:no-repeat;border:2px solid var(--surface);box-shadow:0 2px 8px rgba(15,35,30,.12);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.avatar{width:52px;height:52px;flex:none;border-radius:50%;display:block;background-color:var(--paddy-soft);background-image:none;background-size:300% 200%;background-repeat:no-repeat;border:2px solid var(--surface);box-shadow:0 2px 8px rgba(15,35,30,.12);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
 .avatar-0{background-position:0 0}.avatar-1{background-position:50% 0}.avatar-2{background-position:100% 0}.avatar-3{background-position:0 100%}.avatar-4{background-position:50% 100%}.avatar-5{background-position:100% 100%}
-.avatar-1{background-image:url('../img/avatar-shazida.webp?v=20260930e');background-size:cover;background-position:center}
-.avatar-2{background-image:url('../img/avatar-hafizah.webp?v=20260930h');background-size:cover;background-position:center}
+.avatar-1{background-image:none;background-size:cover;background-position:center}
+.avatar-2{background-image:none;background-size:cover;background-position:center}
 .person:hover .avatar{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 14px -8px rgba(15,35,30,.5)}
-.person.lead .avatar{background-color:var(--gold);background-image:url('../img/team-avatar-sprite.webp?v=20260930d');color:var(--on-gold)}
-.avatar-0{background-image:url('../img/avatar-shamzaeffa.webp?v=20260930f');background-size:cover;background-position:center}
-.person.lead .avatar.avatar-0{background-image:url('../img/avatar-shamzaeffa.webp?v=20260930f');background-size:cover;background-position:center}
-.avatar-3{background-image:url('../img/avatar-syakiran.webp?v=20260930g');background-size:cover;background-position:center}
-.avatar-4{background-image:url('../img/avatar-sharima.webp?v=20260930i');background-size:cover;background-position:center}
-.avatar-5{background-image:url('../img/avatar-mukhriz-izraf.webp?v=20260930j');background-size:cover;background-position:center}
-.person .avatar.avatar-5{background-image:url('../img/avatar-mukhriz-izraf.webp?v=20260930l') !important;background-size:cover !important;background-position:center !important}
+.person.lead .avatar{background-color:var(--gold);background-image:none;color:var(--on-gold)}
+.avatar-0{background-image:none;background-size:cover;background-position:center}
+.person.lead .avatar.avatar-0{background-image:none;background-size:cover;background-position:center}
+.avatar-3{background-image:none;background-size:cover;background-position:center}
+.avatar-4{background-image:none;background-size:cover;background-position:center}
+.avatar-5{background-image:none;background-size:cover;background-position:center}
+.person .avatar.avatar-5{background-image:none !important;background-size:cover !important;background-position:center !important}
 .person b{display:block;font-size:14.5px;font-weight:650;line-height:1.3}
 .person div>span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
 .person.lead div>span,.person.sub div>span{color:var(--gold-ink);font-weight:600}

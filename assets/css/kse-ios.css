@@ -315,7 +315,7 @@ html[data-dir="back"]::view-transition-new(root){animation-name:pop-in;z-index:0
 .cons .halo{transform-box:fill-box;transform-origin:center}
 .cons .elder-head,.cons .elder-body{fill:var(--on-paddy)}
 .cons .elder-avatar{filter:none}
-/* team photos are the main version's for now (see ART-PROMPTS.md) */
+
 .cons .sl-name{fill:var(--ink);font:600 15px var(--ui)}
 .cons .sl-count{fill:var(--muted);font:500 12.5px var(--ui)}
 .cons-legend{position:relative;font-size:14.5px;color:var(--muted)}
@@ -795,7 +795,7 @@ body[data-page="overview"] .home-drawer summary:hover{transform:none;box-shadow:
   .hero-ios{padding:8px 12px 0}
   .hero-ios .hero-scene{height:52vh;min-height:300px;border-radius:26px}
   .hero-ios .scene-caption{left:12px;right:12px;top:12px;font-size:13px}
-  .hero-ios .scene-image img{object-position:71% 50%}
+  .hero-ios .scene-image img{object-position:50% 40%}
   .nav-brand b{font-size:19px;white-space:nowrap}
   .hero-sheet{margin-top:-64px;padding:10px 20px 28px;border-radius:26px}
   .hero-ios h1{font-size:clamp(42px,11vw,58px)}
@@ -883,3 +883,24 @@ body[data-page="overview"] .home-drawer summary:hover{transform:none;box-shadow:
 .info-btn::before{content:"";position:absolute;inset:-8px}
 .route-end-mark{top:14px;right:14px;width:28px;height:28px}
 .cov{align-self:start}
+
+/* ---------- Original illustrations (assets/img) ---------- */
+/* hero: frame the couple's faces in the wide crop */
+.hero-ios .scene-image img{object-position:50% 27%}
+/* page heads: each page's scene as a rounded photo card */
+.page-character{width:212px!important;height:212px!important;min-height:0;align-self:end;background:var(--sunk);box-shadow:var(--shadow)}
+.page-character img,body[data-page] .page-character img{width:100%!important;height:100%!important;max-height:none;padding:0;object-fit:cover!important;border-radius:0;filter:none!important;animation:none}
+/* the map's centre is a round portrait */
+.cons .elder-avatar{animation:none}
+.cons .elder-link:hover .elder-avatar,.cons .elder-link:focus-visible .elder-avatar{animation:none;transform:scale(1.06);transition:transform .3s var(--ease)}
+/* team: iOS Contacts-style initials (no portraits of real people) */
+.avatar,.person.lead .avatar,.avatar[class*="avatar-"],.person .avatar.avatar-5{display:grid!important;place-items:center;background:linear-gradient(180deg,#a3a196,#7d7b72)!important;color:#fbfaf3;font:600 19px/1 var(--ui);letter-spacing:.01em}
+.person.lead .avatar,.person.lead .avatar.avatar-0{background:linear-gradient(180deg,#6b7a2f,#525c2f)!important}
+/* Our Silver App: the help one tap could bring */
+.help-strip{overflow:visible}
+.help-scenes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin:0;padding:20px 24px 24px;list-style:none}
+.help-scenes li{display:grid;gap:9px;align-content:start}
+.help-strip .help-scenes img{display:block;width:100%;min-width:0;max-width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:18px;background:var(--sunk);box-shadow:0 8px 20px -14px rgba(30,30,30,.45)}
+.help-scenes span{font:600 15px/1.3 var(--ui);color:var(--ink)}
+@media (max-width:1080px){.help-scenes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){.help-scenes{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:16px}}

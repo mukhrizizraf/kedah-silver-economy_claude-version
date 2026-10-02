@@ -280,17 +280,16 @@ doc.addEventListener('DOMContentLoaded', function () {
     });
   });
   var pagehead = K.$('.pagehead-grid');
-  /* Page art. For now these are the main version's illustrations, with the
-     user's permission, until our own generated art (ART-PROMPTS.md) replaces
-     them; K.pageArt overrides this map when it exists. */
+  /* Page art: one original illustration per page (assets/img/page-*.webp).
+     K.pageArt can override this map. */
   var pageArt = K.pageArt || {
-    ecosystem: 'assets/img/elder-reaching-glass.webp',
-    network: 'assets/img/elder-calling-network.webp',
-    scenario: 'assets/img/elder-phone-profile.webp',
-    roadmap: 'assets/img/elder-budget-counting.webp',
-    evidence: 'assets/img/elder-source-books.webp',
-    data: 'assets/img/elder-sand-blueprint.webp',
-    app: 'assets/img/elder-app-family-garden.webp'
+    ecosystem: 'assets/img/page-ecosystem.webp',
+    network: 'assets/img/page-network.webp',
+    scenario: 'assets/img/page-scenario.webp',
+    roadmap: 'assets/img/page-roadmap.webp',
+    evidence: 'assets/img/page-evidence.webp',
+    data: 'assets/img/page-data.webp',
+    app: 'assets/img/page-app.webp'
   };
   if (pagehead && K.page !== 'overview' && !K.$('.page-character') && pageArt[K.page]) {
     var figure = doc.createElement('figure');
