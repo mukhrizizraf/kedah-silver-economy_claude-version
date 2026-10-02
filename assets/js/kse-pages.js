@@ -65,7 +65,7 @@ K.pageInit.overview = function () {
       return '<li><b>' + esc(K.L(p.n)) + '</b>' + K.pill(s.c === 'verified' ? 'Verified' : 'Candidate', K.L(s)) + '</li>';
     }).join('');
     $('#team').innerHTML = K.team.map(function (m, i) {
-      return '<li class="person' + (m.cls ? ' ' + m.cls : '') + '"><span class="avatar avatar-' + i + '" aria-hidden="true">' + esc(m.i || '') + '</span><div><b>' + esc(m.n) + '</b><span>' + esc(K.L(m.r)) + '</span></div></li>';
+      return '<li class="person' + (m.cls ? ' ' + m.cls : '') + '"><span class="avatar avatar-' + i + '" aria-hidden="true"></span><div><b>' + esc(m.n) + '</b><span>' + esc(K.L(m.r)) + '</span></div></li>';
     }).join('');
     $('#track').innerHTML = K.track.map(function (t) { return '<li><b>' + esc(t.n) + '</b><span>' + esc(K.L(t.t)) + '</span></li>'; }).join('');
     /* ticked in the application form, so each one carries a drawn tick */

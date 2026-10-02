@@ -893,9 +893,15 @@ body[data-page="overview"] .home-drawer summary:hover{transform:none;box-shadow:
 /* the map's centre is a round portrait */
 .cons .elder-avatar{animation:none}
 .cons .elder-link:hover .elder-avatar,.cons .elder-link:focus-visible .elder-avatar{animation:none;transform:scale(1.06);transition:transform .3s var(--ease)}
-/* team: iOS Contacts-style initials (no portraits of real people) */
-.avatar,.person.lead .avatar,.avatar[class*="avatar-"],.person .avatar.avatar-5{display:grid!important;place-items:center;background:linear-gradient(180deg,#a3a196,#7d7b72)!important;color:#fbfaf3;font:600 19px/1 var(--ui);letter-spacing:.01em}
-.person.lead .avatar,.person.lead .avatar.avatar-0{background:linear-gradient(180deg,#6b7a2f,#525c2f)!important}
+/* team: the six researchers' portraits (from the main version, at the user's request) */
+.avatar,.person .avatar[class*="avatar-"]{display:block!important;background-color:var(--sunk)!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;font-size:0}
+.person .avatar.avatar-0{background-image:url('../img/avatar-shamzaeffa.webp')!important}
+.person .avatar.avatar-1{background-image:url('../img/avatar-shazida.webp')!important}
+.person .avatar.avatar-2{background-image:url('../img/avatar-hafizah.webp')!important}
+.person .avatar.avatar-3{background-image:url('../img/avatar-syakiran.webp')!important}
+.person .avatar.avatar-4{background-image:url('../img/avatar-sharima.webp')!important}
+.person .avatar.avatar-5{background-image:url('../img/avatar-mukhriz-izraf.webp')!important}
+.person.lead .avatar{box-shadow:0 0 0 3px var(--paddy),0 4px 12px -4px rgba(0,0,0,.25)}
 /* Our Silver App: the help one tap could bring */
 .help-strip{overflow:visible}
 .help-scenes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin:0;padding:20px 24px 24px;list-style:none}
