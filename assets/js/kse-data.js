@@ -291,6 +291,7 @@ Demo:{en:'Later, at the workshop',bm:'Kemudian, di bengkel'}
 /* ---------- Bahasa Melayu dictionary ----------
    English lives in the HTML; each [data-i18n] key maps to its BM text here. */
 K.bm = {
+  metaGrant:'Geran', heroArtSoon:'Imej akan datang: pasangan warga emas Kedah di rumah',
 /* overview */
 eyebrow:'Geran Penyelidikan Scale-Up UUM 2026',
 title:'Penjagaan Islam bersepadu untuk warga emas di Kedah',

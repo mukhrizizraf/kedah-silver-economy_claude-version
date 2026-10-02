@@ -16,7 +16,7 @@
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
   --ui:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
 
-  --bg:#f4f3eb;--pillar:#ecebe2;--surface:#fdfcf7;--surface-2:#f1f0e8;--sunk:#e5e4dc;--side:#efeee6;
+  --bg:#f4f3eb;--pillar:#efeee6;--surface:#fdfcf7;--surface-2:#f1f0e8;--sunk:#e5e4dc;--side:#efeee6;
   --ink:#1e1e1e;--ink-2:#3a3a3a;--muted:#62615b;--line:#d8d6cb;--line-2:#e5e4dc;
 
   --paddy:#525c2f;--paddy-ink:#46502a;--paddy-soft:#e6e8d6;--on-paddy:#f8f7f0;
@@ -90,8 +90,8 @@ html{scroll-padding-top:calc(var(--nav-h) + 16px)}
 body{
   font:400 17px/1.5 var(--sans);letter-spacing:-.003em;color:var(--ink);
   background:
-    radial-gradient(circle at 104px 176px,var(--pillar) 60px,transparent 60.6px) 0 0/208px 236px repeat-x,
-    linear-gradient(90deg,transparent 44px,var(--pillar) 44px,var(--pillar) 164px,transparent 164px) 0 176px/208px 100% repeat-x,
+    radial-gradient(circle at 96px 176px,var(--pillar) 44px,transparent 44.6px) 0 0/264px 224px repeat-x,
+    linear-gradient(90deg,transparent 52px,var(--pillar) 52px,var(--pillar) 140px,transparent 140px) 0 176px/264px 100% repeat-x,
     var(--bg);
   -webkit-font-smoothing:antialiased;font-optical-sizing:auto;
 }
@@ -107,7 +107,7 @@ input,select,textarea{caret-color:var(--paddy)}
 ::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ink) 22%,transparent);border:3px solid transparent;background-clip:padding-box;border-radius:8px}
 :focus-visible{outline:2.5px solid var(--focus);outline-offset:3px;border-radius:6px}
 .wrap{max-width:1180px;padding-inline:28px}
-.eyebrow,.label{font:600 12.5px/1.3 var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.eyebrow,.label{font:600 14px/1.3 var(--ui);letter-spacing:-.005em;text-transform:none;color:var(--muted)}
 .label-paddy,.eyebrow{color:var(--paddy-ink)}
 kbd{font:600 12px var(--ui);border-radius:6px;background:var(--surface);border-color:var(--line)}
 .skip{border-radius:12px;background:var(--ink);color:var(--bg)}
@@ -793,7 +793,12 @@ body[data-page="overview"] .home-drawer summary:hover{transform:none;box-shadow:
   .hero-sheet{margin-top:-64px;padding:10px 20px 28px;border-radius:26px}
   .hero-ios h1{font-size:clamp(42px,11vw,58px)}
   .map-card{padding:22px 14px 20px;border-radius:26px}
-  .kpi:nth-child(n+4){border-top:.5px solid var(--line)}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi,.kpi:nth-child(n+4){grid-column:auto;border-left:0;border-top:.5px solid var(--line)}
+  .kpi:nth-child(-n+2){border-top:0}
+  .kpi:nth-child(even){border-left:.5px solid var(--line)}
+  .kpi:last-child{grid-column:1/-1}
+  .kpi b,body[data-page="overview"] .kpi b{font-size:34px}
   .overview-button-grid .home-drawer summary,.overview-button-grid .home-drawer[open] summary{padding:16px;gap:2px 14px;min-height:84px}
   .overview-button-grid .home-drawer+.home-drawer::before{left:68px}
   .overview-button-grid .home-drawer[open] .drawer-body{padding:4px 16px 22px}
@@ -821,3 +826,53 @@ body[data-page="overview"] .home-drawer summary:hover{transform:none;box-shadow:
   .hero-sheet{margin-top:16px;box-shadow:none}
   .cov,.engine,.verdict,.impact,.layer.ours{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
+
+/* ---------- Review fixes (finish review, round 1) ---------- */
+/* Icon tiles in stone; olive marks the current page only */
+.tile,.tile-overview,.tile-ecosystem,.tile-network,.tile-scenario,.tile-roadmap,.tile-evidence,.tile-data,.tile-app{--tile:#6b6a64}
+.srow[aria-current="page"] .tile,.dlink[aria-current="page"] .tile,.step .tile{--tile:#525c2f}
+:root[data-theme="dark"] .tile{--tile:#4a4a46}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile{--tile:#4a4a46}}
+.srow[aria-current="page"] .tile{background:color-mix(in srgb,var(--on-paddy) 18%,transparent)}
+
+/* Overview disclosure rows: stone icon tile, title first, the old label below it in sentence case */
+.overview-button-grid .home-drawer summary>span b.tile,.overview-button-grid .home-drawer:nth-child(n) summary>span b.tile{grid-row:1/span 2;width:38px;height:38px;--tile:#6b6a64;background:var(--tile)}
+.overview-button-grid .home-drawer summary>span b.tile .ai{width:22px;height:22px}
+.overview-button-grid .home-drawer summary strong{grid-row:1}
+.overview-button-grid .home-drawer summary>span>span{grid-row:2;font:500 15px/1.35 var(--ui);letter-spacing:0;text-transform:none;color:var(--muted)}
+.home-drawer summary i,body[data-page="overview"] .home-drawer summary i,.overview-button-grid .home-drawer summary i,.page-drawer-toggle{background:none!important;width:28px;color:color-mix(in srgb,var(--ink) 35%,transparent)}
+
+/* Hero: an honest, labelled stand-in until our own art exists */
+.scene-standin{display:grid;place-items:center;background:linear-gradient(180deg,#e5e4dc,#d8d6cb)!important}
+.standin-note{padding:10px 18px;border-radius:999px;background:color-mix(in srgb,var(--bg) 80%,transparent);color:var(--ink-2);font:500 15px/1.3 var(--ui)}
+.hero-ios .hero-scene{height:min(52vh,520px)}
+.hero-ios h1,body[data-page="overview"] .hero-ios h1{font-size:clamp(48px,4.4vw,64px);margin:6px 0 14px}
+.hero-ios .actions{margin-top:22px}
+.hero-sheet{margin-top:-96px;padding-bottom:34px}
+
+/* KPIs as an inset-grouped list: label left, figure right */
+.kpis,body[data-page="overview"] .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));column-gap:0}
+.kpi,.kpi:nth-child(n){display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:center;gap:16px;grid-column:auto!important;padding:14px 22px;border:0!important;border-top:.5px solid var(--line)!important}
+.kpi b,body[data-page="overview"] .kpi b{font:600 24px/1.1 var(--ui);letter-spacing:-.02em;white-space:nowrap}
+.kpi span,body[data-page="overview"] .kpi span{font-size:16px;color:var(--ink-2)}
+
+/* EN/BM stays on the phone bar; the brand name gives way below 430px.
+   On phones the page name appears in the bar once the large title tucks. */
+@media (max-width:760px){
+  .navbar .lang{display:flex}
+  .nav-title{display:block;position:absolute;left:50%;transform:translate(-50%,6px);max-width:42vw;overflow:hidden;text-overflow:ellipsis}
+  .title-tucked .nav-title{transform:translate(-50%,0)}
+  .title-tucked .nav-brand span{opacity:0}
+  .nav-brand span{transition:opacity .25s var(--ease)}
+}
+@media (max-width:430px){.nav-brand span{display:none}}
+
+/* Try a case, reskin only: larger meta text, real hit areas, readable Call buttons */
+.route-contact-meta{font-size:14px}
+.route-contact-meta .pill,.nodes .pill{font-size:13px}
+.node-meta{font-size:14.5px}.node-meta small,.node-aid{font-size:14px}
+.nodes .call-btn,.nodes .call-btn:hover,.nodes .call-btn:focus-visible{color:var(--on-paddy);text-decoration:none}
+.info-btn{position:relative}
+.info-btn::before{content:"";position:absolute;inset:-8px}
+.route-end-mark{top:14px;right:14px;width:28px;height:28px}
+.cov{align-self:start}
