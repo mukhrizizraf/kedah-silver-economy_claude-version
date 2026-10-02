@@ -918,3 +918,18 @@ body[data-page="overview"] .home-drawer summary:hover{transform:none;box-shadow:
 /* checklist: thicker focus ring, pointer on everything you can press */
 :focus-visible{outline-width:3px}
 a[href],button,summary,select,[role="link"],.choice-grid button,.lang-btn,.tbtn,.srow{cursor:pointer}
+
+/* ---------- Try a case: reproducible case record (from the hardened engine) ---------- */
+.case-record{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:12px 22px;margin:14px 0 18px;padding:18px 22px;border-radius:var(--r);background:var(--surface);box-shadow:var(--shadow)}
+.case-record>div:first-child{display:grid;gap:4px;min-width:0}
+.case-record strong{font:600 18px/1.2 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.01em;color:var(--ink);overflow-wrap:anywhere}
+.case-record small{font-size:14px;color:var(--muted)}
+.case-rules{display:grid;gap:2px;justify-items:end;font:500 13px var(--ui);color:var(--muted)}
+.case-rules code{font:600 15px ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--ink)}
+.case-record .btn{min-height:46px}
+.case-copy-status{grid-column:1/-1;font:600 14px var(--ui);color:var(--paddy-ink)}
+.case-copy-status:empty{display:none}
+@media (max-width:620px){.case-record{grid-template-columns:1fr}.case-rules{justify-items:start}}
+
+/* How it works: once dismissed, the "What this box does" popup stays shut until reopened */
+.engine.is-dismissed .engine-popover,.engine.is-dismissed:hover .engine-popover,.engine.is-dismissed:focus .engine-popover{opacity:0;transform:translate(-50%,8px) scale(.96);pointer-events:none}
