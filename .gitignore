@@ -9,3 +9,6 @@ Thumbs.db
 
 # Claude Code instructions stay local (they may hold private notes)
 CLAUDE.md
+
+# Local Claude Code skills (third-party, not part of the site)
+.claude/

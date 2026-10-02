@@ -502,6 +502,9 @@ K.pageInit.app = function () {
     screens.forEach(function (s) { s.classList.toggle('is-active', Number(s.getAttribute('data-screen')) === current); });
     if (progress) progress.style.setProperty('--v', ((current + 1) / screens.length * 100) + '%');
     if (dots) dots.innerHTML = screens.map(function (s, i) { return '<button type="button" class="' + (i === current ? 'is-on' : '') + '" data-app-dot="' + i + '" aria-label="Screen ' + (i + 1) + '"></button>'; }).join('');
+    /* the last screen draws a Lottie tick each time it is reached */
+    var done = $('#appDone');
+    if (done && K.lottie && current === screens.length - 1) K.lottie(done, 'check', { loop: false });
     var back = $('#appScreenBack');
     if (back) {
       back.disabled = !current;
