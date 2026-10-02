@@ -280,8 +280,18 @@ doc.addEventListener('DOMContentLoaded', function () {
     });
   });
   var pagehead = K.$('.pagehead-grid');
-  /* Our own page art (assets/art/), set in K.pageArt by kse-art.js. */
-  var pageArt = K.pageArt || {};
+  /* Page art. For now these are the main version's illustrations, with the
+     user's permission, until our own generated art (ART-PROMPTS.md) replaces
+     them; K.pageArt overrides this map when it exists. */
+  var pageArt = K.pageArt || {
+    ecosystem: 'assets/img/elder-reaching-glass.webp',
+    network: 'assets/img/elder-calling-network.webp',
+    scenario: 'assets/img/elder-phone-profile.webp',
+    roadmap: 'assets/img/elder-budget-counting.webp',
+    evidence: 'assets/img/elder-source-books.webp',
+    data: 'assets/img/elder-sand-blueprint.webp',
+    app: 'assets/img/elder-app-family-garden.webp'
+  };
   if (pagehead && K.page !== 'overview' && !K.$('.page-character') && pageArt[K.page]) {
     var figure = doc.createElement('figure');
     figure.className = 'page-character page-character-' + K.page;

@@ -50,13 +50,25 @@ V.constellation = function (svg, legend, intro) {
   /* The hub is the person the network is meant to serve. Our own generated
      elder (K.elderArt, set by kse-art.js) sits in it when it exists;
      until then a drawn person mark, like the Me pin in Find My. */
-  var elder = K.elderArt
-    ? '<image href="' + K.elderArt + '" x="-47" y="-78" width="94" height="132" preserveAspectRatio="xMidYMid meet"/>'
-    : '<circle class="elder-head" cx="0" cy="-9" r="9.5"/><path class="elder-body" d="M-17 20a17 15 0 0 1 34 0z"/>';
+  var elderSrc = K.elderArt || 'assets/img/elder-motion/frame-01.webp';
+  var elder = '<image href="' + elderSrc + '" x="-47" y="-78" width="94" height="132" preserveAspectRatio="xMidYMid meet"/>';
   var core = '<circle class="halo" r="48"/><circle class="core" r="34"/>' +
     '<a class="elder-link" href="scenario.html" tabindex="0" aria-label="' + K.esc(K.T('Try a case for one older person', 'Cuba satu kes untuk seorang warga emas')) + '">' +
     '<g class="elder-avatar">' + elder + '</g></a>';
   svg.innerHTML = rings + dividers + links + core + nodes + labels + ringLabels;
+  /* the elder waves once (eight frames), unless our own still art is in use */
+  if (svg._elderTimer) { clearTimeout(svg._elderTimer); svg._elderTimer = null; }
+  var elderImage = svg.querySelector('.elder-avatar image');
+  if (elderImage && !K.elderArt && !K.reduceMotion) {
+    var elderFrame = 1, elderTicks = 0;
+    (function playWelcome() {
+      if (document.hidden || elderTicks >= 8) return;
+      elderFrame = elderFrame % 8 + 1;
+      elderTicks++;
+      elderImage.setAttribute('href', 'assets/img/elder-motion/frame-' + String(elderFrame).padStart(2, '0') + '.webp');
+      svg._elderTimer = setTimeout(playWelcome, 180);
+    }());
+  }
   svg.setAttribute('aria-label', K.T(
     'Map of ' + R.length + ' organisations around one older person: ' + K.counts.Verified + ' confirmed, ' + K.counts.Candidate + ' to check, ' + K.counts.Demo + ' examples.',
     'Peta ' + R.length + ' organisasi di sekeliling seorang warga emas: ' + K.counts.Verified + ' disahkan, ' + K.counts.Candidate + ' perlu disemak, ' + K.counts.Demo + ' contoh.'));
