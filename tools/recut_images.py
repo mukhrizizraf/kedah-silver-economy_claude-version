@@ -75,7 +75,7 @@ PLAN = [
     # Overview
     ('hero-couple.webp', 4, (0, 96, 1254, 690), (1254, 690)),
     ('hero-couple-m.webp', 4, (20, 100, 980, 1078), (720, 792)),   # phones
-    ('map-elder.webp', 11, (600, 150, 654, 1028), (240, 377)),   # full body, in an arch at the map centre
+    ('map-elder.webp', 1, (367, 60, 420, 420), (240, 240)),
     ('people-easy.webp', 2, (150, 40, 880, 1100), (560, 700)),
     ('people-family.webp', 16, (190, 70, 880, 1100), (560, 700)),
     ('people-company.webp', 5, (250, 30, 880, 1100), (560, 700)),
