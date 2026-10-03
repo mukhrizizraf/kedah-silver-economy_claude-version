@@ -15,14 +15,12 @@ and gives them a new look and feel:
 - **iOS page transitions:** the browser's own cross-document view transition
   plays an iOS push (forward and back in page order). Chrome also prerenders a
   page when you rest the pointer on its link.
-- **Colour and type:** warm milk ground with a quiet colonnade of round-topped
-  pillars, Instrument Serif large titles, SF Pro (Inter off Apple devices), one
-  olive tint and one midnight surface. Dark mode is a deep olive.
-- **Overview in chapters:** the first page reads like a book on a black ground:
-  huge light capitals (Zodiak), printed family photos floating gently around
-  the words, and four chapters on their own colours (songket red, walnut,
-  cream, black) edged with a songket band, with gold as the one accent. Body
-  text is Switzer.
+- **One look on every page:** a book on a black ground. Huge light capitals
+  (Zodiak) for titles, Switzer for reading, gold as the one accent. Each page
+  opens on its own colour field (songket red, walnut or black) edged with a
+  songket band, with its scene as a floating printed photo. The Overview's
+  photos float around the words, and its chapters sit on red, walnut, cream
+  and black. The site is always dark, so there is no theme switch.
 - **Lottie:** small self-hosted animations (a "help nearby" pulse, the iOS
   spinner for slow pages, a success tick).
 - **Light weight:** images and scripts load fast on a weak connection.

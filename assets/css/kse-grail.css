@@ -1,6 +1,6 @@
 /* ==========================================================================
    Kedah Silver Economy: the Grail-style Overview (Claude version)
-   Loaded after kse-ios.css on the Overview only, for now. The page is a
+   Loaded after kse-ios.css on every page (since 3 Oct 2026). The page is a
    book of chapters on a black ground: huge light capitals, then printed
    family photos floating gently around a clear middle column (no box over
    them, no patterned "playing cards"), a narrow songket band as trim, and
@@ -15,9 +15,9 @@
 @font-face{font-family:"Switzer";src:url("../fonts/switzer-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
 @font-face{font-family:"Switzer";src:url("../fonts/switzer-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
 
-/* ---------- Tokens: one world, light or dark ---------- */
-html:has(body[data-page="overview"]){background:#060504;color-scheme:dark}
-body[data-page="overview"]{
+/* ---------- Tokens: one world on every page, always dark ---------- */
+html{background:#060504;color-scheme:dark}
+body{
   color-scheme:dark;
   --g-black:#060504;--g-red:#6a1120;--g-gold:#d9ad4f;--g-pale:#f1d58a;--g-cream:#f4ecda;
   --display:"Zodiak","Instrument Serif",Georgia,serif;
@@ -39,12 +39,12 @@ body[data-page="overview"]{
   --bar:rgba(6,5,4,.8);--focus:#ecc970;
   background:var(--bg);color:var(--ink);font-family:var(--sans);
 }
-:root body[data-page="overview"] .tile{--tile:#2b2119}
-:root body[data-page="overview"] .srow[aria-current="page"] .tile{background:rgba(27,19,6,.18)}
-body[data-page="overview"] ::selection{background:rgba(217,173,79,.38);color:#fff}
-body[data-page="overview"] h1,body[data-page="overview"] h2{font-family:var(--display)}
+:root:root body .tile{--tile:#2b2119}
+:root:root body .srow[aria-current="page"] .tile{background:rgba(27,19,6,.18)}
+body ::selection{background:rgba(217,173,79,.38);color:#fff}
+body h1,body h2{font-family:var(--display)}
 
-body[data-page="overview"] .brand b{font-family:"Instrument Serif",Georgia,serif}
+body .brand b{font-family:"Instrument Serif",Georgia,serif}
 body[data-page="overview"] .overview-button-grid .home-drawer:nth-child(n) summary>span b.tile{--tile:#2b2119;color:var(--g-gold)}
 
 /* running heads: the book's top corners on every chapter */
@@ -133,6 +133,44 @@ body[data-page="overview"] .g-wood .kpi span{font:500 14.5px/1.35 var(--ui)!impo
 /* 04 black: the four drawers */
 .g-black{background:var(--g-black)}
 .g-black .overview-actions{padding-inline:0}
+
+/* ---------- The other seven pages: the same book ---------- */
+/* one look, always dark: the light / dark button has nothing to switch */
+#themeBtn{display:none!important}
+/* each page opens on its own colour field, edged with the songket band */
+body[data-page="ecosystem"],body[data-page="roadmap"],body[data-page="app"]{--field:#6a1120;--field-muted:#ecc4bb}
+body[data-page="network"],body[data-page="evidence"]{--field:radial-gradient(120% 120% at 50% 0%,#4b2e1a,#25170d 75%);--field-muted:#d7c3a1}
+body[data-page="scenario"],body[data-page="data"]{--field:#060504;--field-muted:var(--muted)}
+body .band.pagehead{position:relative;isolation:isolate;padding-bottom:14px;background:var(--field,#060504)!important}
+.pagehead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:url("../art/songket-band.svg") repeat-x left center/auto 14px}
+.pagehead .step,.pagehead .step span{color:var(--field-muted,var(--muted))}
+.pagehead .step .dots i{background:rgba(246,239,223,.25)}
+.pagehead .step .dots i.on{background:var(--g-pale)}
+.pagehead h1{font:300 clamp(40px,4.6vw,80px)/.92 var(--display);letter-spacing:-.02em;text-transform:uppercase;text-wrap:balance;color:var(--ink);max-width:15ch}
+.pagehead .lede{color:var(--ink-2)}
+.pagehead .headstat{min-width:0;padding:14px 0 0;border-radius:0;background:none;box-shadow:none;border-top:1px solid rgba(246,239,223,.22)}
+.pagehead .headstat b{font:300 clamp(46px,4.6vw,78px)/1 var(--display);letter-spacing:-.02em;color:var(--g-pale)}
+.pagehead .headstat span{color:var(--field-muted,var(--muted));font-size:15px}
+/* the page's scene floats as a printed photo, like the Overview's */
+.page-story{padding:8px;border-radius:14px;background:#f4ecda;box-shadow:0 34px 60px -28px rgba(0,0,0,.95),0 2px 6px rgba(0,0,0,.35);transform:rotate(2deg);animation:g-print-in 1s var(--ease) both}
+.page-story img{inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);border-radius:8px}
+.page-story::after{inset:8px;border-radius:8px;box-shadow:none}
+.story-cap{left:20px;bottom:20px;background:rgba(10,8,6,.72);color:#f6efdf}
+.page-story .story-cap .tile{--tile:#d9ad4f;color:#1b1306}
+@keyframes g-print-in{from{opacity:0;transform:rotate(5deg) translateY(14px)}}
+/* section titles read like the chapter titles: light capitals */
+.shead h2:not(.as-h3){font-weight:300;text-transform:uppercase;letter-spacing:-.015em;line-height:.95}
+.section .eyebrow{color:var(--g-gold)}
+@media (prefers-reduced-motion:reduce){.page-story{animation:none}}
+
+/* the one dark feature per page (matching box, score card, verdict) is songket red, never navy */
+.engine,.cov,.verdict{background:radial-gradient(130% 100% at 30% 0%,#8c1a2b,#2a0810 72%)!important;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)!important}
+.engine:hover,.engine:focus,.engine.is-open{background:radial-gradient(130% 100% at 30% 0%,#a02234,#2a0810 72%)!important}
+.engine-mark span{color:#2a0810}
+.route-request{--route-accent:#d9ad4f}
+.route-connector i{background:linear-gradient(90deg,var(--g-gold),#8c1a2b)}
+.g-out::before,.g-legend .ld{background:var(--g-gold)}
+.g-bar::after{background:var(--g-gold)}
 
 /* ---------- Phones and narrow windows ---------- */
 @media (max-width:1240px){
