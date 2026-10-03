@@ -15,27 +15,21 @@ and gives them a new look and feel:
 - **iOS page transitions:** the browser's own cross-document view transition
   plays an iOS push (forward and back in page order). Chrome also prerenders a
   page when you rest the pointer on its link.
-- **One look on every page:** a book on a black ground. Huge light capitals
-  (Zodiak) for titles, Switzer for reading, gold as the one accent. Each page
-  opens on its own colour field (songket red, walnut or black) edged with a
-  songket band, with its scene as a floating printed photo. The Overview's
-  photos float around the words, and its chapters sit on red, walnut, cream
-  and black. The site is always dark, so there is no theme switch.
+- **Colour and type:** warm milk ground with a quiet colonnade of round-topped
+  pillars, Instrument Serif large titles, SF Pro (Inter off Apple devices), one
+  olive tint and one midnight surface. Dark mode is a deep olive.
 - **Lottie:** small self-hosted animations (a "help nearby" pulse, the iOS
   spinner for slow pages, a success tick).
 - **Light weight:** images and scripts load fast on a weak connection.
 
-## Images and fonts
+## Images
 
 - **Pictures:** recut and recoloured from the main version's 3D illustration
   set, with the owner's permission. Each one has a new crop and this
   version's colour grade. `tools/recut_images.py` rebuilds them all.
-- **Songket art:** a narrow border band and a small crest (the tab icon) drawn
-  for this version as SVG (`assets/art/`). `tools/songket_art.py` redraws
-  them.
+- **Tab icon:** a small songket crest drawn for this version as SVG
+  (`assets/art/songket-crest.svg`, from `tools/songket_art.py`).
 - **Team portraits:** from the main version, at the owner's request.
-- **Fonts:** Zodiak and Switzer from Fontshare (free licence), kept in
-  `assets/fonts/` so the site also works from a USB stick with no network.
 
 ## Run it
 

@@ -329,8 +329,6 @@ K.bm = {
   appShareFamily:'Kongsi dengan keluarga', appTrusted:'Ahli keluarga yang dipercayai boleh membantu mengikuti permintaan.', appDaughter:'Anak perempuan ditambah',
   appCanView:'Boleh melihat kemas kini dan mesej penyedia.', appPrivacy:'Privasi kekal di bawah kawalan anda.', appKick10:'10 / 10 · Hari yang lebih baik',
   appLiveSupport:'Hidup dengan lebih banyak sokongan', appSmallSteps:'Langkah kecil boleh menjadikan hidup harian lebih selamat dan mudah.', wizNoteLabel:'Ada apa-apa lagi yang anda mahu kami tahu?',
-  ch1:'Bab 01', ch2:'Bab 02', ch3:'Bab 03', ch4:'Bab 04', chWho:'Siapa boleh membantu', chNumbers:'Kajian ini', chPeople:'Bantuan harian', chMore:'Pelan',
-  numbersTitle:'Kajian dalam angka', moreTitle:'Lebih lanjut tentang projek',
   peopleTitle:'Bantuan harian, dekat dengan rumah', peopleSub:'Orang yang projek ini bantu, dan jenis bantuan yang patut sampai kepada mereka.',
   peopleEasyT:'Mudah untuk meminta', peopleEasyB:'Satu telefon, butang besar, perkataan mudah.',
   peopleFamilyT:'Keluarga tetap dekat', peopleFamilyB:'Anak-anak boleh membantu dari dekat atau jauh.',

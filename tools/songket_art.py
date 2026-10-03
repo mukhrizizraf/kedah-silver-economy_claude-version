@@ -1,10 +1,9 @@
 """Draw the songket art (assets/art/songket-*.svg).
 
 Original patterns in the songket colours of Kedah: deep red, gold, cream
-and a near-black ground. The band is the trim that edges the Overview's
-photo and each chapter, like the border of a kain songket; the crest is
-the tab icon. The four larger pattern cards are kept here as sources but
-are not shipped.
+and a near-black ground. Only the crest ships: it is the tab icon. The
+band and the four larger pattern cards are kept here as sources from the
+Grail-style trial (3 Oct 2026) but are not shipped.
 
 Run from this folder:  python tools/songket_art.py
 """
@@ -119,7 +118,7 @@ def crest():
 
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    for name, fn in (('band', band), ('crest', crest)):
+    for name, fn in (('crest', crest),):
         with open(os.path.join(OUT, 'songket-%s.svg' % name), 'w', encoding='utf-8') as f:
             f.write(fn())
         print('wrote songket-%s.svg' % name)
