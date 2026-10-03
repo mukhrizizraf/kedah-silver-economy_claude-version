@@ -1,10 +1,11 @@
 /* ==========================================================================
    Kedah Silver Economy: the Grail-style Overview (Claude version)
    Loaded after kse-ios.css on the Overview only, for now. The page is a
-   book of chapters on a black ground: huge light capitals, a cloud of
-   tilted collectible cards (our recut photos and our own songket patterns)
-   around one cream card, and each chapter on its own colour field:
-   black, songket red, walnut, cream, black. Gold is the one accent.
+   book of chapters on a black ground: huge light capitals, then printed
+   family photos floating gently around a clear middle column (no box over
+   them, no patterned "playing cards"), a narrow songket band as trim, and
+   each chapter on its own colour field: black, songket red, walnut, cream,
+   black. Gold is the one accent.
    ========================================================================== */
 
 @font-face{font-family:"Zodiak";src:url("../fonts/zodiak-300.woff2") format("woff2");font-weight:300;font-style:normal;font-display:swap}
@@ -49,43 +50,40 @@ body[data-page="overview"] .overview-button-grid .home-drawer:nth-child(n) summa
 /* running heads: the book's top corners on every chapter */
 .g-heads{display:flex;justify-content:space-between;gap:20px;font:500 13px/1.3 var(--ui);letter-spacing:.01em;color:var(--muted)}
 
-/* ---------- The stage ---------- */
-.g-stage{position:relative;display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h));padding:16px 28px 26px;overflow:hidden;isolation:isolate}
-.g-title{position:relative;z-index:6;margin:clamp(14px,2.4vh,30px) auto 0;max-width:17ch;font:300 clamp(40px,min(5.3vw,9.4vh),96px)/.9 var(--display);letter-spacing:-.02em;text-transform:uppercase;text-align:center;text-wrap:balance;color:var(--ink);pointer-events:none}
-.g-cloud{position:relative;flex:1;min-height:520px;margin-top:-6px}
+/* ---------- The stage: photos float around a clear middle column ---------- */
+.g-stage{position:relative;padding:16px 28px 30px;overflow:hidden;isolation:isolate}
+.g-title{position:relative;z-index:6;margin:clamp(14px,2.6vh,32px) auto 0;max-width:17ch;font:300 clamp(40px,min(5.3vw,9.4vh),96px)/.9 var(--display);letter-spacing:-.02em;text-transform:uppercase;text-align:center;text-wrap:balance;color:var(--ink)}
+.g-cloud{position:relative;min-height:540px;margin-top:clamp(18px,3vh,34px)}
+.g-center{position:relative;z-index:6;width:min(500px,100%);margin:0 auto;padding-top:18px;text-align:center}
+.g-line{margin:0 0 12px;font:400 clamp(24px,2.1vw,30px)/1.2 var(--display);color:var(--g-pale);text-wrap:balance}
+.g-lede{margin:0 auto 22px;max-width:44ch;font:400 18px/1.55 var(--ui);color:var(--ink-2)}
+.g-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 24px;padding:0;list-style:none}
+.g-chips li{padding:7px 14px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(241,213,138,.35);font:600 15px var(--ui);color:var(--g-pale)}
+.g-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:0}
+.g-stage .btn{min-height:54px;font:600 16.5px var(--ui)}
+.g-stage .btn-gold{background:var(--g-gold);color:#1b1306;box-shadow:0 14px 30px -16px rgba(217,173,79,.55)}
+.g-stage .btn-gold .btn-ic{background:#1b1306;color:var(--g-pale)}
+.g-stage .btn-gold:hover{background:#e6bd62}
+.g-stage .btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(246,239,223,.3)}
+.g-stage .btn-ghost .btn-ai{color:var(--g-gold)}
+.g-stage .btn-ghost:hover{background:rgba(246,239,223,.07)}
 
-.g-float{position:absolute;left:var(--x);top:var(--y);width:var(--w);z-index:var(--z,1);transform:translate3d(calc(var(--mx,0px) * var(--d,1)),calc(var(--my,0px) * var(--d,1) + var(--p,0) * var(--s,0px)),0);transition:transform .7s var(--ease)}
-.g-card{display:block;aspect-ratio:var(--ar,4/5);border-radius:16px;overflow:hidden;background:#1e1711;box-shadow:0 34px 60px -26px rgba(0,0,0,.95),0 0 0 .5px rgba(255,255,255,.1);transform:rotate(var(--r,0deg));animation:g-bob var(--t,7s) ease-in-out var(--dl,0s) infinite alternate}
-.g-pat .g-card{--ar:5/7;border-radius:12px}
-.g-card img{display:block;width:100%;height:100%;object-fit:cover}
-@keyframes g-bob{to{transform:rotate(calc(var(--r,0deg) + 2deg)) translateY(-12px)}}
+/* printed family photos: a cream border, a gentle tilt and a slow drift,
+   kept in the two side columns so they never sit over the words */
+.g-float{position:absolute;left:var(--x);top:var(--y);width:var(--w);z-index:var(--z,1);transform:translate3d(calc(var(--mx,0px) * var(--d,1)),calc(var(--my,0px) * var(--d,1) + var(--p,0) * var(--s,0px)),0);transition:transform .8s var(--ease)}
+.g-print{display:block;padding:7px;border-radius:12px;background:#f4ecda;box-shadow:0 30px 50px -24px rgba(0,0,0,.95),0 2px 6px rgba(0,0,0,.35);transform:rotate(var(--r,0deg));animation:g-drift var(--t,9s) ease-in-out var(--dl,0s) infinite alternate}
+.g-print img{display:block;width:100%;height:auto;aspect-ratio:var(--ar,1/1);object-fit:cover;border-radius:7px}
+@keyframes g-drift{to{transform:rotate(calc(var(--r,0deg) * .6)) translateY(-8px)}}
+.f1{--x:2%;--y:0%;--w:clamp(170px,15vw,230px);--ar:980/1078;--r:-5deg;--d:1.2;--s:-50px;--z:2}
+.f2{--x:13%;--y:52%;--w:clamp(120px,10vw,160px);--r:4deg;--d:.8;--s:40px;--dl:-3s;--t:10s}
+.f3{--x:0%;--y:70%;--w:clamp(110px,9vw,140px);--r:-3deg;--d:1.5;--s:70px;--dl:-6s}
+.f4{--x:78%;--y:-2%;--w:clamp(150px,13vw,200px);--r:5deg;--d:1.1;--s:-40px;--z:2;--dl:-2s;--t:10s}
+.f5{--x:87%;--y:44%;--w:clamp(120px,10vw,160px);--r:-4deg;--d:.9;--s:50px;--dl:-5s}
+.f6{--x:74%;--y:68%;--w:clamp(110px,9vw,140px);--r:3deg;--d:1.4;--s:80px;--dl:-1s;--t:11s}
 
-.f1{--x:6%;--y:4%;--w:clamp(150px,15vw,230px);--r:-8deg;--d:1.6;--s:-90px;--z:2;--dl:-1s}
-.f2{--x:21%;--y:42%;--w:clamp(110px,10vw,160px);--r:9deg;--d:.8;--s:70px;--z:3;--t:8s}
-.f3{--x:72%;--y:2%;--w:clamp(140px,13vw,200px);--r:7deg;--ar:1/1;--d:1.4;--s:-70px;--z:2;--dl:-3s}
-.f4{--x:83%;--y:40%;--w:clamp(110px,10vw,160px);--r:-7deg;--d:1;--s:90px;--z:3;--t:9s;--dl:-2s}
-.f5{--x:1%;--y:50%;--w:clamp(100px,9vw,140px);--r:13deg;--d:2;--s:120px;--z:1;--dl:-4s}
-.f6{--x:66%;--y:56%;--w:clamp(120px,11vw,175px);--r:-11deg;--ar:1/1;--d:1.2;--s:110px;--z:4;--t:8.5s}
-.f7{--x:30%;--y:6%;--w:clamp(90px,7.5vw,120px);--r:-14deg;--d:2.2;--s:-60px;--z:1;--dl:-5s}
-
-/* the cream card in the middle: the one thing to read and do */
-.g-quest{position:absolute;left:50%;top:50%;z-index:8;width:min(410px,88vw);padding:22px 22px 20px;border-radius:30px;background:linear-gradient(180deg,#fcf8ef,#efe6d3);color:#15100b;box-shadow:0 50px 90px -34px rgba(0,0,0,1),inset 0 0 0 .5px rgba(255,255,255,.6);transform:translate(-50%,-50%) translate3d(calc(var(--mx,0px) * -.35),calc(var(--my,0px) * -.35),0);transition:transform .7s var(--ease);animation:g-rise .9s var(--ease) both}
-@keyframes g-rise{from{opacity:0;transform:translate(-50%,-42%) scale(.96)}}
-.g-quest-top{display:flex;align-items:center;gap:10px;font:500 14px var(--ui);color:#6b5a44}
-.g-crest{width:34px;height:auto}
-.g-quest-title{margin:14px 0 10px;font:700 clamp(26px,2.2vw,31px)/1.08 var(--ui);letter-spacing:-.028em;color:#120d08}
-.g-quest-body{margin:0 0 16px;font:400 16px/1.45 var(--ui);color:#4b4033}
-.g-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;padding:0;list-style:none}
-.g-chips li{padding:7px 13px;border-radius:999px;background:#fff;box-shadow:0 0 0 .5px rgba(21,16,11,.14),0 4px 10px -6px rgba(21,16,11,.25);font:600 14px var(--ui);color:#15100b}
-.g-actions{display:flex;flex-wrap:wrap;gap:10px;margin:0}
-.g-quest .btn{min-height:50px;font:600 16px var(--ui)}
-.g-quest .btn-gold{background:#15100b;color:#f6efdf;box-shadow:0 12px 24px -12px rgba(0,0,0,.6)}
-.g-quest .btn-gold .btn-ic{background:var(--g-gold);color:#15100b}
-.g-quest .btn-gold:hover{background:#2a2016}
-.g-quest .btn-ghost{background:transparent;color:#15100b;box-shadow:inset 0 0 0 1px rgba(21,16,11,.22)}
-.g-quest .btn-ghost .btn-ai{color:#8c1a2b}
-.g-quest .btn-ghost:hover{background:rgba(21,16,11,.06)}
-.g-quest :focus-visible{outline-color:#8c1a2b}
+/* songket trim: the border of a kain songket along the photo's foot and each chapter's top */
+.g-band{display:block;height:22px;background:url("../art/songket-band.svg") repeat-x left center/auto 22px}
+.g-chapter::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;background:url("../art/songket-band.svg") repeat-x left center/auto 14px;opacity:.9}
 
 /* the grant facts sit in the stage's lower corners, small, like Grail's notes */
 .g-meta{position:relative;z-index:6;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);align-items:end;gap:14px 40px;margin-top:10px}
@@ -97,7 +95,7 @@ body[data-page="overview"] .overview-button-grid .home-drawer:nth-child(n) summa
 .g-stage .official span:first-child{color:var(--g-pale)}
 
 /* ---------- Chapters ---------- */
-.g-chapter{position:relative;padding:20px 28px clamp(64px,8vw,120px);isolation:isolate}
+.g-chapter{position:relative;padding:34px 28px clamp(64px,8vw,120px);isolation:isolate}
 .g-chapter>.g-heads{margin-bottom:clamp(36px,6vw,84px)}
 .g-inner{max-width:1180px;margin:0 auto}
 .g-h2{margin:0 auto clamp(26px,3.6vw,52px);max-width:18ch;font:300 clamp(36px,5vw,86px)/.92 var(--display);letter-spacing:-.02em;text-transform:uppercase;text-align:center;text-wrap:balance;color:var(--ink)}
@@ -124,47 +122,48 @@ body[data-page="overview"] .g-wood .kpi span{font:500 14.5px/1.35 var(--ui)!impo
 .g-cream .shelf-head{display:block;margin:0 0 clamp(26px,3.6vw,48px);text-align:center}
 .g-cream .shelf-head h2{margin:0 auto 14px;max-width:18ch;font:300 clamp(36px,5vw,86px)/.92 var(--display);letter-spacing:-.02em;text-transform:uppercase;text-wrap:balance;color:#15100b}
 .g-cream .shelf-head p{margin:0 auto;max-width:44ch;font:400 17px/1.45 var(--ui);color:#6e604c}
-.g-cream .shelf{gap:18px}
-.g-cream .shelf-card{padding:7px;border-radius:20px;background:linear-gradient(160deg,#ecc970,#b88a2c);box-shadow:0 30px 44px -26px rgba(70,40,10,.6);transform:rotate(var(--tilt,0deg));transition:transform .5s var(--ease)}
-.g-cream .shelf-card:nth-child(odd){--tilt:-2.5deg}
-.g-cream .shelf-card:nth-child(even){--tilt:2deg;margin-top:22px}
-.g-cream .shelf-card:hover{--tilt:0deg}
-.g-cream .shelf-card img{inset:7px;width:calc(100% - 14px);height:calc(100% - 14px);border-radius:14px}
-.g-cream .shelf-card::after{inset:7px;border-radius:14px}
-.g-cream .shelf-text{inset:auto 7px 7px 7px}
-.g-cream .shelf-text h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(20px,1.7vw,25px);line-height:.98;letter-spacing:-.01em}
+.g-cream .shelf{gap:20px}
+.g-cream .shelf-card{aspect-ratio:auto;overflow:visible;background:none;box-shadow:none;border-radius:0}
+.g-cream .shelf-card img{position:static;display:block;width:100%;height:auto;aspect-ratio:4/5;border-radius:22px;box-shadow:0 24px 40px -28px rgba(60,35,10,.55)}
+.g-cream .shelf-card::after{display:none}
+.g-cream .shelf-text{position:static;padding:14px 2px 0}
+.g-cream .shelf-text h3{margin:0 0 4px;font:600 19px/1.25 var(--ui);letter-spacing:-.01em;text-transform:none;color:#15100b}
+.g-cream .shelf-text p{margin:0;font:400 15.5px/1.45 var(--ui);color:#5c4f3e}
 
 /* 04 black: the four drawers */
 .g-black{background:var(--g-black)}
 .g-black .overview-actions{padding-inline:0}
 
 /* ---------- Phones and narrow windows ---------- */
-@media (max-width:1100px){
-  .f7{display:none}
-  .f5{--y:66%}
+@media (max-width:1240px){
+  .f2{--x:6%;--y:46%}
+  .f5{--x:82%;--y:42%}
 }
-@media (max-width:900px){
+@media (max-width:1000px){
+  .g-cloud{min-height:0;padding-top:170px}
+  .g-float{transform:none}
+  .f1{--x:4%;--y:0px;--w:150px;--ar:1/1}
+  .f4{--x:auto;--y:6px;--w:140px;left:auto;right:4%}
+  .f2{--x:38%;--y:22px;--w:118px}
+  .f3,.f5,.f6{display:none}
   body[data-page="overview"] .g-wood .kpis{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:22px}
   .g-meta{grid-template-columns:1fr}
   .g-stage .official{text-align:left}
 }
 @media (max-width:760px){
-  .g-stage{min-height:0;padding:12px 16px 22px}
+  .g-stage{padding:12px 16px 24px}
   .g-title{font-size:clamp(34px,9.4vw,52px)}
   .g-heads{font-size:12px}
-  .g-cloud{flex:none;min-height:0;margin-top:14px;padding-top:150px}
-  .g-quest{position:relative;left:auto;top:auto;width:100%;transform:none;animation:none}
-  .f1{--x:-2%;--y:0px;--w:120px}
-  .f2{--x:27%;--y:22px;--w:84px;--r:-6deg}
-  .f3{--x:52%;--y:-6px;--w:112px}
-  .f4{--x:79%;--y:26px;--w:84px;--r:8deg}
-  .f5,.f6{display:none}
-  .g-float{transform:none}
-  .g-chapter{padding:16px 16px 64px}
+  .g-cloud{padding-top:140px}
+  .f1{--w:118px;--x:0%}
+  .f2{--w:96px;--x:36%;--y:26px}
+  .f4{--w:112px;right:0}
+  .g-lede{font-size:17px}
+  .g-stage .actions .btn{flex:1 1 100%;justify-content:space-between}
+  .g-chapter{padding:30px 16px 64px}
   body[data-page="overview"] .g-wood .kpis{grid-template-columns:1fr 1fr}
-  .g-cream .shelf-card:nth-child(even){margin-top:0}
 }
 @media (prefers-reduced-motion:reduce){
-  .g-card,.g-quest{animation:none}
+  .g-print{animation:none}
   .g-float{transform:none}
 }

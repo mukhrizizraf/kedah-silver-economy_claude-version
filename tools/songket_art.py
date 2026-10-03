@@ -1,8 +1,10 @@
-"""Draw the songket pattern cards (assets/art/songket-*.svg).
+"""Draw the songket art (assets/art/songket-*.svg).
 
-Four original patterns in the songket colours of Kedah: deep red, gold,
-cream and a near-black ground. They float as collectible cards around the
-Overview's central card. Each card is 200 x 280.
+Original patterns in the songket colours of Kedah: deep red, gold, cream
+and a near-black ground. The band is the trim that edges the Overview's
+photo and each chapter, like the border of a kain songket; the crest is
+the tab icon. The four larger pattern cards are kept here as sources but
+are not shipped.
 
 Run from this folder:  python tools/songket_art.py
 """
@@ -95,6 +97,17 @@ def checker():
     return svg(b, GOLD)
 
 
+def band():
+    """A narrow songket border that repeats sideways: a gold diamond chain
+    with red hearts on a deep red ground, between two gold rules."""
+    w, h = 40, 22
+    b = '<rect width="%d" height="%d" fill="%s"/>' % (w, h, DEEP)
+    b += '<rect width="%d" height="2" fill="%s"/><rect y="%d" width="%d" height="2" fill="%s"/>' % (w, GOLD, h - 2, w, GOLD)
+    b += diamond(20, 11, 7, GOLD) + diamond(20, 11, 3, RED)
+    b += diamond(0, 11, 3, PALE) + diamond(40, 11, 3, PALE)
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d">%s</svg>' % (w, h, b)
+
+
 def crest():
     """A small shield for the central card: a gold field with a red rebung."""
     return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 72">'
@@ -106,7 +119,7 @@ def crest():
 
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    for name, fn in (('rebung', rebung), ('lattice', lattice), ('stars', stars), ('checker', checker), ('crest', crest)):
+    for name, fn in (('band', band), ('crest', crest)):
         with open(os.path.join(OUT, 'songket-%s.svg' % name), 'w', encoding='utf-8') as f:
             f.write(fn())
         print('wrote songket-%s.svg' % name)

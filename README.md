@@ -19,9 +19,10 @@ and gives them a new look and feel:
   pillars, Instrument Serif large titles, SF Pro (Inter off Apple devices), one
   olive tint and one midnight surface. Dark mode is a deep olive.
 - **Overview in chapters:** the first page reads like a book on a black ground:
-  huge light capitals (Zodiak), a cloud of tilted cards around one cream card,
-  and four chapters on their own colours (songket red, walnut, cream, black)
-  with gold as the one accent. Body text is Switzer.
+  huge light capitals (Zodiak), printed family photos floating gently around
+  the words, and four chapters on their own colours (songket red, walnut,
+  cream, black) edged with a songket band, with gold as the one accent. Body
+  text is Switzer.
 - **Lottie:** small self-hosted animations (a "help nearby" pulse, the iOS
   spinner for slow pages, a success tick).
 - **Light weight:** images and scripts load fast on a weak connection.
@@ -31,8 +32,9 @@ and gives them a new look and feel:
 - **Pictures:** recut and recoloured from the main version's 3D illustration
   set, with the owner's permission. Each one has a new crop and this
   version's colour grade. `tools/recut_images.py` rebuilds them all.
-- **Songket cards:** four pattern cards and a small crest drawn for this
-  version as SVG (`assets/art/`). `tools/songket_art.py` redraws them.
+- **Songket art:** a narrow border band and a small crest (the tab icon) drawn
+  for this version as SVG (`assets/art/`). `tools/songket_art.py` redraws
+  them.
 - **Team portraits:** from the main version, at the owner's request.
 - **Fonts:** Zodiak and Switzer from Fontshare (free licence), kept in
   `assets/fonts/` so the site also works from a USB stick with no network.
