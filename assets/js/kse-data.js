@@ -58,6 +58,11 @@ K.records.forEach(function (r, i) {
   r.amount = r.name.indexOf('MAIK') === 0 || r.name.indexOf('LZNK') === 0 ? 'Contoh RM300–RM1,500; tertakluk kepada semakan' : r.name.indexOf('JKM') === 0 ? 'Skim dan jumlah ditentukan selepas semakan' : r.type === 'Provider' ? 'Harga atau kadar contoh; sahkan semasa panggilan' : 'Tiada bayaran atau sumbangan; sahkan dahulu';
   if (r.name.indexOf('PAWE') === 0) { r.help = 'Aktiviti sosial, sokongan rakan sebaya dan senaman ringan'; r.aid = 'Aktiviti komuniti; tempat dan syarat perlu disahkan'; }
   r.hours = 'Isnin–Jumaat · 9:00–16:30';
+  /* English for the same sample fields; the page shows the one that matches the language */
+  r.contactEn = r.type === 'Institution' ? 'Help counter' : r.type === 'Mosque' ? 'Community coordinator' : r.type === 'Provider' ? 'Service desk' : 'Volunteer coordinator';
+  r.helpEn = r.name.indexOf('PAWE') === 0 ? 'Social activities, peer support and light exercise' : r.type === 'Institution' ? 'Eligibility check and referral' : r.type === 'Mosque' ? 'Visits, meals and community support' : r.type === 'Provider' ? 'Care services and appointments' : 'Company, calls and daily help';
+  r.aidEn = r.name.indexOf('PAWE') === 0 ? 'Community activities; place and terms to be confirmed' : r.type === 'Institution' ? 'Help depends on an eligibility check' : r.type === 'Provider' ? 'Price and places to be confirmed' : 'Free or donation-based support, to be confirmed';
+  r.amountEn = r.name.indexOf('MAIK') === 0 || r.name.indexOf('LZNK') === 0 ? 'Example RM300–RM1,500; subject to a check' : r.name.indexOf('JKM') === 0 ? 'Scheme and amount set after a check' : r.type === 'Provider' ? 'Sample price or rate; confirm when you call' : 'No fee or a donation; confirm first';
   r.demoContact = true;
 });
 
@@ -291,6 +296,51 @@ Demo:{en:'Later, at the workshop',bm:'Kemudian, di bengkel'}
 /* ---------- Bahasa Melayu dictionary ----------
    English lives in the HTML; each [data-i18n] key maps to its BM text here. */
 K.bm = {
+  opt80:'80 dan ke atas', opt85:'85 dan ke atas', optLivesAlone:'Tinggal seorang diri', optWithFamily:'Bersama keluarga',
+  modeGuided:'Soal jawab berpandu', modeQuick:'Demo pantas', wizDistrict:'Daerah', wizMukim:'Mukim / kawasan terdekat', fAgeBand:'Julat umur', fGender:'Jantina', fMukim:'Mukim / pekan', fLiving:'Cara tinggal', tryLabel:'Cuba:', appArea:'Kawasan', appTlReceived:'Permintaan diterima', appTlContacted:'Penyedia dihubungi', appTlArranged:'Bantuan diatur', appTlFollow:'Panggilan susulan', appTlCheckin:'Semakan selesai',
+  wizAbout:'Tentang anda', wizAgeQ:'Berapakah umur anda?', wizAgeHelp:'Pilih julat umur. Anda tidak perlu ingat tarikh lahir yang tepat.',
+  wiz85:'85 atau lebih', wizGenderQ:'Bagaimana kami patut merekod jantina anda?', wizWoman:'Perempuan',
+  wizMan:'Lelaki', wizPreferNot:'Tidak mahu nyatakan', wizWhere:'Tempat tinggal anda',
+  wizAreaQ:'Kawasan mana di Kedah?', wizAreaHelp:'Pilih daerah anda, kemudian mukim atau pekan yang paling dekat.', wizDaily:'Kehidupan harian',
+  wizManageQ:'Bagaimana anda menguruskan kehidupan harian?', wizIndependent:'🟢 Saya boleh urus sendiri', wizSomeHelp:'🟡 Saya perlukan sedikit bantuan',
+  wizRegularHelp:'🟠 Saya perlukan bantuan tetap', wizWhoQ:'Siapa yang ada untuk membantu anda?', wizLiveAlone:'Saya tinggal seorang diri',
+  wizSpouse:'Suami / isteri', wizChildren:'Anak tinggal berdekatan', wizOtherFamily:'Ahli keluarga lain',
+  wizFriends:'Kawan / jiran', wizNoHelp:'Tiada bantuan tetap', wizMoney:'Wang dan rumah',
+  wizIncomeQ:'Berapakah anggaran pendapatan bulanan anda?', wizNoIncome:'Tiada pendapatan tetap', wizBelow1000:'Bawah RM1,000',
+  wiz5000:'RM5,000 dan ke atas', wizFinQ:'Adakah anda menerima bantuan kewangan tetap?', wizPension:'Pencen',
+  wizWelfare:'Bantuan kebajikan', wizChildFamily:'Anak / keluarga', wizZakat:'Zakat / Baitulmal',
+  wizNoSupport:'Tiada sokongan tetap', wizLivingQ:'Di mana anda tinggal sekarang?', wizOwnAlone:'Rumah sendiri, seorang diri',
+  wizWithSpouse:'Bersama suami / isteri', wizWithFamily:'Bersama anak / keluarga', wizCareHome:'Pusat jagaan',
+  wizNeed:'Keperluan anda', wizNeedQ:'Apakah jenis bantuan yang anda cari?', wizNeedHelp:'Pilih satu atau lebih. Anda boleh ubah kemudian.',
+  wizAccompany:'Orang untuk menemani saya', wizTransport:'Pengangkutan', wizHomeHelp:'Bantuan di rumah',
+  wizFood:'Makanan / keperluan harian', wizFinHelp:'Bantuan kewangan / kebajikan', wizSoonQ:'Bilakah anda perlukan bantuan?',
+  wizInfo:'Hanya mencari maklumat', wizWeeks:'Dalam beberapa minggu lagi', wizSoon:'Saya perlukan bantuan tidak lama lagi',
+  wizUrgent:'Saya perlukan bantuan segera', wizBack:'Kembali', appChoiceHome:'Penjagaan di rumah',
+  appChoiceTransport:'Pengangkutan', appChoiceFood:'Makanan / keperluan harian', appChoiceMoney:'Bantuan kewangan',
+  appChoiceTalk:'Teman berbual', appSeeHelp:'Lihat bantuan yang ada', appPaweCap:'Aktiviti · sokongan rakan sebaya',
+  appConfirmed:'✓ Disahkan', appJkmCap:'Penilaian · rujukan', appToCheck:'◐ Perlu disemak',
+  appViewDetails:'Lihat butiran', appPaweLong:'Aktiviti sosial dan sokongan rakan sebaya', appPaweDays:'Alor Setar · Isn–Jum',
+  appSampleNo:'04-700 2014 · Nombor contoh', appCallContact:'☎ Hubungi kenalan ini', appStartReferral:'Mulakan rujukan',
+  appToday:'Hari ini', appPending:'Menunggu jawapan', appNotify:'Kami akan maklumkan anda',
+  appKick7:'7 / 10 · Bantuan diterima', appHelpReceived:'Bantuan diterima', appOnWay:'Bantuan yang anda pilih sedang dalam perjalanan.',
+  appWheelchair:'Bantuan kerusi roda', appProviderOk:'Penyedia telah mengesahkan permintaan anda.', appDelivery:'Penghantaran diatur bersama keluarga anda.',
+  appKick8:'8 / 10 · Susulan', appStayUpdated:'Sentiasa dimaklumkan', appOnePlace:'Simpan permintaan dan mesej anda di satu tempat.',
+  appNextWeek:'Minggu depan', appRemind:'Kami akan ingatkan anda', appKick9:'9 / 10 · Sokongan keluarga',
+  appShareFamily:'Kongsi dengan keluarga', appTrusted:'Ahli keluarga yang dipercayai boleh membantu mengikuti permintaan.', appDaughter:'Anak perempuan ditambah',
+  appCanView:'Boleh melihat kemas kini dan mesej penyedia.', appPrivacy:'Privasi kekal di bawah kawalan anda.', appKick10:'10 / 10 · Hari yang lebih baik',
+  appLiveSupport:'Hidup dengan lebih banyak sokongan', appSmallSteps:'Langkah kecil boleh menjadikan hidup harian lebih selamat dan mudah.', wizNoteLabel:'Ada apa-apa lagi yang anda mahu kami tahu?',
+  ch1:'Bab 01', ch2:'Bab 02', ch3:'Bab 03', ch4:'Bab 04', chWho:'Siapa boleh membantu', chNumbers:'Kajian ini', chPeople:'Bantuan harian', chMore:'Pelan',
+  numbersTitle:'Kajian dalam angka', moreTitle:'Lebih lanjut tentang projek',
+  peopleTitle:'Bantuan harian, dekat dengan rumah', peopleSub:'Orang yang projek ini bantu, dan jenis bantuan yang patut sampai kepada mereka.',
+  peopleEasyT:'Mudah untuk meminta', peopleEasyB:'Satu telefon, butang besar, perkataan mudah.',
+  peopleFamilyT:'Keluarga tetap dekat', peopleFamilyB:'Anak-anak boleh membantu dari dekat atau jauh.',
+  peopleCompanyT:'Ada teman berbual', peopleCompanyB:'Sukarelawan datang melawat dan mendengar.',
+  peopleAdviceT:'Nasihat yang jelas', peopleAdviceB:'Pegawai menerangkan bantuan yang boleh diterima.',
+  peoplePhoneT:'Bantuan guna telefon', peoplePhoneB:'Orang muda tunjukkan caranya kepada warga emas.',
+  storyEcosystem:'Keperluan dan pembantu bertemu di satu meja.', storyNetwork:'Bantuan dipadankan ikut daerah, dekat dengan rumah.',
+  storyScenario:'Seorang warga emas, satu keperluan, satu laluan yang jelas.', storyRoadmap:'Sembilan bulan, empat fasa, dirancang bersama.',
+  storyEvidence:'Kami mula dengan mendengar warga emas.', storyData:'Rekod mudah yang sesiapa pun boleh semak.',
+  storyApp:'Dibina untuk warga emas, dan keluarga yang membantu.',
   appReset:'Mula semula',
   appStatusContinue:'Teruskan',
   appWelcomeFamily:'Saya membantu orang lain',

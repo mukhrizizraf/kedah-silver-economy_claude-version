@@ -5,8 +5,9 @@
    around one older person (Find My grammar), dressed in a warm milk ground,
    a quiet colonnade of round-topped pillars, Instrument Serif large titles,
    SF Pro for everything you read or press, one olive tint and one midnight
-   surface. Tokens are defined three times (light, prefers dark, data-theme
-   dark): keep all three in sync.
+   surface. Dark mode is a deep olive, never a plain grey (and not blue). Tokens are
+   defined three times (light, prefers dark, data-theme dark): keep all
+   three in sync.
    ========================================================================== */
 
 /* ---------- Tokens ---------- */
@@ -46,40 +47,40 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --bg:#121211;--pillar:#171716;--surface:#1e1e1d;--surface-2:#272725;--sunk:#2f2f2c;--side:#181817;
-    --ink:#f4f3eb;--ink-2:#d8d6cb;--muted:#a3a196;--line:#3a3a37;--line-2:#2c2c2a;
-    --paddy:#b5c27a;--paddy-ink:#c5d18c;--paddy-soft:#2c311c;--on-paddy:#141709;
-    --gold:#9fb0dc;--gold-ink:#b3c1e4;--gold-soft:#1d2539;--on-gold:#0b1430;
-    --night:#0b1430;--night-2:#22325a;
-    --good:#8fbf5a;--good-ink:#a9d27a;--good-soft:#1f2b16;
-    --warn:#e3a43a;--warn-ink:#f0c060;--warn-soft:#33270f;
-    --neutral:#77766d;--neutral-ink:#c4c2b7;--neutral-soft:#2a2a27;
-    --t1:#7d9fd6;--t2:#e08a5c;--t3:#a8b86a;--t4:#e0b552;--t5:#d48aa8;
-    --tip-bg:#272725;--tip-ink:#f4f3eb;--tip-muted:#b9b7ac;
-    --scrim:rgba(0,0,0,.55);
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.6);
-    --lift:0 2px 6px rgba(0,0,0,.4),0 22px 48px -22px rgba(0,0,0,.75);
-    --bar:rgba(18,18,17,.76);
-    --focus:#b5c27a;
+    --bg:#1a1f0f;--pillar:#1f2513;--surface:#242b17;--surface-2:#2d341d;--sunk:#374026;--side:#181d0d;
+    --ink:#f5f2e6;--ink-2:#e0decb;--muted:#b6b69f;--line:#3d4729;--line-2:#2c331c;
+    --paddy:#c9d48a;--paddy-ink:#d6df9f;--paddy-soft:#35411f;--on-paddy:#161b08;
+    --gold:#e2bf6a;--gold-ink:#ecd08b;--gold-soft:#3b3a1d;--on-gold:#1a1f0f;
+    --night:#10150a;--night-2:#2f3a1b;--night-muted:#c6c7ab;--night-line:rgba(245,242,230,.16);
+    --good:#9cc65f;--good-ink:#b3d67c;--good-soft:#25341a;
+    --warn:#e3a43a;--warn-ink:#f0c060;--warn-soft:#3b3017;
+    --neutral:#8d8f78;--neutral-ink:#cfcfbb;--neutral-soft:#2b321c;
+    --t1:#8aa8dc;--t2:#e8946a;--t3:#b8c873;--t4:#e6bd5c;--t5:#dc93b1;
+    --tip-bg:#2d341d;--tip-ink:#f5f2e6;--tip-muted:#c6c6b0;
+    --scrim:rgba(8,10,3,.6);
+    --shadow:0 1px 2px rgba(6,8,2,.45),0 10px 30px -14px rgba(6,8,2,.7);
+    --lift:0 2px 6px rgba(6,8,2,.45),0 22px 48px -22px rgba(6,8,2,.85);
+    --bar:rgba(26,31,15,.8);
+    --focus:#c9d48a;
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#121211;--pillar:#171716;--surface:#1e1e1d;--surface-2:#272725;--sunk:#2f2f2c;--side:#181817;
-  --ink:#f4f3eb;--ink-2:#d8d6cb;--muted:#a3a196;--line:#3a3a37;--line-2:#2c2c2a;
-  --paddy:#b5c27a;--paddy-ink:#c5d18c;--paddy-soft:#2c311c;--on-paddy:#141709;
-  --gold:#9fb0dc;--gold-ink:#b3c1e4;--gold-soft:#1d2539;--on-gold:#0b1430;
-  --night:#0b1430;--night-2:#22325a;
-  --good:#8fbf5a;--good-ink:#a9d27a;--good-soft:#1f2b16;
-  --warn:#e3a43a;--warn-ink:#f0c060;--warn-soft:#33270f;
-  --neutral:#77766d;--neutral-ink:#c4c2b7;--neutral-soft:#2a2a27;
-  --t1:#7d9fd6;--t2:#e08a5c;--t3:#a8b86a;--t4:#e0b552;--t5:#d48aa8;
-  --tip-bg:#272725;--tip-ink:#f4f3eb;--tip-muted:#b9b7ac;
-  --scrim:rgba(0,0,0,.55);
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.6);
-  --lift:0 2px 6px rgba(0,0,0,.4),0 22px 48px -22px rgba(0,0,0,.75);
-  --bar:rgba(18,18,17,.76);
-  --focus:#b5c27a;
+  --bg:#1a1f0f;--pillar:#1f2513;--surface:#242b17;--surface-2:#2d341d;--sunk:#374026;--side:#181d0d;
+  --ink:#f5f2e6;--ink-2:#e0decb;--muted:#b6b69f;--line:#3d4729;--line-2:#2c331c;
+  --paddy:#c9d48a;--paddy-ink:#d6df9f;--paddy-soft:#35411f;--on-paddy:#161b08;
+  --gold:#e2bf6a;--gold-ink:#ecd08b;--gold-soft:#3b3a1d;--on-gold:#1a1f0f;
+  --night:#10150a;--night-2:#2f3a1b;--night-muted:#c6c7ab;--night-line:rgba(245,242,230,.16);
+  --good:#9cc65f;--good-ink:#b3d67c;--good-soft:#25341a;
+  --warn:#e3a43a;--warn-ink:#f0c060;--warn-soft:#3b3017;
+  --neutral:#8d8f78;--neutral-ink:#cfcfbb;--neutral-soft:#2b321c;
+  --t1:#8aa8dc;--t2:#e8946a;--t3:#b8c873;--t4:#e6bd5c;--t5:#dc93b1;
+  --tip-bg:#2d341d;--tip-ink:#f5f2e6;--tip-muted:#c6c6b0;
+  --scrim:rgba(8,10,3,.6);
+  --shadow:0 1px 2px rgba(6,8,2,.45),0 10px 30px -14px rgba(6,8,2,.7);
+  --lift:0 2px 6px rgba(6,8,2,.45),0 22px 48px -22px rgba(6,8,2,.85);
+  --bar:rgba(26,31,15,.8);
+  --focus:#c9d48a;
 }
 
 /* ---------- Base ----------
@@ -181,8 +182,8 @@ html[data-dir="back"]::view-transition-new(root){animation-name:pop-in;z-index:0
 .tile .ai{width:19px;height:19px;stroke-width:1.9}
 .tile-overview{--tile:#525c2f}.tile-ecosystem{--tile:#2c3c66}.tile-network{--tile:#a24f28}.tile-scenario{--tile:#7a3f5c}
 .tile-roadmap{--tile:#8a6a1c}.tile-evidence{--tile:#5f5e57}.tile-data{--tile:#36525e}.tile-app{--tile:#1e1e1e}
-:root[data-theme="dark"] .tile-app{--tile:#4a4a46}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile-app{--tile:#4a4a46}}
+:root[data-theme="dark"] .tile-app{--tile:#46532a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile-app{--tile:#46532a}}
 
 /* Frosted nav bar: the page name appears small once the large title tucks under it */
 .navbar{position:sticky;top:0;z-index:30;background:var(--bar);-webkit-backdrop-filter:saturate(1.6) blur(20px);backdrop-filter:saturate(1.6) blur(20px);border-bottom:.5px solid transparent;transition:border-color .25s var(--ease)}
@@ -838,8 +839,8 @@ body[data-page="overview"] .home-drawer summary:hover{transform:none;box-shadow:
 /* Icon tiles in stone; olive marks the current page only */
 .tile,.tile-overview,.tile-ecosystem,.tile-network,.tile-scenario,.tile-roadmap,.tile-evidence,.tile-data,.tile-app{--tile:#6b6a64}
 .srow[aria-current="page"] .tile,.dlink[aria-current="page"] .tile,.step .tile{--tile:#525c2f}
-:root[data-theme="dark"] .tile{--tile:#4a4a46}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile{--tile:#4a4a46}}
+:root[data-theme="dark"] .tile{--tile:#46532a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile{--tile:#46532a}}
 .srow[aria-current="page"] .tile{background:color-mix(in srgb,var(--on-paddy) 18%,transparent)}
 
 /* Overview disclosure rows: stone icon tile, title first, the old label below it in sentence case */
@@ -933,3 +934,115 @@ a[href],button,summary,select,[role="link"],.choice-grid button,.lang-btn,.tbtn,
 
 /* How it works: once dismissed, the "What this box does" popup stays shut until reopened */
 .engine.is-dismissed .engine-popover,.engine.is-dismissed:hover .engine-popover,.engine.is-dismissed:focus .engine-popover{opacity:0;transform:translate(-50%,8px) scale(.96);pointer-events:none}
+
+/* ---------- Look pass 3: whole pictures, page stories, the people shelf ----------
+   Every picture is recut and regraded by tools/recut_images.py. */
+
+/* Overview hero: the box takes the picture's own shape, so the couple is
+   never cut to a strip on a short laptop screen; phones get their own crop. */
+.hero-ios .hero-scene{height:auto;min-height:0;aspect-ratio:1254/690;max-height:max(420px,calc(100vh - var(--nav-h) - 60px))}
+.hero-ios .scene-image{inset:-6px;transform:translate3d(var(--mx),var(--my),0) scale(1.015)}
+.hero-ios .scene-image picture{display:contents}
+.hero-ios .scene-image img{object-position:50% 30%}
+
+/* Page heads: the title on the left, the page's scene on the right */
+.pagehead-grid{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);grid-template-areas:"copy story" "stat story";gap:22px 44px;align-items:start;padding-block:26px 34px}
+.pagehead-grid>div:first-child{grid-area:copy;align-self:end}
+.pagehead-grid>.headstat{grid-area:stat;align-self:start;justify-self:start}
+.pagehead h1{font-size:clamp(44px,4.4vw,72px)}
+.page-story{grid-area:story;position:relative;margin:0;aspect-ratio:960/796;border-radius:28px;overflow:hidden;background:var(--sunk);box-shadow:var(--lift);isolation:isolate}
+.pagehead .page-story{animation:rise .7s var(--ease) .08s both}
+.page-story img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:story-settle 1.6s var(--ease) both}
+.page-story::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,transparent 58%,rgba(5,11,34,.4));box-shadow:inset 0 0 0 .5px rgba(255,255,255,.14);pointer-events:none}
+.story-cap{position:absolute;z-index:1;left:14px;bottom:14px;max-width:calc(100% - 28px);display:flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border-radius:999px;background:color-mix(in srgb,var(--bg) 78%,transparent);-webkit-backdrop-filter:saturate(1.5) blur(16px);backdrop-filter:saturate(1.5) blur(16px);color:var(--ink);font:500 15px/1.3 var(--ui);box-shadow:0 8px 24px -12px rgba(0,0,0,.45)}
+.page-story .story-cap .tile{width:30px;height:30px;border-radius:50%;--tile:#525c2f;background:var(--tile)}
+.page-story .story-cap .tile .ai{width:17px;height:17px}
+@keyframes story-settle{from{transform:scale(1.08);filter:saturate(.6) brightness(1.06)}}
+
+/* Overview: the people shelf, five scenes of everyday help */
+.people-shelf{margin-top:64px}
+.shelf-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:10px 40px;margin-bottom:20px}
+.shelf-head h2{margin:0;max-width:18ch}
+.shelf-head p{margin:0;max-width:42ch;color:var(--muted);font-size:17px;line-height:1.45}
+.shelf{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin:0;padding:0;list-style:none}
+.shelf-card{position:relative;aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:var(--sunk);box-shadow:var(--shadow);isolation:isolate;scroll-snap-align:start}
+.shelf-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shelf-card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(5,11,34,0) 40%,rgba(5,11,34,.84));box-shadow:inset 0 0 0 .5px rgba(255,255,255,.12)}
+.shelf-text{position:absolute;z-index:1;inset:auto 0 0 0;padding:16px 16px 18px}
+.shelf-text h3{margin:0 0 6px;font:400 clamp(24px,2vw,28px)/1.02 var(--display);letter-spacing:-.005em;color:#fbf8ee}
+.shelf-text p{margin:0;font:500 14px/1.35 var(--ui);color:rgba(251,248,238,.9)}
+
+@media (max-width:1360px){
+  .shelf{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(250px,68vw);overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;margin-inline:-28px;padding:4px 28px 10px;scroll-padding-inline:28px;scrollbar-width:none}
+  .shelf::-webkit-scrollbar{display:none}
+}
+@media (max-width:1240px){
+  .pagehead-grid{grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}
+}
+@media (max-width:960px){
+  .pagehead-grid{grid-template-columns:1fr;grid-template-areas:"copy" "story" "stat";gap:18px}
+  .page-story{aspect-ratio:16/10}
+}
+@media (max-width:760px){
+  .hero-ios .hero-scene{aspect-ratio:720/792;max-height:none}
+  .hero-ios .scene-image img{object-position:50% 30%}
+  .page-story{border-radius:24px}
+  .story-cap{left:10px;bottom:10px;max-width:calc(100% - 20px);font-size:14px}
+  .people-shelf{margin-top:48px}
+  .shelf{margin-inline:-18px;padding-inline:18px;scroll-padding-inline:18px}
+}
+@media (max-width:620px){
+  .shelf{margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  .page-story img,.pagehead .page-story{animation:none}
+}
+
+/* Who can help: the search examples sit on one tidy row, never split under each other */
+.field-search{flex:1 1 300px}
+.search-suggestions{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.search-suggestions::-webkit-scrollbar{display:none}
+.search-suggestions span{flex:none;margin-right:2px}
+.search-suggestions button{flex:none;white-space:nowrap;min-height:30px;padding:3px 11px;font-size:12.5px;border-radius:999px}
+
+/* Who can help: one aligned filter row, and the list in a fixed box with its
+   own slider (as in the main version), so the page stays short and tidy */
+body[data-page="network"] .section:first-child{padding-top:18px}
+body[data-page="network"] .filters{display:grid;grid-template-columns:repeat(3,minmax(140px,1fr)) minmax(260px,1.45fr);align-items:start;gap:14px;margin-bottom:14px}
+body[data-page="network"] .filters .field{min-width:0}
+body[data-page="network"] .field-search{flex:none}
+body[data-page="network"] .filters .count{grid-column:1/-1;justify-self:end;align-self:auto;width:auto;margin:-4px 0 0;padding:0}
+body[data-page="network"] .select select,body[data-page="network"] .input-search input{height:48px;min-height:48px;background:var(--surface);box-shadow:inset 0 0 0 .5px var(--line)}
+body[data-page="network"] .search-suggestions{margin-top:8px}
+body[data-page="network"] .statusbar{margin-bottom:16px}
+body[data-page="network"] .net{align-items:stretch}
+body[data-page="network"] .table-card{display:flex;flex-direction:column;overflow:hidden}
+body[data-page="network"] .table-scroll{max-height:min(60vh,540px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ink) 30%,transparent) transparent}
+body[data-page="network"] .table-scroll::-webkit-scrollbar{width:10px;height:10px}
+body[data-page="network"] .table-scroll::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ink) 30%,transparent);border:3px solid transparent;background-clip:padding-box;border-radius:8px}
+body[data-page="network"] .data-table{font-size:14px}
+body[data-page="network"] .data-table thead th{position:sticky;top:0;z-index:2;padding:12px 14px;font-size:12px}
+body[data-page="network"] .data-table td{padding:11px 14px;vertical-align:top;font-size:14px}
+body[data-page="network"] .data-table .cap{font-size:13.5px;line-height:1.35}
+body[data-page="network"] .status-cell{white-space:nowrap}
+@media (max-width:1000px){
+  body[data-page="network"] .filters{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body[data-page="network"] .field-search{grid-column:1/-1}
+}
+@media (max-width:560px){
+  body[data-page="network"] .filters{grid-template-columns:1fr}
+}
+body[data-page="network"] .pagehead-grid{padding-bottom:12px}
+body[data-page="network"] .net{grid-template-columns:minmax(0,1.8fr) minmax(290px,1fr)}
+body[data-page="network"] .data-table{table-layout:fixed;width:100%;min-width:640px}
+body[data-page="network"] .data-table th:nth-child(1){width:27%}
+body[data-page="network"] .data-table th:nth-child(2){width:14%}
+body[data-page="network"] .data-table th:nth-child(3){width:14%}
+body[data-page="network"] .data-table th:nth-child(4){width:27%}
+body[data-page="network"] .data-table th:nth-child(5){width:18%}
+@media (max-width:1240px){body[data-page="network"] .net{grid-template-columns:1fr}}
+
+/* Our Silver App mock: the tick box is drawn, so it follows the choice */
+.mock-choices button{display:flex;align-items:center;gap:12px;padding:0 16px;text-align:left}
+.mock-choices button::before{content:"";flex:none;width:20px;height:20px;border-radius:6px;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ink) 35%,transparent)}
+.mock-choices button.is-selected::before{background:var(--paddy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 7' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat;box-shadow:none}

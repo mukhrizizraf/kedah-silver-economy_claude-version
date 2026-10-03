@@ -280,30 +280,38 @@ doc.addEventListener('DOMContentLoaded', function () {
     });
   });
   var pagehead = K.$('.pagehead-grid');
-  /* Page art: one original illustration per page (assets/img/page-*.webp).
-     K.pageArt can override this map. */
+  /* Page story: one scene per page head (assets/img/page-*.webp, recut and
+     regraded by tools/recut_images.py) with a short line in a frosted
+     capsule. The line is a data-i18n key (BM in K.bm); the alt text follows
+     the language. K.pageArt can override this map. */
   var pageArt = K.pageArt || {
-    ecosystem: 'assets/img/page-ecosystem.webp',
-    network: 'assets/img/page-network.webp',
-    scenario: 'assets/img/page-scenario.webp',
-    roadmap: 'assets/img/page-roadmap.webp',
-    evidence: 'assets/img/page-evidence.webp',
-    data: 'assets/img/page-data.webp',
-    app: 'assets/img/page-app.webp'
+    ecosystem: { key: 'storyEcosystem', line: 'Needs and helpers meet at one table.', pos: '50% 40%',
+      alt: { en: 'Older people, family and a helper plan support together around a map on a table', bm: 'Warga emas, keluarga dan seorang pembantu merancang bantuan bersama di sekeliling peta di atas meja' } },
+    network: { key: 'storyNetwork', line: 'Help is matched by district, close to home.', pos: '50% 45%',
+      alt: { en: 'An older woman and a helper point at a map of Kedah on a tablet', bm: 'Seorang warga emas dan pembantu menunjuk peta Kedah pada tablet' } },
+    scenario: { key: 'storyScenario', line: 'One person, one need, one clear route.', pos: '55% 35%',
+      alt: { en: 'An older woman reads large text on a tablet at home', bm: 'Seorang warga emas membaca tulisan besar pada tablet di rumah' } },
+    roadmap: { key: 'storyRoadmap', line: 'Nine months, four phases, planned together.', pos: '50% 45%',
+      alt: { en: 'Researchers and an older man plan a timeline together at a table', bm: 'Penyelidik dan seorang warga emas merancang garis masa bersama di meja' } },
+    evidence: { key: 'storyEvidence', line: 'We start by listening to older people.', pos: '50% 40%',
+      alt: { en: 'A researcher takes notes while an older man talks', bm: 'Seorang penyelidik mencatat sementara seorang warga emas bercakap' } },
+    data: { key: 'storyData', line: 'Simple records that anyone can check.', pos: '50% 45%',
+      alt: { en: 'A helper and an older man look at charts and a calculator', bm: 'Seorang pembantu dan warga emas melihat carta dan kalkulator' } },
+    app: { key: 'storyApp', line: 'Made for older people, and the family who help.', pos: '50% 35%',
+      alt: { en: 'An older woman and her daughter use a phone together', bm: 'Seorang warga emas dan anak perempuannya menggunakan telefon bersama' } }
   };
-  if (pagehead && K.page !== 'overview' && !K.$('.page-character') && pageArt[K.page]) {
+  var story = pageArt[K.page];
+  if (pagehead && K.page !== 'overview' && !K.$('.page-story') && story) {
     var figure = doc.createElement('figure');
-    figure.className = 'page-character page-character-' + K.page;
-    var img = doc.createElement('img');
-    img.src = pageArt[K.page];
-    img.alt = '';
-    figure.appendChild(img);
-    var marker = doc.createElement('span');
-    marker.className = 'page-character-mark';
-    marker.innerHTML = K.pageIcon(K.page);
-    figure.appendChild(marker);
-    var stat = K.$('.headstat', pagehead);
-    pagehead.insertBefore(figure, stat || null);
+    figure.className = 'page-story page-story-' + K.page;
+    figure.innerHTML = '<img src="assets/img/page-' + K.page + '.webp" width="960" height="796" decoding="async" fetchpriority="high" alt="">' +
+      '<figcaption class="story-cap"><span class="tile tile-' + K.page + '" aria-hidden="true">' + K.pageIcon(K.page) + '</span>' +
+      '<span data-i18n="' + story.key + '"></span></figcaption>';
+    var storyImg = figure.querySelector('img');
+    storyImg.style.objectPosition = story.pos;
+    figure.querySelector('[data-i18n]').textContent = story.line;
+    pagehead.insertBefore(figure, K.$('.headstat', pagehead) || null);
+    K.onLang.push(function () { storyImg.alt = K.L(story.alt); });
   }
   initLargeTitle();
 });

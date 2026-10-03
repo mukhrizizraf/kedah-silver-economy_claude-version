@@ -1,0 +1,170 @@
+/* ==========================================================================
+   Kedah Silver Economy: the Grail-style Overview (Claude version)
+   Loaded after kse-ios.css on the Overview only, for now. The page is a
+   book of chapters on a black ground: huge light capitals, a cloud of
+   tilted collectible cards (our recut photos and our own songket patterns)
+   around one cream card, and each chapter on its own colour field:
+   black, songket red, walnut, cream, black. Gold is the one accent.
+   ========================================================================== */
+
+@font-face{font-family:"Zodiak";src:url("../fonts/zodiak-300.woff2") format("woff2");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Zodiak";src:url("../fonts/zodiak-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Switzer";src:url("../fonts/switzer-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Switzer";src:url("../fonts/switzer-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Switzer";src:url("../fonts/switzer-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Switzer";src:url("../fonts/switzer-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+
+/* ---------- Tokens: one world, light or dark ---------- */
+html:has(body[data-page="overview"]){background:#060504;color-scheme:dark}
+body[data-page="overview"]{
+  color-scheme:dark;
+  --g-black:#060504;--g-red:#6a1120;--g-gold:#d9ad4f;--g-pale:#f1d58a;--g-cream:#f4ecda;
+  --display:"Zodiak","Instrument Serif",Georgia,serif;
+  --sans:"Switzer",-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;
+  --ui:"Switzer",-apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;
+  --bg:#060504;--pillar:#060504;--surface:#15100c;--surface-2:#1e1711;--sunk:#271e16;--side:#0b0907;
+  --ink:#f6efdf;--ink-2:#e3d9c4;--muted:#b9ab90;--line:#3b3025;--line-2:#2a2219;
+  --paddy:#d9ad4f;--paddy-ink:#ecc970;--paddy-soft:#3a2c12;--on-paddy:#1b1306;
+  --gold:#d9ad4f;--gold-ink:#ecc970;--gold-soft:#3a2c12;--on-gold:#1b1306;
+  --night:#0d0907;--night-2:#3a1018;--on-night:#f6efdf;--night-muted:#cdbfa3;--night-line:rgba(246,239,223,.16);
+  --good:#9cc65f;--good-ink:#b3d67c;--good-soft:#22301a;
+  --warn:#e8a93c;--warn-ink:#f2c463;--warn-soft:#3a2a12;
+  --neutral:#9a8f7c;--neutral-ink:#d6ccb8;--neutral-soft:#2a231b;
+  --t1:#8aa8dc;--t2:#e8946a;--t3:#b8c873;--t4:#e6bd5c;--t5:#dc93b1;
+  --tip-bg:#1e1711;--tip-ink:#f6efdf;--tip-muted:#cdbfa3;
+  --scrim:rgba(0,0,0,.6);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -14px rgba(0,0,0,.8);
+  --lift:0 2px 6px rgba(0,0,0,.5),0 30px 60px -24px rgba(0,0,0,.9);
+  --bar:rgba(6,5,4,.8);--focus:#ecc970;
+  background:var(--bg);color:var(--ink);font-family:var(--sans);
+}
+:root body[data-page="overview"] .tile{--tile:#2b2119}
+:root body[data-page="overview"] .srow[aria-current="page"] .tile{background:rgba(27,19,6,.18)}
+body[data-page="overview"] ::selection{background:rgba(217,173,79,.38);color:#fff}
+body[data-page="overview"] h1,body[data-page="overview"] h2{font-family:var(--display)}
+
+body[data-page="overview"] .brand b{font-family:"Instrument Serif",Georgia,serif}
+body[data-page="overview"] .overview-button-grid .home-drawer:nth-child(n) summary>span b.tile{--tile:#2b2119;color:var(--g-gold)}
+
+/* running heads: the book's top corners on every chapter */
+.g-heads{display:flex;justify-content:space-between;gap:20px;font:500 13px/1.3 var(--ui);letter-spacing:.01em;color:var(--muted)}
+
+/* ---------- The stage ---------- */
+.g-stage{position:relative;display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h));padding:16px 28px 26px;overflow:hidden;isolation:isolate}
+.g-title{position:relative;z-index:6;margin:clamp(14px,2.4vh,30px) auto 0;max-width:17ch;font:300 clamp(40px,min(5.3vw,9.4vh),96px)/.9 var(--display);letter-spacing:-.02em;text-transform:uppercase;text-align:center;text-wrap:balance;color:var(--ink);pointer-events:none}
+.g-cloud{position:relative;flex:1;min-height:520px;margin-top:-6px}
+
+.g-float{position:absolute;left:var(--x);top:var(--y);width:var(--w);z-index:var(--z,1);transform:translate3d(calc(var(--mx,0px) * var(--d,1)),calc(var(--my,0px) * var(--d,1) + var(--p,0) * var(--s,0px)),0);transition:transform .7s var(--ease)}
+.g-card{display:block;aspect-ratio:var(--ar,4/5);border-radius:16px;overflow:hidden;background:#1e1711;box-shadow:0 34px 60px -26px rgba(0,0,0,.95),0 0 0 .5px rgba(255,255,255,.1);transform:rotate(var(--r,0deg));animation:g-bob var(--t,7s) ease-in-out var(--dl,0s) infinite alternate}
+.g-pat .g-card{--ar:5/7;border-radius:12px}
+.g-card img{display:block;width:100%;height:100%;object-fit:cover}
+@keyframes g-bob{to{transform:rotate(calc(var(--r,0deg) + 2deg)) translateY(-12px)}}
+
+.f1{--x:6%;--y:4%;--w:clamp(150px,15vw,230px);--r:-8deg;--d:1.6;--s:-90px;--z:2;--dl:-1s}
+.f2{--x:21%;--y:42%;--w:clamp(110px,10vw,160px);--r:9deg;--d:.8;--s:70px;--z:3;--t:8s}
+.f3{--x:72%;--y:2%;--w:clamp(140px,13vw,200px);--r:7deg;--ar:1/1;--d:1.4;--s:-70px;--z:2;--dl:-3s}
+.f4{--x:83%;--y:40%;--w:clamp(110px,10vw,160px);--r:-7deg;--d:1;--s:90px;--z:3;--t:9s;--dl:-2s}
+.f5{--x:1%;--y:50%;--w:clamp(100px,9vw,140px);--r:13deg;--d:2;--s:120px;--z:1;--dl:-4s}
+.f6{--x:66%;--y:56%;--w:clamp(120px,11vw,175px);--r:-11deg;--ar:1/1;--d:1.2;--s:110px;--z:4;--t:8.5s}
+.f7{--x:30%;--y:6%;--w:clamp(90px,7.5vw,120px);--r:-14deg;--d:2.2;--s:-60px;--z:1;--dl:-5s}
+
+/* the cream card in the middle: the one thing to read and do */
+.g-quest{position:absolute;left:50%;top:50%;z-index:8;width:min(410px,88vw);padding:22px 22px 20px;border-radius:30px;background:linear-gradient(180deg,#fcf8ef,#efe6d3);color:#15100b;box-shadow:0 50px 90px -34px rgba(0,0,0,1),inset 0 0 0 .5px rgba(255,255,255,.6);transform:translate(-50%,-50%) translate3d(calc(var(--mx,0px) * -.35),calc(var(--my,0px) * -.35),0);transition:transform .7s var(--ease);animation:g-rise .9s var(--ease) both}
+@keyframes g-rise{from{opacity:0;transform:translate(-50%,-42%) scale(.96)}}
+.g-quest-top{display:flex;align-items:center;gap:10px;font:500 14px var(--ui);color:#6b5a44}
+.g-crest{width:34px;height:auto}
+.g-quest-title{margin:14px 0 10px;font:700 clamp(26px,2.2vw,31px)/1.08 var(--ui);letter-spacing:-.028em;color:#120d08}
+.g-quest-body{margin:0 0 16px;font:400 16px/1.45 var(--ui);color:#4b4033}
+.g-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;padding:0;list-style:none}
+.g-chips li{padding:7px 13px;border-radius:999px;background:#fff;box-shadow:0 0 0 .5px rgba(21,16,11,.14),0 4px 10px -6px rgba(21,16,11,.25);font:600 14px var(--ui);color:#15100b}
+.g-actions{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.g-quest .btn{min-height:50px;font:600 16px var(--ui)}
+.g-quest .btn-gold{background:#15100b;color:#f6efdf;box-shadow:0 12px 24px -12px rgba(0,0,0,.6)}
+.g-quest .btn-gold .btn-ic{background:var(--g-gold);color:#15100b}
+.g-quest .btn-gold:hover{background:#2a2016}
+.g-quest .btn-ghost{background:transparent;color:#15100b;box-shadow:inset 0 0 0 1px rgba(21,16,11,.22)}
+.g-quest .btn-ghost .btn-ai{color:#8c1a2b}
+.g-quest .btn-ghost:hover{background:rgba(21,16,11,.06)}
+.g-quest :focus-visible{outline-color:#8c1a2b}
+
+/* the grant facts sit in the stage's lower corners, small, like Grail's notes */
+.g-meta{position:relative;z-index:6;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);align-items:end;gap:14px 40px;margin-top:10px}
+.g-stage .hero-meta{display:flex;flex-wrap:wrap;gap:8px 30px;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+.g-stage .hero-meta div{display:grid;gap:3px;padding:0;border:0;background:none}
+.g-stage .hero-meta dt{font:500 12.5px var(--ui);color:var(--muted)}
+.g-stage .hero-meta dd{margin:0;font:600 15px var(--ui);color:var(--ink);text-align:left}
+.g-stage .official{max-width:44ch;margin:0;font:500 13px/1.45 var(--ui);color:var(--muted);text-align:right;text-transform:none;letter-spacing:0}
+.g-stage .official span:first-child{color:var(--g-pale)}
+
+/* ---------- Chapters ---------- */
+.g-chapter{position:relative;padding:20px 28px clamp(64px,8vw,120px);isolation:isolate}
+.g-chapter>.g-heads{margin-bottom:clamp(36px,6vw,84px)}
+.g-inner{max-width:1180px;margin:0 auto}
+.g-h2{margin:0 auto clamp(26px,3.6vw,52px);max-width:18ch;font:300 clamp(36px,5vw,86px)/.92 var(--display);letter-spacing:-.02em;text-transform:uppercase;text-align:center;text-wrap:balance;color:var(--ink)}
+
+/* 01 songket red: the map sits in a black panel */
+.g-red{background:var(--g-red)}
+.g-red>.g-heads{color:#ecc4bb}
+.g-red .map-card{max-width:980px;margin:0 auto;padding:28px 24px 24px;border:0;border-radius:32px;background:#0c0806;box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
+.g-red .map-card figcaption{color:var(--muted)}
+
+/* 02 walnut: the numbers, large, in a row like a character sheet */
+.g-wood{background:radial-gradient(120% 90% at 50% 0%,#4b2e1a,#25170d 72%)}
+.g-wood>.g-heads{color:#d7c3a1}
+body[data-page="overview"] .g-wood .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 28px;margin:0 0 40px;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+body[data-page="overview"] .g-wood .kpi{display:flex!important;flex-direction:column-reverse!important;justify-content:flex-end;align-items:flex-start;gap:10px;padding:16px 18px 0 0!important;border:0!important;border-top:.5px solid rgba(246,239,223,.24)!important;background:none}
+body[data-page="overview"] .g-wood .kpi b{font:300 clamp(46px,5vw,86px)/.95 var(--display)!important;letter-spacing:-.02em;color:var(--g-pale)}
+body[data-page="overview"] .g-wood .kpi span{font:500 14.5px/1.35 var(--ui)!important;color:#dccaa9}
+.g-wood .partners{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px}
+.g-wood .partners .label{color:#d7c3a1}
+
+/* 03 cream: the people as gold-framed collectible cards */
+.g-cream{background:var(--g-cream);--ink:#15100b;--ink-2:#3b3128;--muted:#6e604c;--line:#d8ccb4;color:#15100b}
+.g-cream>.g-heads{color:#7a6a52}
+.g-cream .shelf-head{display:block;margin:0 0 clamp(26px,3.6vw,48px);text-align:center}
+.g-cream .shelf-head h2{margin:0 auto 14px;max-width:18ch;font:300 clamp(36px,5vw,86px)/.92 var(--display);letter-spacing:-.02em;text-transform:uppercase;text-wrap:balance;color:#15100b}
+.g-cream .shelf-head p{margin:0 auto;max-width:44ch;font:400 17px/1.45 var(--ui);color:#6e604c}
+.g-cream .shelf{gap:18px}
+.g-cream .shelf-card{padding:7px;border-radius:20px;background:linear-gradient(160deg,#ecc970,#b88a2c);box-shadow:0 30px 44px -26px rgba(70,40,10,.6);transform:rotate(var(--tilt,0deg));transition:transform .5s var(--ease)}
+.g-cream .shelf-card:nth-child(odd){--tilt:-2.5deg}
+.g-cream .shelf-card:nth-child(even){--tilt:2deg;margin-top:22px}
+.g-cream .shelf-card:hover{--tilt:0deg}
+.g-cream .shelf-card img{inset:7px;width:calc(100% - 14px);height:calc(100% - 14px);border-radius:14px}
+.g-cream .shelf-card::after{inset:7px;border-radius:14px}
+.g-cream .shelf-text{inset:auto 7px 7px 7px}
+.g-cream .shelf-text h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(20px,1.7vw,25px);line-height:.98;letter-spacing:-.01em}
+
+/* 04 black: the four drawers */
+.g-black{background:var(--g-black)}
+.g-black .overview-actions{padding-inline:0}
+
+/* ---------- Phones and narrow windows ---------- */
+@media (max-width:1100px){
+  .f7{display:none}
+  .f5{--y:66%}
+}
+@media (max-width:900px){
+  body[data-page="overview"] .g-wood .kpis{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:22px}
+  .g-meta{grid-template-columns:1fr}
+  .g-stage .official{text-align:left}
+}
+@media (max-width:760px){
+  .g-stage{min-height:0;padding:12px 16px 22px}
+  .g-title{font-size:clamp(34px,9.4vw,52px)}
+  .g-heads{font-size:12px}
+  .g-cloud{flex:none;min-height:0;margin-top:14px;padding-top:150px}
+  .g-quest{position:relative;left:auto;top:auto;width:100%;transform:none;animation:none}
+  .f1{--x:-2%;--y:0px;--w:120px}
+  .f2{--x:27%;--y:22px;--w:84px;--r:-6deg}
+  .f3{--x:52%;--y:-6px;--w:112px}
+  .f4{--x:79%;--y:26px;--w:84px;--r:8deg}
+  .f5,.f6{display:none}
+  .g-float{transform:none}
+  .g-chapter{padding:16px 16px 64px}
+  body[data-page="overview"] .g-wood .kpis{grid-template-columns:1fr 1fr}
+  .g-cream .shelf-card:nth-child(even){margin-top:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .g-card,.g-quest{animation:none}
+  .g-float{transform:none}
+}

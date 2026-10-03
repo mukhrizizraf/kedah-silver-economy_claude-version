@@ -53,7 +53,8 @@ K.pageInit.overview = function () {
     scenario: { n: '3', l: { en: 'sample people', bm: 'contoh warga emas' } },
     roadmap: { n: '9', l: { en: 'months, 4 phases', bm: 'bulan, 4 fasa' } },
     evidence: { n: String(K.reviews.length), l: { en: 'reviewer comments', bm: 'ulasan penilai' } },
-    data: { n: '11', l: { en: 'workbook sheets', bm: 'lembaran workbook' } }
+    data: { n: '11', l: { en: 'workbook sheets', bm: 'lembaran workbook' } },
+    app: { n: '10', l: { en: 'app screens', bm: 'skrin aplikasi' } }
   };
   K.onLang.push(function () {
     K.viz.constellation(svg, $('#consLegend'), first); first = false;
@@ -72,7 +73,7 @@ K.pageInit.overview = function () {
     if ($('#plans')) $('#plans').innerHTML = K.plans.map(function (p) {
       return '<li><svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><b>' + esc(K.L(p.n)) + '</b><span>' + esc(K.L(p.t)) + '</span></li>';
     }).join('');
-    $('#walk').innerHTML = K.PAGES.slice(1).map(function (p, i) {
+    if ($('#walk')) $('#walk').innerHTML = K.PAGES.slice(1).map(function (p, i) {
       var s = STATS[p.id];
       return '<a href="' + p.href + '"><span class="no"><span class="wk-icon">' + K.pageIcon(p.id) + '</span>0' + (i + 2) + K.icon('right') + '</span><b>' + esc(K.L(p.label)) + '</b><p>' + esc(K.L(p.desc)) + '</p>' +
         '<span class="stat"><strong>' + esc(s.n) + '</strong>' + esc(K.L(s.l)) + '</span></a>';
@@ -221,7 +222,6 @@ K.pageInit.network = function () {
       esc(K.T('Show all ' + K.records.length, 'Papar semua ' + K.records.length)) + '</button></li>' +
       '<li><button type="button" data-status="reset" class="reset">' + esc(K.T('Reset', 'Set semula')) + '</button></li>';
   }
-
   [tf, df, sf].forEach(function (el) { el.addEventListener('change', function () { renderStatusBar(); renderRecords(); }); });
   q.addEventListener('input', renderRecords);
   $$('.search-suggestions [data-search-example]').forEach(function (b) {
@@ -299,7 +299,7 @@ K.pageInit.scenario = function () {
     });
     $('#intakeStepLabel').textContent = K.T('Step ' + wizardStep + ' of 5', 'Langkah ' + wizardStep + ' daripada 5'); $('#intakeProgressBar').style.setProperty('--v', (wizardStep * 20) + '%');
     $('#intakeProgressBar').setAttribute('aria-valuenow', String(wizardStep));
-    $('#intakeBack').disabled = wizardStep === 1; $('#intakeNext').textContent = wizardStep === 5 ? 'See support options' : 'Next';
+    $('#intakeBack').disabled = wizardStep === 1; $('#intakeNext').textContent = wizardStep === 5 ? K.T('See support options', 'Lihat pilihan bantuan') : K.T('Next', 'Seterusnya');
     wizardOptions(); setWizardChoices();
   }
   function finishWizard() {
@@ -322,6 +322,8 @@ K.pageInit.scenario = function () {
     $('#intakeBack').addEventListener('click', function () { if (wizardStep > 1) { wizardStep--; showWizardStep(); } });
     $('#intakeNext').addEventListener('click', function () { if (wizardStep < 5) { wizardStep++; showWizardStep(); } else finishWizard(); });
     showWizardStep();
+    /* the step label, the Next button and the note's hint follow the language */
+    K.onLang.push(function () { showWizardStep(); $('#wizardNote').placeholder = K.T('Optional', 'Pilihan'); });
   }
   $$('.case-mode').forEach(function (b) { b.setAttribute('aria-pressed', b.classList.contains('is-on') ? 'true' : 'false'); b.addEventListener('click', function () { var guided = b.getAttribute('data-mode') === 'guided'; $$('.case-mode').forEach(function (x) { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); if (wizard) wizard.hidden = !guided; $$('.quick-only').forEach(function (x) { x.hidden = guided; }); if (!guided) caseMeta = { support:['alone'], financialSupport:[], urgency:'info', note:'' }; update(false); }); });
 
@@ -430,9 +432,9 @@ K.pageInit.scenario = function () {
       var name = rec
         ? '<a href="network.html#r' + idx + '">' + esc(rec.name) + K.icon('right') + '</a>'
         : '<span>' + esc(K.L(node.n)) + '</span>';
-      var contact = rec && rec.phone ? '<div class="node-meta"><span>' + esc(rec.help) + '</span><small>' + esc(K.T('Sample contact · ' + rec.contact, 'Hubungan contoh · ' + rec.contact)) + '</small></div>' : '';
+      var contact = rec && rec.phone ? '<div class="node-meta"><span>' + esc(K.T(rec.helpEn, rec.help)) + '</span><small>' + esc(K.T('Sample contact · ' + rec.contactEn, 'Hubungan contoh · ' + rec.contact)) + '</small></div>' : '';
       var call = rec && rec.phone ? '<a class="call-btn" href="tel:' + esc(rec.phone.replace(/[^0-9+]/g, '')) + '">' + esc(K.T('Call', 'Telefon')) + '</a>' : '';
-      var note = rec && rec.aid ? '<small class="node-aid">' + esc(rec.aid + (rec.amount ? ' · ' + rec.amount : '')) + '</small>' : '';
+      var note = rec && rec.aid ? '<small class="node-aid">' + esc(K.T(rec.aidEn + ' · ' + rec.amountEn, rec.aid + (rec.amount ? ' · ' + rec.amount : ''))) + '</small>' : '';
       return '<li><div class="node-copy"><div class="node-name">' + name + away + K.pill(status) + '</div>' + contact + note + '</div><div class="node-actions">' + call + '</div></li>';
     }).join('');
     $('#confirmed').textContent = confirmed + ' / ' + nodes.length;
@@ -559,7 +561,7 @@ K.pageInit.app = function () {
   $('#appLaunch').addEventListener('click', function () { move(0); document.querySelector('.phone-mock').scrollIntoView({ behavior: K.reduceMotion ? 'auto' : 'smooth', block: 'center' }); });
   $('#appScreens').addEventListener('click', function (e) {
     var next = e.target.closest('[data-app-next]'), reset = e.target.closest('[data-app-reset]'), choice = e.target.closest('.mock-choices button'), lang = e.target.closest('[data-app-lang]');
-    if (next) move(current + 1); if (reset) move(0); if (choice) { K.$$('.mock-choices button').forEach(function (b) { b.classList.remove('is-selected'); }); choice.classList.add('is-selected'); } if (lang) document.documentElement.lang = document.documentElement.lang === 'ms' ? 'en' : 'ms';
+    if (next) move(current + 1); if (reset) move(0); if (choice) { K.$$('.mock-choices button').forEach(function (b) { b.classList.remove('is-selected'); b.setAttribute('aria-pressed', 'false'); }); choice.classList.add('is-selected'); choice.setAttribute('aria-pressed', 'true'); } if (lang) K.setLang(K.lang === 'bm' ? 'en' : 'bm');
   });
   $('#appScreenBack').addEventListener('click', function () { move(current - 1); });
   $('#appDots').addEventListener('click', function (e) { var b = e.target.closest('[data-app-dot]'); if (b) move(Number(b.getAttribute('data-app-dot'))); });

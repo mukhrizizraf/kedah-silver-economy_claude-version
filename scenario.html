@@ -9,11 +9,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&display=swap">
-<link rel="stylesheet" href="assets/css/kse.css?v=20261002j"><link rel="stylesheet" href="assets/css/kse-ios.css?v=20261002j">
-<script src="assets/js/kse-data.js?v=20261002j"></script>
+<link rel="stylesheet" href="assets/css/kse.css?v=20261003e"><link rel="stylesheet" href="assets/css/kse-ios.css?v=20261003e">
+<script src="assets/js/kse-data.js?v=20261003e"></script>
 </head>
 <body data-page="scenario">
-<script src="assets/js/kse-shell.js?v=20261002j"></script>
+<script src="assets/js/kse-shell.js?v=20261003e"></script>
 
 <main id="main">
   <section class="band pagehead">
@@ -35,48 +35,48 @@
       </details>
 
       <div class="case-modes" role="group" aria-label="Choose intake mode">
-        <button type="button" class="case-mode is-on" data-mode="guided">Guided intake</button>
-        <button type="button" class="case-mode" data-mode="quick">Quick demo</button>
+        <button type="button" class="case-mode is-on" data-mode="guided" data-i18n="modeGuided">Guided intake</button>
+        <button type="button" class="case-mode" data-mode="quick" data-i18n="modeQuick">Quick demo</button>
       </div>
 
       <div class="intake-wizard" id="intakeWizard">
         <div class="intake-progress"><span id="intakeStepLabel">Step 1 of 5</span><i id="intakeProgressBar" role="progressbar" aria-label="Intake progress" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" style="--v:20%"></i></div>
         <section class="intake-step is-active" data-step="1">
-          <p class="label label-paddy">About you</p><h2>How old are you?</h2><p class="intake-help">Choose an age range. You do not need to remember your exact date of birth.</p>
-          <div class="choice-grid" data-choice-group="ageBand"><button type="button" data-value="60-64">60-64</button><button type="button" data-value="65-69">65-69</button><button type="button" data-value="70-74">70-74</button><button type="button" data-value="75-79">75-79</button><button type="button" data-value="80-84">80-84</button><button type="button" data-value="85+">85 or older</button></div>
-          <h3>How should we record your gender?</h3><div class="choice-grid compact" data-choice-group="gender"><button type="button" data-value="woman">Woman</button><button type="button" data-value="man">Man</button><button type="button" data-value="prefer-not">Prefer not to say</button></div>
+          <p class="label label-paddy" data-i18n="wizAbout">About you</p><h2 data-i18n="wizAgeQ">How old are you?</h2><p class="intake-help" data-i18n="wizAgeHelp">Choose an age range. You do not need to remember your exact date of birth.</p>
+          <div class="choice-grid" data-choice-group="ageBand"><button type="button" data-value="60-64">60-64</button><button type="button" data-value="65-69">65-69</button><button type="button" data-value="70-74">70-74</button><button type="button" data-value="75-79">75-79</button><button type="button" data-value="80-84">80-84</button><button type="button" data-value="85+" data-i18n="wiz85">85 or older</button></div>
+          <h3 data-i18n="wizGenderQ">How should we record your gender?</h3><div class="choice-grid compact" data-choice-group="gender"><button type="button" data-value="woman" data-i18n="wizWoman">Woman</button><button type="button" data-value="man" data-i18n="wizMan">Man</button><button type="button" data-value="prefer-not" data-i18n="wizPreferNot">Prefer not to say</button></div>
         </section>
         <section class="intake-step" data-step="2">
-          <p class="label label-paddy">Where you live</p><h2>Which area in Kedah?</h2><p class="intake-help">Choose your district, then your nearest mukim or town.</p>
-          <div class="intake-fields"><label>District<select id="wizardDistrict"></select></label><label>Mukim / nearest area<select id="wizardMukim"></select></label></div>
+          <p class="label label-paddy" data-i18n="wizWhere">Where you live</p><h2 data-i18n="wizAreaQ">Which area in Kedah?</h2><p class="intake-help" data-i18n="wizAreaHelp">Choose your district, then your nearest mukim or town.</p>
+          <div class="intake-fields"><label><span data-i18n="wizDistrict">District</span><select id="wizardDistrict"></select></label><label><span data-i18n="wizMukim">Mukim / nearest area</span><select id="wizardMukim"></select></label></div>
         </section>
         <section class="intake-step" data-step="3">
-          <p class="label label-paddy">Daily life</p><h2>How do you manage day to day?</h2>
-          <div class="choice-grid" data-choice-group="persona"><button type="button" data-value="independent">🟢 I manage by myself</button><button type="button" data-value="vulnerable">🟡 I need some help</button><button type="button" data-value="highneed">🟠 I need regular help</button></div>
-          <h3>Who is available to help you?</h3><div class="choice-grid compact multi-choice" data-multi-group="support"><button type="button" data-value="alone">I live alone</button><button type="button" data-value="spouse">Spouse / partner</button><button type="button" data-value="children">Children nearby</button><button type="button" data-value="family">Other family</button><button type="button" data-value="neighbours">Friends / neighbours</button><button type="button" data-value="none">No regular help</button></div>
+          <p class="label label-paddy" data-i18n="wizDaily">Daily life</p><h2 data-i18n="wizManageQ">How do you manage day to day?</h2>
+          <div class="choice-grid" data-choice-group="persona"><button type="button" data-value="independent" data-i18n="wizIndependent">🟢 I manage by myself</button><button type="button" data-value="vulnerable" data-i18n="wizSomeHelp">🟡 I need some help</button><button type="button" data-value="highneed" data-i18n="wizRegularHelp">🟠 I need regular help</button></div>
+          <h3 data-i18n="wizWhoQ">Who is available to help you?</h3><div class="choice-grid compact multi-choice" data-multi-group="support"><button type="button" data-value="alone" data-i18n="wizLiveAlone">I live alone</button><button type="button" data-value="spouse" data-i18n="wizSpouse">Spouse / partner</button><button type="button" data-value="children" data-i18n="wizChildren">Children nearby</button><button type="button" data-value="family" data-i18n="wizOtherFamily">Other family</button><button type="button" data-value="neighbours" data-i18n="wizFriends">Friends / neighbours</button><button type="button" data-value="none" data-i18n="wizNoHelp">No regular help</button></div>
         </section>
         <section class="intake-step" data-step="4">
-          <p class="label label-paddy">Money and home</p><h2>What is your approximate monthly income?</h2>
-          <div class="choice-grid compact" data-choice-group="income"><button type="button" data-value="0">No regular income</button><button type="button" data-value="800">Below RM1,000</button><button type="button" data-value="1500">RM1,000–RM1,999</button><button type="button" data-value="2500">RM2,000–RM2,999</button><button type="button" data-value="3500">RM3,000–RM4,999</button><button type="button" data-value="5000">RM5,000 and above</button><button type="button" data-value="unknown">Prefer not to say</button></div>
-          <h3>Do you receive regular financial support?</h3><div class="choice-grid compact multi-choice" data-multi-group="financialSupport"><button type="button" data-value="pension">Pension</button><button type="button" data-value="welfare">Welfare assistance</button><button type="button" data-value="family">Children / family</button><button type="button" data-value="zakat">Zakat / Baitulmal</button><button type="button" data-value="none">No regular support</button></div>
-          <h3>Where do you live now?</h3><div class="choice-grid compact" data-choice-group="living"><button type="button" data-value="alone">Own home, alone</button><button type="button" data-value="spouse">With spouse</button><button type="button" data-value="family">With children / family</button><button type="button" data-value="care">Residential care</button></div>
+          <p class="label label-paddy" data-i18n="wizMoney">Money and home</p><h2 data-i18n="wizIncomeQ">What is your approximate monthly income?</h2>
+          <div class="choice-grid compact" data-choice-group="income"><button type="button" data-value="0" data-i18n="wizNoIncome">No regular income</button><button type="button" data-value="800" data-i18n="wizBelow1000">Below RM1,000</button><button type="button" data-value="1500">RM1,000–RM1,999</button><button type="button" data-value="2500">RM2,000–RM2,999</button><button type="button" data-value="3500">RM3,000–RM4,999</button><button type="button" data-value="5000" data-i18n="wiz5000">RM5,000 and above</button><button type="button" data-value="unknown" data-i18n="wizPreferNot">Prefer not to say</button></div>
+          <h3 data-i18n="wizFinQ">Do you receive regular financial support?</h3><div class="choice-grid compact multi-choice" data-multi-group="financialSupport"><button type="button" data-value="pension" data-i18n="wizPension">Pension</button><button type="button" data-value="welfare" data-i18n="wizWelfare">Welfare assistance</button><button type="button" data-value="family" data-i18n="wizChildFamily">Children / family</button><button type="button" data-value="zakat" data-i18n="wizZakat">Zakat / Baitulmal</button><button type="button" data-value="none" data-i18n="wizNoSupport">No regular support</button></div>
+          <h3 data-i18n="wizLivingQ">Where do you live now?</h3><div class="choice-grid compact" data-choice-group="living"><button type="button" data-value="alone" data-i18n="wizOwnAlone">Own home, alone</button><button type="button" data-value="spouse" data-i18n="wizWithSpouse">With spouse</button><button type="button" data-value="family" data-i18n="wizWithFamily">With children / family</button><button type="button" data-value="care" data-i18n="wizCareHome">Residential care</button></div>
         </section>
         <section class="intake-step" data-step="5">
-          <p class="label label-paddy">What you need</p><h2>What kind of help are you looking for?</h2><p class="intake-help">Select one or more. You can change this later.</p>
-          <div class="choice-grid compact multi-choice" data-multi-group="needs"><button type="button" data-value="companion">Someone to accompany me</button><button type="button" data-value="transport">Transport</button><button type="button" data-value="homecare">Help at home</button><button type="button" data-value="food">Food / daily necessities</button><button type="button" data-value="welfare">Financial / welfare help</button></div>
-          <h3>How soon do you need help?</h3><div class="choice-grid compact" data-choice-group="urgency"><button type="button" data-value="info">Just looking for information</button><button type="button" data-value="weeks">Within the next few weeks</button><button type="button" data-value="soon">I need help soon</button><button type="button" data-value="urgent">I need help urgently</button></div>
-          <label class="intake-note">Anything else you want us to know? <textarea id="wizardNote" rows="2" placeholder="Optional"></textarea></label>
+          <p class="label label-paddy" data-i18n="wizNeed">What you need</p><h2 data-i18n="wizNeedQ">What kind of help are you looking for?</h2><p class="intake-help" data-i18n="wizNeedHelp">Select one or more. You can change this later.</p>
+          <div class="choice-grid compact multi-choice" data-multi-group="needs"><button type="button" data-value="companion" data-i18n="wizAccompany">Someone to accompany me</button><button type="button" data-value="transport" data-i18n="wizTransport">Transport</button><button type="button" data-value="homecare" data-i18n="wizHomeHelp">Help at home</button><button type="button" data-value="food" data-i18n="wizFood">Food / daily necessities</button><button type="button" data-value="welfare" data-i18n="wizFinHelp">Financial / welfare help</button></div>
+          <h3 data-i18n="wizSoonQ">How soon do you need help?</h3><div class="choice-grid compact" data-choice-group="urgency"><button type="button" data-value="info" data-i18n="wizInfo">Just looking for information</button><button type="button" data-value="weeks" data-i18n="wizWeeks">Within the next few weeks</button><button type="button" data-value="soon" data-i18n="wizSoon">I need help soon</button><button type="button" data-value="urgent" data-i18n="wizUrgent">I need help urgently</button></div>
+          <label class="intake-note"><span data-i18n="wizNoteLabel">Anything else you want us to know?</span> <textarea id="wizardNote" rows="2" placeholder="Optional"></textarea></label>
         </section>
-        <div class="intake-actions"><button type="button" class="btn btn-quiet" id="intakeBack">Back</button><button type="button" class="btn btn-paddy" id="intakeNext">Next</button></div>
+        <div class="intake-actions"><button type="button" class="btn btn-quiet" id="intakeBack" data-i18n="wizBack">Back</button><button type="button" class="btn btn-paddy" id="intakeNext">Next</button></div>
       </div>
 
       <div class="presets quick-only"><span class="lbl" data-i18n="presetLabel">Simulated examples</span><span id="presetList" style="display:contents"></span></div>
 
       <div class="controls quick-only">
-        <div class="field"><label for="ageBand">Age range</label>
-          <div class="select"><select id="ageBand"><option value="60-64">60-64</option><option value="65-69">65-69</option><option value="70-74">70-74</option><option value="75-79">75-79</option><option value="80+">80 and above</option><option value="85+">85 and above</option></select></div></div>
-        <div class="field"><label for="gender">Gender</label>
-          <div class="select"><select id="gender"><option value="woman">Woman</option><option value="man">Man</option><option value="prefer-not">Prefer not to say</option></select></div></div>
+        <div class="field"><label for="ageBand" data-i18n="fAgeBand">Age range</label>
+          <div class="select"><select id="ageBand"><option value="60-64">60-64</option><option value="65-69">65-69</option><option value="70-74">70-74</option><option value="75-79">75-79</option><option value="80+" data-i18n="opt80">80 and above</option><option value="85+" data-i18n="opt85">85 and above</option></select></div></div>
+        <div class="field"><label for="gender" data-i18n="fGender">Gender</label>
+          <div class="select"><select id="gender"><option value="woman" data-i18n="wizWoman">Woman</option><option value="man" data-i18n="wizMan">Man</option><option value="prefer-not" data-i18n="wizPreferNot">Prefer not to say</option></select></div></div>
         <div class="field"><label for="persona" data-i18n="personaLabel">Person</label>
           <div class="select"><select id="persona">
             <option value="independent" data-i18n="pIndependent">Can manage alone</option>
@@ -87,7 +87,7 @@
           <div class="select"><select id="district">
             <option>Kubang Pasu</option><option selected>Kota Setar</option><option>Sungai Petani</option><option>Kulim</option><option>Baling</option><option>Langkawi</option><option>Padang Terap</option><option>Pokok Sena</option><option>Pendang</option><option>Sik</option><option>Yan</option><option>Bandar Baharu</option>
           </select></div></div>
-        <div class="field"><label for="mukim">Mukim / town</label>
+        <div class="field"><label for="mukim" data-i18n="fMukim">Mukim / town</label>
           <div class="select"><select id="mukim"></select></div></div>
         <div class="field"><span class="field-label" id="needsLabel" data-i18n="needLabel">Needs</span>
           <details class="multi-select" id="needPicker">
@@ -102,10 +102,10 @@
           </details>
           <input id="need" type="hidden" value="companion">
         </div>
-        <div class="field"><label for="living">Living arrangement</label>
-          <div class="select"><select id="living"><option value="alone">Lives alone</option><option value="spouse">With spouse</option><option value="family">With family</option><option value="care">Residential care</option></select></div></div>
+        <div class="field"><label for="living" data-i18n="fLiving">Living arrangement</label>
+          <div class="select"><select id="living"><option value="alone" data-i18n="optLivesAlone">Lives alone</option><option value="spouse" data-i18n="wizWithSpouse">With spouse</option><option value="family" data-i18n="optWithFamily">With family</option><option value="care" data-i18n="wizCareHome">Residential care</option></select></div></div>
         <div class="field"><label for="income" data-i18n="incomeLabel">Household income a month</label>
-          <div class="select"><select id="income"><option value="0">No regular income</option><option value="800">Below RM1,000</option><option value="1500">RM1,000–RM1,999</option><option value="2500">RM2,000–RM2,999</option><option value="3500" selected>RM3,000–RM4,999</option><option value="5000">RM5,000 and above</option><option value="unknown">Prefer not to say</option></select></div></div>
+          <div class="select"><select id="income"><option value="0" data-i18n="wizNoIncome">No regular income</option><option value="800" data-i18n="wizBelow1000">Below RM1,000</option><option value="1500">RM1,000–RM1,999</option><option value="2500">RM2,000–RM2,999</option><option value="3500" selected>RM3,000–RM4,999</option><option value="5000" data-i18n="wiz5000">RM5,000 and above</option><option value="unknown" data-i18n="wizPreferNot">Prefer not to say</option></select></div></div>
       </div>
       <p class="case-context" id="caseContext" aria-live="polite"></p>
       <div class="case-record" aria-labelledby="caseRecordTitle">
@@ -174,11 +174,11 @@
   </div>
 </main>
 
-<script src="assets/vendor/lottie_light.min.js"></script><script src="assets/js/kse-lottie.js?v=20261002j"></script><script src="assets/js/kse-viz.js?v=20261002j"></script>
+<script src="assets/vendor/lottie_light.min.js"></script><script src="assets/js/kse-lottie.js?v=20261003e"></script><script src="assets/js/kse-viz.js?v=20261003e"></script>
 
 <script src="assets/js/kse-route-lottie.js"></script>
-<script src="assets/js/kse-case-engine.js?v=20261002j"></script>
-<script src="assets/js/kse-pages.js?v=20261002j"></script>
+<script src="assets/js/kse-case-engine.js?v=20261003e"></script>
+<script src="assets/js/kse-pages.js?v=20261003e"></script>
 </body>
 </html>
 
