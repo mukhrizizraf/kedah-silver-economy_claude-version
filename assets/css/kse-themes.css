@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Looks: eight colour and type themes for the whole site, with Malay names.
+   Chosen from the round palette button at the top right (kse-shell.js) and
+   kept in localStorage as kse-look. Padi is the default and still follows
+   the light / dark switch; the others are fixed. No blue anywhere: the
+   owner rejected it. Fonts load only when their look is chosen.
+   ========================================================================== */
+
+/* ---------- Songket: cream, songket red and gold ---------- */
+:root:root[data-look="songket"]{
+  color-scheme:light;
+  --display:"Young Serif",Georgia,serif;--sans:"Lexend",system-ui,sans-serif;--ui:"Lexend",system-ui,sans-serif;
+  --bg:#f6efdf;--pillar:#efe4cc;--surface:#fffaf0;--surface-2:#f4ead5;--sunk:#eadcc0;--side:#f1e6cf;
+  --ink:#2a1410;--ink-2:#4a2a22;--muted:#7a5646;--line:#dfcdae;--line-2:#ece0c8;
+  --paddy:#8c1a2b;--paddy-ink:#7a1526;--paddy-soft:#f5dfdb;--on-paddy:#fff8ec;
+  --gold:#a8771f;--gold-ink:#8a6114;--gold-soft:#f6e8c8;--on-gold:#fff8ec;
+  --night:#3a0d16;--night-2:#7a1526;--on-night:#fff8ec;--night-muted:#ebc9bf;--night-line:rgba(255,248,236,.18);
+  --good:#4e7d22;--good-ink:#3b6118;--good-soft:#e4efd6;--warn:#b8740c;--warn-ink:#7a4c06;--warn-soft:#f8e8cc;
+  --neutral:#9a8a76;--neutral-ink:#5c4e40;--neutral-soft:#efe5d4;
+  --tip-bg:#fffaf0;--tip-ink:#2a1410;--tip-muted:#7a5646;
+  --bar:rgba(246,239,223,.84);--focus:#8c1a2b;--scrim:rgba(42,20,16,.3);
+}
+/* ---------- Malam: a warm night, lamp amber ---------- */
+:root:root[data-look="malam"]{
+  color-scheme:dark;
+  --display:"Literata",Georgia,serif;--sans:"Lexend",system-ui,sans-serif;--ui:"Lexend",system-ui,sans-serif;
+  --bg:#15130e;--pillar:#1a1812;--surface:#221f17;--surface-2:#2a261c;--sunk:#332e22;--side:#17150f;
+  --ink:#f5ecd8;--ink-2:#e3d7be;--muted:#bba98a;--line:#3f382a;--line-2:#2d281d;
+  --paddy:#e2b866;--paddy-ink:#eec97f;--paddy-soft:#3b3018;--on-paddy:#1e1708;
+  --gold:#e2b866;--gold-ink:#eec97f;--gold-soft:#3b3018;--on-gold:#1e1708;
+  --night:#0d0b07;--night-2:#3b3018;--on-night:#f5ecd8;--night-muted:#c9b99a;--night-line:rgba(245,236,216,.16);
+  --good:#9cc65f;--good-ink:#b3d67c;--good-soft:#25321a;--warn:#e8a93c;--warn-ink:#f2c463;--warn-soft:#3b2d14;
+  --neutral:#8e8571;--neutral-ink:#d3c9b3;--neutral-soft:#2c271d;
+  --tip-bg:#2a261c;--tip-ink:#f5ecd8;--tip-muted:#c9b99a;
+  --bar:rgba(21,19,14,.84);--focus:#e2b866;--scrim:rgba(0,0,0,.6);
+  --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 30px -14px rgba(0,0,0,.7);--lift:0 2px 6px rgba(0,0,0,.45),0 22px 48px -22px rgba(0,0,0,.85);
+}
+/* ---------- Jelas: large, plain, high contrast for weaker eyes ---------- */
+:root:root[data-look="jelas"]{
+  color-scheme:light;font-size:112.5%;
+  --display:"Atkinson Hyperlegible",system-ui,sans-serif;--sans:"Atkinson Hyperlegible",system-ui,sans-serif;--ui:"Atkinson Hyperlegible",system-ui,sans-serif;
+  --bg:#ffffff;--pillar:#ffffff;--surface:#ffffff;--surface-2:#f1f1f1;--sunk:#e6e6e6;--side:#f6f6f6;
+  --ink:#000000;--ink-2:#111111;--muted:#2f2f2f;--line:#4a4a4a;--line-2:#8a8a8a;
+  --paddy:#0f4d1a;--paddy-ink:#0b3d14;--paddy-soft:#dcefdc;--on-paddy:#ffffff;
+  --gold:#5a3c00;--gold-ink:#4a3200;--gold-soft:#f3e7cc;--on-gold:#fff;
+  --night:#000;--night-2:#1c1c1c;--on-night:#fff;--night-muted:#ddd;--night-line:rgba(255,255,255,.3);
+  --good:#1d6b1d;--good-ink:#124a12;--good-soft:#dcefdc;--warn:#8a5200;--warn-ink:#5e3800;--warn-soft:#f6e6c8;
+  --neutral:#555;--neutral-ink:#222;--neutral-soft:#ececec;
+  --tip-bg:#fff;--tip-ink:#000;--tip-muted:#222;
+  --bar:rgba(255,255,255,.95);--focus:#000000;
+}
+:root[data-look="jelas"] h1,:root[data-look="jelas"] h2,:root[data-look="jelas"] .tc-title{font-weight:700!important}
+:root[data-look="jelas"] :focus-visible{outline:4px solid #000;outline-offset:3px;box-shadow:0 0 0 7px #ffd400}
+/* ---------- Diraja: royal yellow and black, the colour of the Malay courts ---------- */
+:root:root[data-look="diraja"]{
+  color-scheme:light;
+  --display:"Cinzel",Georgia,serif;--sans:"Mulish",system-ui,sans-serif;--ui:"Mulish",system-ui,sans-serif;
+  --bg:#fff6cf;--pillar:#fbeeb4;--surface:#fffcef;--surface-2:#fdf1c2;--sunk:#f6e39a;--side:#fdf0bc;
+  --ink:#141008;--ink-2:#2e2614;--muted:#5e5230;--line:#e8d482;--line-2:#f3e4a6;
+  --paddy:#141008;--paddy-ink:#141008;--paddy-soft:#f6df7a;--on-paddy:#ffd23f;
+  --gold:#a27600;--gold-ink:#7a5900;--gold-soft:#fae9a8;--on-gold:#141008;
+  --night:#141008;--night-2:#3a2e0a;--on-night:#ffd23f;--night-muted:#f1df9e;--night-line:rgba(255,210,63,.2);
+  --good:#3d6b14;--good-ink:#2c510c;--good-soft:#e6efc8;--warn:#b25d00;--warn-ink:#7a3f00;--warn-soft:#fbe0b8;
+  --neutral:#8d8360;--neutral-ink:#4a4228;--neutral-soft:#f6ecc4;
+  --tip-bg:#fffcef;--tip-ink:#141008;--tip-muted:#5e5230;
+  --bar:rgba(255,246,207,.88);--focus:#141008;
+}
+:root[data-look="diraja"] h1,:root[data-look="diraja"] h2,:root[data-look="diraja"] .tc-title{font-weight:600!important;letter-spacing:.01em}
+:root[data-look="diraja"] .pagehead h1{font-size:clamp(34px,4vw,60px)!important}
+/* ---------- Teratai: lotus pink and deep plum ---------- */
+:root:root[data-look="teratai"]{
+  color-scheme:light;
+  --display:"Marcellus",Georgia,serif;--sans:"Nunito Sans",system-ui,sans-serif;--ui:"Nunito Sans",system-ui,sans-serif;
+  --bg:#fbf0f1;--pillar:#f6e3e6;--surface:#fffafa;--surface-2:#f8e9ec;--sunk:#f0d9de;--side:#f8e9ec;
+  --ink:#2e1424;--ink-2:#4c2a3d;--muted:#7d5a6b;--line:#ebcfd6;--line-2:#f3e0e5;
+  --paddy:#8e2f5f;--paddy-ink:#76244e;--paddy-soft:#f6dce8;--on-paddy:#fff6f9;
+  --gold:#a0662a;--gold-ink:#7f4f1d;--gold-soft:#f7e5d0;--on-gold:#fff;
+  --night:#3a1230;--night-2:#8e2f5f;--on-night:#fff6f9;--night-muted:#ecc6d6;--night-line:rgba(255,246,249,.18);
+  --good:#4e7d22;--good-ink:#3b6118;--good-soft:#e4efd6;--warn:#b8740c;--warn-ink:#7a4c06;--warn-soft:#f8e8cc;
+  --neutral:#9c8590;--neutral-ink:#5c4652;--neutral-soft:#f2e6ea;
+  --tip-bg:#fffafa;--tip-ink:#2e1424;--tip-muted:#7d5a6b;
+  --bar:rgba(251,240,241,.86);--focus:#8e2f5f;
+}
+/* ---------- Kayu Jati: warm teak wood and cream ---------- */
+:root:root[data-look="jati"]{
+  color-scheme:light;
+  --display:"Bitter",Georgia,serif;--sans:"Source Sans 3",system-ui,sans-serif;--ui:"Source Sans 3",system-ui,sans-serif;
+  --bg:#f3ebdf;--pillar:#ebe0cf;--surface:#fdf8f0;--surface-2:#f1e7d8;--sunk:#e6d8c3;--side:#efe5d5;
+  --ink:#2b1d12;--ink-2:#4a3424;--muted:#7a6250;--line:#dccbb3;--line-2:#ebdfcd;
+  --paddy:#7a4a24;--paddy-ink:#653b1a;--paddy-soft:#f0e0cc;--on-paddy:#fffaf2;
+  --gold:#9c7a1e;--gold-ink:#7c6014;--gold-soft:#f3e8c6;--on-gold:#fff;
+  --night:#2b1a0e;--night-2:#7a4a24;--on-night:#fffaf2;--night-muted:#e5cdb4;--night-line:rgba(255,250,242,.18);
+  --good:#4e7d22;--good-ink:#3b6118;--good-soft:#e4efd6;--warn:#b8740c;--warn-ink:#7a4c06;--warn-soft:#f8e8cc;
+  --neutral:#9a8a76;--neutral-ink:#5c4e40;--neutral-soft:#efe5d4;
+  --tip-bg:#fdf8f0;--tip-ink:#2b1d12;--tip-muted:#7a6250;
+  --bar:rgba(243,235,223,.86);--focus:#7a4a24;
+}
+:root[data-look="jati"] h1,:root[data-look="jati"] h2{font-weight:500;letter-spacing:-.02em}
+
+/* ---------- Wau: a kite over the paddy, bright orange on white, round and playful ---------- */
+:root:root[data-look="wau"]{
+  color-scheme:light;
+  --display:"Baloo 2",system-ui,sans-serif;--sans:"Nunito",system-ui,sans-serif;--ui:"Nunito",system-ui,sans-serif;
+  --bg:#fffaf4;--pillar:#ffefdd;--surface:#ffffff;--surface-2:#fff1e2;--sunk:#ffe2c4;--side:#fff3e6;
+  --ink:#2a1606;--ink-2:#4a2c12;--muted:#7a5638;--line:#f6d3ae;--line-2:#fbe6cf;
+  --paddy:#e8650c;--paddy-ink:#b84d04;--paddy-soft:#ffe3cc;--on-paddy:#ffffff;
+  --gold:#e0a400;--gold-ink:#8a6200;--gold-soft:#fff0bf;--on-gold:#2a1606;
+  --night:#5a2300;--night-2:#e8650c;--on-night:#fffaf4;--night-muted:#ffd8b8;--night-line:rgba(255,250,244,.22);
+  --good:#2f8a3a;--good-ink:#1f6a29;--good-soft:#ddf3df;--warn:#c4542a;--warn-ink:#8a3214;--warn-soft:#ffe0d2;
+  --neutral:#a08a78;--neutral-ink:#5a4636;--neutral-soft:#f6ece2;
+  --tip-bg:#fff;--tip-ink:#2a1606;--tip-muted:#7a5638;
+  --bar:rgba(255,250,244,.88);--focus:#e8650c;--r:28px;
+}
+:root[data-look="wau"] h1,:root[data-look="wau"] h2,:root[data-look="wau"] .tc-title{font-weight:700!important;letter-spacing:-.015em}
+:root[data-look="wau"] .tc-tile,:root[data-look="wau"] .card,:root[data-look="wau"] .tc-line{border-radius:26px}
+
+/* the one dark surface per page follows the look (it is navy only in Padi) */
+:root[data-look]:not([data-look="padi"]) :is(.engine,.cov,.verdict){background:radial-gradient(130% 100% at 30% 0%,var(--night-2),var(--night) 72%)!important}
+:root[data-look]:not([data-look="padi"]) .tile{--tile:color-mix(in srgb,var(--paddy) 70%,var(--ink))}
+/* light / dark only means something in Padi */
+:root[data-look]:not([data-look="padi"]) #themeBtn{display:none}
+
+/* ---------- The palette button and its menu ---------- */
+.look{position:relative}
+.look-btn{display:grid;place-items:center;width:40px;height:40px;padding:0;border:0;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 .5px var(--line),0 2px 8px -4px rgba(0,0,0,.3);cursor:pointer;transition:transform .35s var(--ease)}
+.look-btn:hover{transform:rotate(-18deg) scale(1.06)}
+.look-btn[aria-expanded="true"]{transform:rotate(-90deg)}
+.look-dot{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.look-menu{position:absolute;right:0;top:calc(100% + 10px);z-index:60;width:min(320px,calc(100vw - 24px));padding:10px;border-radius:24px;background:var(--surface);box-shadow:var(--lift),inset 0 0 0 .5px var(--line);transform-origin:calc(100% - 20px) -10px;animation:look-open .38s var(--push) both}
+.look-menu[hidden]{display:none}
+@keyframes look-open{from{opacity:0;transform:scale(.6) translateY(-8px);border-radius:50%}}
+.look-menu h2{margin:4px 8px 8px;font:600 15px var(--ui);color:var(--muted)}
+.look-list{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0;padding:0;list-style:none}
+.look-opt{display:flex;align-items:center;gap:10px;width:100%;min-height:58px;padding:8px 10px;border:0;border-radius:16px;background:none;text-align:left;color:var(--ink);cursor:pointer;animation:look-item .4s var(--ease) both;animation-delay:calc(var(--i) * 35ms)}
+@keyframes look-item{from{opacity:0;transform:translateY(8px) scale(.94)}}
+.look-opt:hover{background:var(--surface-2)}
+.look-opt[aria-checked="true"]{background:var(--paddy-soft);box-shadow:inset 0 0 0 2px var(--paddy)}
+.look-opt .look-dot{flex:none;width:30px;height:30px}
+.look-opt b{display:block;font:600 15.5px/1.2 var(--ui)}
+.look-opt small{display:block;font-size:12.5px;line-height:1.3;color:var(--muted)}
+.look-padi{background:conic-gradient(#f4f3eb 0 50%,#525c2f 0)}
+.look-songket{background:conic-gradient(#f6efdf 0 50%,#8c1a2b 0 75%,#d9ad4f 0)}
+.look-malam{background:conic-gradient(#15130e 0 50%,#e2b866 0)}
+.look-jelas{background:conic-gradient(#fff 0 50%,#000 0)}
+.look-diraja{background:conic-gradient(#fff6cf 0 50%,#141008 0 75%,#ffd23f 0)}
+.look-wau{background:conic-gradient(#fffaf4 0 40%,#e8650c 0 70%,#e0a400 0 85%,#2f8a3a 0)}
+.look-teratai{background:conic-gradient(#fbf0f1 0 50%,#8e2f5f 0)}
+.look-jati{background:conic-gradient(#f3ebdf 0 50%,#7a4a24 0)}
+@media (prefers-reduced-motion:reduce){.look-menu,.look-opt{animation:none}.look-btn,.look-btn[aria-expanded="true"],.look-btn:hover{transform:none}}
+@media (max-width:430px){.look-menu{position:fixed;right:12px;top:calc(var(--nav-h) + 6px)}}

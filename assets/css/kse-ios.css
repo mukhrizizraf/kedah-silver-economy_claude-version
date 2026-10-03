@@ -1052,3 +1052,40 @@ body[data-page="network"] .data-table th:nth-child(5){width:18%}
   .nav-title{left:60px;max-width:calc(100vw - 60px - 176px);transform:translateY(6px);text-align:left}
   .title-tucked .nav-title{transform:none}
 }
+
+/* ---------- Our Silver App mock: the Try a case flow on a phone ---------- */
+.mock-ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mock-choices.mock-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mock-choices.mock-grid button{flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;min-height:64px;padding:10px 12px}
+.mock-choices.mock-grid button::before{position:absolute;top:10px;right:10px}
+.mock-choices button{position:relative}
+.mock-sug{margin-left:auto;padding:2px 8px;border-radius:999px;background:var(--warn-soft);font:600 11.5px var(--ui);font-style:normal;color:var(--warn-ink)}
+.mock-need{display:grid;gap:6px;margin:6px 0 10px}
+.mock-need b{font:600 15px var(--ui);color:var(--ink)}
+.mock-choices.mock-pills{display:flex;flex-wrap:wrap;gap:6px}
+.mock-choices.mock-pills button{min-height:40px;padding:0 14px;border-radius:999px;font-size:14px}
+.mock-choices.mock-pills button::before{display:none}
+.mock-choices.mock-pills button.is-selected{background:var(--paddy);color:var(--on-paddy);box-shadow:none}
+.mock-plan{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin:4px 0 10px;padding:14px;border-radius:18px;background:var(--paddy);color:var(--on-paddy)}
+.mock-plan h3,.mock-plan p{margin:0;color:var(--on-paddy)}
+.mock-plan h3{font-size:19px;margin-bottom:4px}
+.mock-ring{display:grid;place-items:center;align-content:center;width:84px;height:84px;border-radius:50%;box-shadow:inset 0 0 0 6px color-mix(in srgb,var(--on-paddy) 85%,transparent);text-align:center;font:500 0/1 var(--ui)}
+.mock-ring b{font:400 30px/1 var(--display)}
+.mock-ring small{font-size:14px;opacity:.8}
+.mock-note{padding:10px 12px;border-radius:14px;background:var(--paddy-soft);font:500 14px var(--ui);color:var(--ink)}
+.mock-contact{display:grid;gap:3px;margin-bottom:8px}
+.mock-contact img{width:100%;height:120px;object-fit:cover;border-radius:14px;margin-bottom:6px}
+.mock-contact b{font:600 17px var(--ui);color:var(--ink)}
+.mock-contact small{display:flex;align-items:center;gap:4px;font-size:13.5px;color:var(--muted)}
+.mock-contact small .mock-ic{width:15px;height:15px}
+.mock-covers{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 0}
+.mock-covers span{padding:3px 9px;border-radius:999px;background:var(--paddy-soft);font:600 12.5px var(--ui);color:var(--paddy-ink)}
+.mock-link{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.mock-phone-note{display:flex;align-items:center;gap:8px;margin:6px 0;padding:8px 10px;border:1.5px dashed var(--line);border-radius:12px;font:500 12.5px/1.3 var(--ui);color:var(--muted)}
+.mock-route{display:grid;gap:8px;margin:6px 0 12px;padding:0;list-style:none;counter-reset:stop}
+.mock-route li{position:relative;display:grid;padding:8px 10px 8px 42px;border-radius:14px;background:var(--surface-2);counter-increment:stop}
+.mock-route li::before{content:counter(stop);position:absolute;left:10px;top:50%;display:grid;place-items:center;width:24px;height:24px;margin-top:-12px;border-radius:50%;background:var(--paddy);color:var(--on-paddy);font:700 13px var(--ui)}
+.mock-route b{font:600 14.5px var(--ui);color:var(--ink)}
+.mock-route small{font-size:12.5px;color:var(--muted)}
+.mock-actions{display:grid;gap:8px;margin:6px 0 12px}
+.mock-actions button{display:flex;align-items:center;gap:10px;min-height:50px;padding:0 14px;border:0;border-radius:14px;background:var(--surface-2);font:600 15px var(--ui);color:var(--ink);text-align:left}

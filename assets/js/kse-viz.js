@@ -47,12 +47,14 @@ V.constellation = function (svg, legend, intro) {
   K.statusOrder.forEach(function (s) {
     ringLabels += '<text class="ring-label" x="0" y="' + (-K.status[s].ring - 5) + '" text-anchor="middle">' + K.esc(K.L(K.status[s]).toUpperCase()) + '</text>';
   });
-  /* The hub is the person the network is meant to serve: a round portrait
-     clipped to it, like the Me pin in Find My. K.elderArt can override it. */
+  /* The hub is the person the network is meant to serve: the makcik, head to
+     toe, standing in a round-topped arch like the pillars behind the site.
+     K.elderArt can override her. */
   var elderSrc = K.elderArt || 'assets/img/map-elder.webp';
-  var elder = '<clipPath id="elderClip"><circle r="31"/></clipPath>' +
-    '<image href="' + elderSrc + '" x="-31" y="-31" width="62" height="62" clip-path="url(#elderClip)" preserveAspectRatio="xMidYMid slice"/>';
-  var core = '<circle class="halo" r="48"/><circle class="core" r="34"/>' +
+  var ARCH = 'M-27 36V-24A27 27 0 0 1 27 -24V36Z';
+  var elder = '<clipPath id="elderClip"><path d="' + ARCH + '"/></clipPath>' +
+    '<image href="' + elderSrc + '" x="-27" y="-51" width="54" height="87" clip-path="url(#elderClip)" preserveAspectRatio="xMidYMid slice"/>';
+  var core = '<path class="halo" d="M-40 46V-24A40 40 0 0 1 40 -24V46Z"/><path class="core" d="M-30 39V-24A30 30 0 0 1 30 -24V39Z"/>' +
     '<a class="elder-link" href="scenario.html" tabindex="0" aria-label="' + K.esc(K.T('Try a case for one older person', 'Cuba satu kes untuk seorang warga emas')) + '">' +
     '<g class="elder-avatar">' + elder + '</g></a>';
   svg.innerHTML = rings + dividers + links + core + nodes + labels + ringLabels;
