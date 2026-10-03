@@ -51,10 +51,8 @@ V.constellation = function (svg, legend, intro) {
      toe, standing in a round-topped arch like the pillars behind the site.
      K.elderArt can override her. */
   var elderSrc = K.elderArt || 'assets/img/map-elder.webp';
-  var ARCH = 'M-27 36V-24A27 27 0 0 1 27 -24V36Z';
-  var elder = '<clipPath id="elderClip"><path d="' + ARCH + '"/></clipPath>' +
-    '<image href="' + elderSrc + '" x="-27" y="-51" width="54" height="87" clip-path="url(#elderClip)" preserveAspectRatio="xMidYMid slice"/>';
-  var core = '<path class="halo" d="M-40 46V-24A40 40 0 0 1 40 -24V46Z"/><path class="core" d="M-30 39V-24A30 30 0 0 1 30 -24V39Z"/>' +
+  var elder = '<image href="' + elderSrc + '" x="-17" y="-47" width="34" height="90" preserveAspectRatio="xMidYMid meet"/>';
+  var core = '<circle class="halo" r="48"/><circle class="core" r="34"/>' +
     '<a class="elder-link" href="scenario.html" tabindex="0" aria-label="' + K.esc(K.T('Try a case for one older person', 'Cuba satu kes untuk seorang warga emas')) + '">' +
     '<g class="elder-avatar">' + elder + '</g></a>';
   svg.innerHTML = rings + dividers + links + core + nodes + labels + ringLabels;
