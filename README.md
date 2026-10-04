@@ -18,6 +18,9 @@ and gives them a new look and feel:
 - **Colour and type:** warm milk ground with a quiet colonnade of round-topped
   pillars, Instrument Serif large titles, SF Pro (Inter off Apple devices), one
   olive tint and one midnight surface. Dark mode is a deep olive.
+- **Eight looks:** a round palette button at the top right switches the
+  colours and fonts of the whole site: Padi, Songket, Diraja, Teratai,
+  Kayu Jati, Wau, Malam and Jelas (large, high contrast).
 - **Lottie:** small self-hosted animations (a "help nearby" pulse, the iOS
   spinner for slow pages, a success tick).
 - **Light weight:** images and scripts load fast on a weak connection.
@@ -41,6 +44,10 @@ static server. The page transitions need http(s) (they do not run from
 
 - The organisation list is a sample. Only records marked Confirmed are backed
   by a source.
-- The "Try a case" component is the project's own work and the blueprint for a
-  future iOS and Android app. Its logic is unchanged from the main version:
-  the same inputs give the same case ID in both versions.
+- "Try a case" is the project's own work and the blueprint for a future iOS
+  and Android app. One question per screen, for the older person or a helper;
+  every answer joins one case, and the case becomes one assistance plan with
+  possible matches, reasons, contact cards that open in Google Maps, one trip
+  for all visits, a read-aloud option, sharing with family and a follow-up
+  reminder. What each organisation can offer is sample data until Phase 1
+  checks it; the plan never promises help or decides who qualifies.
