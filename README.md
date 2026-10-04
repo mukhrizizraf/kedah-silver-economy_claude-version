@@ -49,5 +49,9 @@ static server. The page transitions need http(s) (they do not run from
   every answer joins one case, and the case becomes one assistance plan with
   possible matches, reasons, contact cards that open in Google Maps, one trip
   for all visits, a read-aloud option, sharing with family and a follow-up
-  reminder. What each organisation can offer is sample data until Phase 1
-  checks it; the plan never promises help or decides who qualifies.
+  reminder. "Get ready to apply" shows which LZNK, MAIK and JKM schemes may
+  fit and why, one shared checklist of papers to bring, where to apply, and a
+  printable form summary (personal details are left blank to write by hand).
+  What each organisation can offer is sample data until Phase 1 checks it;
+  scheme rules come from the agencies' public pages (checked October 2026).
+  The plan never promises help or decides who qualifies.

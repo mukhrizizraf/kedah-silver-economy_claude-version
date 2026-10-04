@@ -1,5 +1,5 @@
 /* ============================================================================
-   Kedah Silver Economy: Try a case, rules version 2026.10.03
+   Kedah Silver Economy: Try a case, rules version 2026.10.04
    The assistance model and the matching engine. No DOM work here, so the same
    state shape and rules can move to SwiftUI and Android Compose unchanged.
 
@@ -12,7 +12,7 @@
 (function (K) {
 'use strict';
 
-var VERSION = '2026.10.03';
+var VERSION = '2026.10.04';
 function t(en, bm) { return { en: en, bm: bm }; }
 
 /* ---------- The person and their situation ---------- */
@@ -166,6 +166,61 @@ A.providers = [
   { p: 'Volunteer Pool', it: ['visits', 'checkins', 'escort', 'groceries', 'pharmacy', 'cleaning', 'digital', 'repairs'], m: ['service'], cost: 'free', speed: 'days', scope: 'district' }
 ];
 
+/* ---------- What the aid forms ask (LZNK, MAIK Baitulmal, JKM) ----------
+   From the agencies' public pages, checked October 2026. The plan only says
+   "likely fits", "needs a check" or "may not fit"; the agency decides. */
+A.muslims = { yes: t('Yes', 'Ya'), no: t('No', 'Tidak'), 'prefer-not': t('Prefer not to say', 'Tidak mahu nyatakan') };
+A.yesNo = { yes: t('Yes', 'Ya'), no: t('No', 'Tidak'), unsure: t('Not sure', 'Tidak pasti') };
+A.kedahYears = { lt1: t('Under 1 year', 'Kurang 1 tahun'), '1to5': t('1 to 5 years', '1 hingga 5 tahun'), gt5: t('More than 5 years', 'Lebih 5 tahun'), unsure: t('Not sure', 'Tidak pasti') };
+A.households = ['1', '2', '3', '4', '5', '6+'];
+A.earners = { '0': t('None', 'Tiada'), '1': t('1 person', '1 orang'), '2': t('2 people', '2 orang'), '3+': t('3 or more', '3 atau lebih') };
+A.houses = { own: t('Own house', 'Rumah sendiri'), rent: t('Rented', 'Sewa'), family: t("Family's house", 'Rumah keluarga'), other: t('Other', 'Lain-lain') };
+A.chronics = {
+  diabetes: t('Diabetes', 'Kencing manis'), pressure: t('High blood pressure', 'Darah tinggi'), heart: t('Heart disease', 'Sakit jantung'),
+  stroke: t('Stroke', 'Strok'), kidney: t('Kidney failure or dialysis', 'Buah pinggang atau dialisis'), cancer: t('Cancer', 'Kanser'),
+  dementia: t('Dementia', 'Demensia'), other: t('Other', 'Lain-lain'), none: t('None', 'Tiada')
+};
+A.okus = { yes: t('Has an OKU card', 'Ada kad OKU'), applying: t('Applying for one', 'Sedang memohon'), no: t('No', 'Tidak'), unsure: t('Not sure', 'Tidak pasti') };
+A.costs = { rent: t('Rent', 'Sewa rumah'), utilities: t('Electricity and water', 'Elektrik dan air'), medicine: t('Medicine', 'Ubat'), transport: t('Transport to hospital', 'Pengangkutan ke hospital'), carer: t('Paid carer', 'Penjaga berbayar'), none: t('None of these', 'Tiada') };
+A.onlines = { self: t('Online, by myself', 'Dalam talian, sendiri'), helper: t('Online, with a helper', 'Dalam talian, dengan bantuan'), counter: t('At the counter', 'Di kaunter') };
+
+/* documents: one list, so a paper ticked once counts for every form */
+A.docs = {
+  ic: { l: t('MyKad of the person (copy, front and back)', 'MyKad pemohon (salinan depan dan belakang)'), w: t('Any photocopy shop.', 'Mana-mana kedai fotostat.') },
+  icHousehold: { l: t('MyKad or birth certificate of everyone at home', 'MyKad atau sijil lahir semua ahli isi rumah'), w: t('A copy for each person living together.', 'Satu salinan untuk setiap orang yang tinggal bersama.') },
+  address: { l: t('Proof of address (electricity or water bill)', 'Bukti alamat (bil elektrik atau air)'), w: t('A recent TNB or SADA bill for this address.', 'Bil TNB atau SADA terkini untuk alamat ini.') },
+  civil: { l: t('Marriage, divorce or spouse death certificate (if any)', 'Sijil nikah, cerai atau kematian pasangan (jika ada)'), w: t('From your own papers; ask the religious office or JPN if lost.', 'Daripada simpanan sendiri; tanya pejabat agama atau JPN jika hilang.') },
+  income: { l: t('Proof of income (payslip, pension slip or income form)', 'Bukti pendapatan (slip gaji, slip pencen atau borang pendapatan)'), w: t('Ask the office for its income form (Borang Pengesahan Pendapatan).', 'Minta borang pendapatan daripada pejabat (Borang Pengesahan Pendapatan).') },
+  medical: { l: t('Medical report from a government hospital or clinic (if any)', 'Laporan perubatan hospital atau klinik kerajaan (jika ada)'), w: t('Ask where the person is treated.', 'Tanya di tempat rawatan.') },
+  bank: { l: t('Bank account statement in the person\'s name', 'Penyata akaun bank atas nama pemohon'), w: t('From the bank or its app. Aid is paid into it.', 'Daripada bank atau aplikasinya. Bantuan dibayar ke akaun ini.') },
+  imam: { l: t('Form stamped by the Imam or mosque committee', 'Borang disahkan dan dicop oleh Imam atau Jawatankuasa Kariah'), w: t('The masjid in your kariah.', 'Masjid di kariah anda.') },
+  govDoctor: { l: t('Form stamped by a government medical officer', 'Borang disahkan oleh Pegawai Perubatan Kerajaan'), w: t('Bring the form to the hospital or clinic.', 'Bawa borang ke hospital atau klinik.') },
+  photo: { l: t('A recent photo of the person', 'Gambar terkini pemohon'), w: t('Any clear recent photo.', 'Mana-mana gambar terkini yang jelas.') },
+  quote: { l: t('Price quotation for the equipment', 'Sebut harga peralatan'), w: t('Ask a medical supply shop for a written quote.', 'Minta sebut harga bertulis daripada kedai alat perubatan.') },
+  doctorRec: { l: t('Recommendation from a doctor or JKM officer', 'Syor daripada doktor atau pegawai JKM'), w: t('Ask the doctor or therapist who sees the person.', 'Tanya doktor atau ahli terapi yang merawat.') }
+};
+var MEDICAL_ITEMS = ['oxyCylinder', 'oxyConcentrator', 'nebuliser', 'suction', 'monitor', 'oximeter', 'hospitalBed', 'mattress', 'hoist', 'medBills', 'equipFund', 'dialysis', 'catheter', 'wound'];
+var MONEY_ITEMS = ['monthlyAid', 'zakatAid', 'emergencyCash', 'utilities', 'foodBasket', 'essentials', 'medBills', 'equipFund'];
+A.schemes = [
+  { k: 'lznk', agency: 'LZNK', l: t('Zakat aid for the poor and needy', 'Bantuan zakat fakir dan miskin'), by: 'Lembaga Zakat Negeri Kedah',
+    items: MONEY_ITEMS, docs: ['ic', 'icHousehold', 'address', 'civil', 'income', 'medical'],
+    online: 'https://agihan.zakatkedah.com.my/', office: 'Lembaga Zakat Negeri Kedah', counter: t('An LZNK office', 'Pejabat LZNK'), source: 'https://agihan.zakatkedah.com.my/' },
+  { k: 'maikAm', agency: 'MAIK', l: t('Baitulmal general aid (Bantuan Am)', 'Bantuan Am Baitulmal'), by: 'Majlis Agama Islam Negeri Kedah',
+    items: ['monthlyAid', 'zakatAid', 'emergencyCash', 'utilities', 'foodBasket', 'essentials'], docs: ['ic', 'income', 'civil', 'bank', 'imam'],
+    online: '', office: 'Pejabat Agama Islam Daerah', counter: t('The District Religious Office', 'Pejabat Agama Islam Daerah'), source: 'https://maik.kedah.gov.my/index.php/baitulmal/',
+    time: t('About 2 weeks (MAIK service charter)', 'Kira-kira 2 minggu (piagam pelanggan MAIK)') },
+  { k: 'maikMed', agency: 'MAIK', l: t('Baitulmal medical aid (Bantuan Perubatan)', 'Bantuan Perubatan Baitulmal'), by: 'Majlis Agama Islam Negeri Kedah',
+    items: MEDICAL_ITEMS, docs: ['ic', 'photo', 'quote', 'bank', 'imam', 'govDoctor'],
+    online: '', office: 'Pejabat Agama Islam Daerah', counter: t('The District Religious Office', 'Pejabat Agama Islam Daerah'), source: 'https://maik.kedah.gov.my/index.php/baitulmal/',
+    time: t('About 2 weeks (MAIK service charter)', 'Kira-kira 2 minggu (piagam pelanggan MAIK)') },
+  { k: 'jkmBwe', agency: 'JKM', l: t('Elderly aid (Bantuan Warga Emas)', 'Bantuan Warga Emas'), by: 'Jabatan Kebajikan Masyarakat',
+    items: ['monthlyAid', 'emergencyCash', 'utilities', 'foodBasket', 'essentials'], docs: ['ic', 'icHousehold', 'income', 'medical'],
+    online: 'https://ebantuanjkm.jkm.gov.my/', office: 'Pejabat Kebajikan Masyarakat Daerah', counter: t('The District Welfare Office (form JKM18)', 'Pejabat Kebajikan Masyarakat Daerah (borang JKM18)'), source: 'https://www.malaysia.gov.my/my/topics/memohon-bantuan-jkm' },
+  { k: 'jkmBat', agency: 'JKM', l: t('Aid for assistive devices (Alat Sokongan)', 'Bantuan Alat Sokongan'), by: 'Jabatan Kebajikan Masyarakat',
+    items: ['wheelchair', 'ewheelchair', 'walker', 'stick', 'brace'], docs: ['ic', 'doctorRec', 'income'],
+    online: 'https://ebantuanjkm.jkm.gov.my/', office: 'Pejabat Kebajikan Masyarakat Daerah', counter: t('The District Welfare Office', 'Pejabat Kebajikan Masyarakat Daerah'), source: 'https://www.malaysia.gov.my/my/categories/bantuan-kebajikan--kemudahan/bantuan-kesihatan/bantuan-alat-sokongan-alat-tiruan-bat' }
+];
+
 /* ---------- Case shape ---------- */
 function has(o, k) { return Object.prototype.hasOwnProperty.call(o, k); }
 function pick(v, obj, d) { return has(obj, v) ? v : d; }
@@ -174,7 +229,9 @@ function districts() { return Object.keys(K.scenario.districtAdj); }
 
 A.blank = function () {
   return { filler: 'self', relation: '', age: '', gender: '', district: '', mukim: '', level: '', difficulties: [], recentHospital: false,
-    living: '', carer: '', carerTime: '', income: '', supports: [], pay: '', needs: [], urgency: '', note: '' };
+    living: '', carer: '', carerTime: '', income: '', supports: [], pay: '', needs: [], urgency: '', note: '',
+    muslim: '', citizen: '', kedahYears: '', household: '', earners: '', house: '', chronic: [], oku: '', govtCare: '', costs: [], bank: '', online: '',
+    docs: [], consent: false };
 };
 A.normalize = function (input) {
   var s = input || {}, ds = districts(), d = ds.indexOf(s.district) >= 0 ? s.district : '';
@@ -191,7 +248,11 @@ A.normalize = function (input) {
     level: pick(s.level, A.levels, ''), difficulties: known(s.difficulties, A.difficulties), recentHospital: !!s.recentHospital,
     living: pick(s.living, A.livings, ''), carer: pick(s.carer, A.carers, ''), carerTime: s.carer && s.carer !== 'none' ? pick(s.carerTime, A.carerTimes, '') : '',
     income: pick(String(s.income), A.incomes, ''), supports: known(s.supports, A.supports), pay: pick(s.pay, A.pays, ''),
-    needs: needs, urgency: pick(s.urgency, A.urgencies, ''), note: typeof s.note === 'string' ? s.note.trim().slice(0, 500) : ''
+    needs: needs, urgency: pick(s.urgency, A.urgencies, ''), note: typeof s.note === 'string' ? s.note.trim().slice(0, 500) : '',
+    muslim: pick(s.muslim, A.muslims, ''), citizen: pick(s.citizen, A.yesNo, ''), kedahYears: pick(s.kedahYears, A.kedahYears, ''),
+    household: A.households.indexOf(s.household) >= 0 ? s.household : '', earners: pick(s.earners, A.earners, ''), house: pick(s.house, A.houses, ''),
+    chronic: known(s.chronic, A.chronics), oku: pick(s.oku, A.okus, ''), govtCare: pick(s.govtCare, A.yesNo, ''), costs: known(s.costs, A.costs),
+    bank: pick(s.bank, A.yesNo, ''), online: pick(s.online, A.onlines, ''), docs: known(s.docs, A.docs), consent: !!s.consent
   };
 };
 function lowIncome(s) { return s.income === '0' || s.income === '800' || s.income === '1500'; }
@@ -239,8 +300,87 @@ function hash(text) {
 }
 A.caseId = function (s) {
   var n = A.normalize(s), key = JSON.stringify([n.filler, n.age, n.gender, n.district, n.mukim, n.level, n.difficulties.slice().sort(), n.recentHospital,
-    n.living, n.carer, n.carerTime, n.income, n.supports.slice().sort(), n.pay, n.needs.map(function (x) { return [x.item, x.mode, x.duration]; }), n.urgency]);
+    n.living, n.carer, n.carerTime, n.income, n.supports.slice().sort(), n.pay, n.needs.map(function (x) { return [x.item, x.mode, x.duration]; }), n.urgency,
+    n.muslim, n.citizen, n.kedahYears, n.household, n.earners, n.house, n.chronic.slice().sort(), n.oku, n.govtCare, n.costs.slice().sort(), n.bank, n.online]);
   return 'KSE-' + VERSION.replace(/\./g, '') + '-' + hash(key);
+};
+
+/* does the case need the form questions at all? money, equipment, supplies or home changes */
+A.needsForms = function (input) {
+  var s = A.normalize(input);
+  return s.needs.some(function (n) { var it = A.items[n.item]; return it.area === 'money' || it.kind === 'equipment' || it.kind === 'consumable' || it.kind === 'home'; });
+};
+var INCOME_UP_TO = { '0': 0, '800': 999, '1500': 1999, '2500': 2999, '4000': 4999, '5000': Infinity };
+function under(s, limit) { if (!s.income || s.income === 'unknown') return null; return INCOME_UP_TO[s.income] <= limit; }
+/* one scheme against one case: each reason is ok (true), a problem (false) or for the agency to check (null) */
+function fit(sc, s) {
+  var r = [];
+  function add(ok, en, bm) { r.push({ ok: ok, t: t(en, bm) }); }
+  if (s.citizen === 'yes') add(true, 'Malaysian citizen', 'Warganegara Malaysia');
+  else if (s.citizen === 'no') add(false, 'It is for Malaysian citizens', 'Untuk warganegara Malaysia');
+  else add(null, 'Citizenship to confirm', 'Kewarganegaraan perlu disahkan');
+  if (sc.k === 'lznk') {
+    if (s.muslim === 'yes') add(true, 'Muslim', 'Beragama Islam');
+    else if (s.muslim === 'no') add(false, 'Zakat is for Muslims', 'Zakat untuk orang Islam');
+    else add(null, 'Zakat is for Muslims', 'Zakat untuk orang Islam');
+    if (s.kedahYears === 'lt1') add(null, 'LZNK may ask for at least a year living in Kedah', 'LZNK mungkin memerlukan sekurang-kurangnya setahun tinggal di Kedah');
+    else if (s.kedahYears === '1to5' || s.kedahYears === 'gt5') add(true, 'Has lived in Kedah over a year', 'Tinggal di Kedah lebih setahun');
+    if (lowIncome(s)) add(true, 'Low income; LZNK checks it against the had kifayah line', 'Pendapatan rendah; LZNK menyemak dengan had kifayah');
+    else if (highIncome(s)) add(false, 'Income may be above the had kifayah line', 'Pendapatan mungkin melebihi had kifayah');
+    else add(null, 'LZNK checks income against the had kifayah line', 'LZNK menyemak pendapatan dengan had kifayah');
+  }
+  if (sc.k === 'maikAm') {
+    add(true, 'Older people are one of the groups it helps', 'Warga emas antara golongan yang dibantu');
+    var u2 = under(s, 2000);
+    if (u2 === true) add(true, 'Household income within RM2,000 a month', 'Pendapatan isi rumah dalam RM2,000 sebulan');
+    else if (u2 === false) add(false, 'Household income above RM2,000 a month', 'Pendapatan isi rumah melebihi RM2,000 sebulan');
+    else add(null, 'Limit is RM2,000 household income a month', 'Had pendapatan isi rumah RM2,000 sebulan');
+  }
+  if (sc.k === 'maikMed') {
+    var serious = s.chronic.filter(function (c) { return ['heart', 'kidney', 'cancer', 'stroke'].indexOf(c) >= 0; }).length;
+    if (serious) add(true, 'A long-term illness of the kind it covers', 'Penyakit kronik yang diliputi');
+    else add(null, 'Ask if the illness is covered (heart, kidney, cancer, stroke, accidents)', 'Tanya sama ada penyakit diliputi (jantung, buah pinggang, kanser, strok, kemalangan)');
+    if (s.govtCare === 'yes') add(true, 'Treated at a government clinic or hospital', 'Dirawat di klinik atau hospital kerajaan');
+    else if (s.govtCare === 'no') add(false, 'Treatment must be at a government clinic or hospital', 'Rawatan mesti di klinik atau hospital kerajaan');
+    else add(null, 'Treatment must be at a government clinic or hospital', 'Rawatan mesti di klinik atau hospital kerajaan');
+    var u5 = under(s, 4999);
+    if (u5 === true) add(true, 'Household income within RM5,000 a month', 'Pendapatan isi rumah dalam RM5,000 sebulan');
+    else if (u5 === false) add(null, 'Income near or above the RM5,000 limit', 'Pendapatan menghampiri atau melebihi had RM5,000');
+  }
+  if (sc.k === 'jkmBwe') {
+    add(true, 'Aged 60 or over', 'Berumur 60 tahun ke atas');
+    if (lowIncome(s)) add(true, 'Low income; JKM checks it against the poverty line', 'Pendapatan rendah; JKM menyemak dengan garis kemiskinan');
+    else if (highIncome(s)) add(false, 'Income may be above the poverty line', 'Pendapatan mungkin melebihi garis kemiskinan');
+    else add(null, 'JKM checks income against the poverty line', 'JKM menyemak pendapatan dengan garis kemiskinan');
+    if (s.supports.indexOf('family') >= 0 || s.carer === 'children' || s.carer === 'relative') add(null, 'JKM also asks whether family can support', 'JKM juga bertanya sama ada keluarga boleh menyara');
+    if (s.supports.indexOf('welfare') >= 0) add(null, 'Already gets welfare aid: ask JKM before applying again', 'Sudah menerima bantuan kebajikan: tanya JKM sebelum memohon lagi');
+  }
+  if (sc.k === 'jkmBat') {
+    add(null, 'Needs a recommendation from a doctor or JKM officer', 'Perlu syor doktor atau pegawai JKM');
+    if (s.oku === 'yes') add(true, 'Has an OKU card', 'Ada kad OKU');
+    else if (s.oku === 'applying') add(null, 'OKU card being applied for', 'Kad OKU sedang dimohon');
+    if (lowIncome(s)) add(true, 'Low income', 'Pendapatan rendah');
+    else if (highIncome(s)) add(false, 'Income may be above the poverty line', 'Pendapatan mungkin melebihi garis kemiskinan');
+  }
+  var bad = r.filter(function (x) { return x.ok === false; }).length, unknown = r.filter(function (x) { return x.ok === null; }).length;
+  return { status: bad ? 'unlikely' : unknown <= 1 ? 'likely' : 'check', reasons: r };
+}
+/* the schemes this case might use, best first, with the papers each one asks for */
+A.applyPlan = function (input) {
+  var s = A.normalize(input), items = s.needs.map(function (n) { return n.item; });
+  var wantsMoney = s.needs.some(function (n) { return ['monthlyAid', 'zakatAid', 'emergencyCash', 'utilities'].indexOf(n.item) >= 0; });
+  var order = { likely: 0, check: 1, unlikely: 2 };
+  var out = A.schemes.filter(function (sc) {
+    if (sc.items.some(function (k) { return items.indexOf(k) >= 0; })) return true;
+    return (sc.k === 'lznk' || sc.k === 'jkmBwe') && wantsMoney;
+  }).map(function (sc) {
+    var f = fit(sc, s), docs = sc.docs.map(function (d) { return { key: d, ready: s.docs.indexOf(d) >= 0 }; });
+    return { scheme: sc, status: f.status, reasons: f.reasons, docs: docs, ready: docs.filter(function (d) { return d.ready; }).length,
+      forItems: sc.items.filter(function (k) { return items.indexOf(k) >= 0; }) };
+  });
+  out.sort(function (a, b) { return order[a.status] - order[b.status]; });
+  var all = []; out.forEach(function (x) { x.docs.forEach(function (d) { if (all.indexOf(d.key) < 0) all.push(d.key); }); });
+  return { schemes: out, docs: all, ready: all.filter(function (k) { return s.docs.indexOf(k) >= 0; }).length };
 };
 
 A.plan = function (input) {
@@ -281,7 +421,7 @@ A.plan = function (input) {
   return {
     version: VERSION, caseId: A.caseId(s), input: s, lines: lines, areas: areas, contacts: contacts,
     covered: covered, nearby: nearby, total: lines.length, flags: flags,
-    fundHelper: moneyHelpers[0] || null
+    fundHelper: moneyHelpers[0] || null, apply: A.applyPlan(s)
   };
 };
 
@@ -292,16 +432,22 @@ A.examples = [
     s: { filler: 'helper', relation: 'child', age: '75-79', gender: 'man', district: 'Kota Setar', mukim: 'Alor Mengkudu', level: 'bedbound',
       difficulties: ['walking', 'transfer', 'bathing', 'toilet', 'hospital'], recentHospital: true, living: 'family', carer: 'children', carerTime: 'some',
       income: '800', supports: ['welfare'], pay: 'none', urgency: 'days',
+      muslim: 'yes', citizen: 'yes', kedahYears: 'gt5', household: '3', earners: '1', house: 'family', chronic: ['stroke'], oku: 'applying', govtCare: 'yes',
+      costs: ['medicine', 'transport'], bank: 'yes', online: 'helper', docs: ['ic', 'address'],
       needs: [{ item: 'hospitalBed', mode: 'borrow' }, { item: 'wheelchair', mode: 'borrow' }, { item: 'diapers', mode: 'monthly' }, { item: 'homeNursing', mode: 'service' }, { item: 'apptTransport', mode: 'service' }, { item: 'monthlyAid', mode: 'fund' }] } },
   { k: 'alone', l: t('Lives alone, walking is hard', 'Tinggal seorang, sukar berjalan'),
     d: t('Woman, 70 to 74, Baling. No regular income.', 'Perempuan, 70 hingga 74, Baling. Tiada pendapatan tetap.'),
     s: { filler: 'self', age: '70-74', gender: 'woman', district: 'Baling', mukim: 'Kuala Ketil', level: 'some', difficulties: ['walking', 'hospital', 'alone'],
       living: 'alone', carer: 'neighbour', carerTime: 'rarely', income: '0', supports: [], pay: 'none', urgency: 'weeks',
+      muslim: 'yes', citizen: 'yes', kedahYears: 'gt5', household: '1', earners: '0', house: 'own', chronic: ['diabetes', 'pressure'], oku: 'no', govtCare: 'yes',
+      costs: ['utilities', 'medicine'], bank: 'no', online: 'counter', docs: ['ic'],
       needs: [{ item: 'walker', mode: 'donate' }, { item: 'apptTransport', mode: 'service' }, { item: 'checkins', mode: 'service' }, { item: 'zakatAid', mode: 'fund' }] } },
   { k: 'oxygen', l: t('Needs oxygen at home', 'Perlukan oksigen di rumah'),
     d: t('Man, 80 to 84, Langkawi. Wife is his carer.', 'Lelaki, 80 hingga 84, Langkawi. Isteri menjadi penjaga.'),
     s: { filler: 'helper', relation: 'spouse', age: '80-84', gender: 'man', district: 'Langkawi', mukim: 'Kuah', level: 'regular', difficulties: ['walking', 'medicine', 'hospital'],
       living: 'spouse', carer: 'spouse', carerTime: 'daily', income: '1500', supports: ['pension'], pay: 'little', urgency: 'today',
+      muslim: 'yes', citizen: 'yes', kedahYears: 'gt5', household: '2', earners: '1', house: 'own', chronic: ['heart'], oku: 'no', govtCare: 'yes',
+      costs: ['medicine', 'transport'], bank: 'yes', online: 'helper', docs: [],
       needs: [{ item: 'oxyConcentrator', mode: 'rent' }, { item: 'respite', mode: 'service' }, { item: 'equipFund', mode: 'fund' }] } }
 ];
 

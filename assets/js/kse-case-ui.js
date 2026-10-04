@@ -48,16 +48,20 @@ var IC = {
   alert: '<path d="M12 3l9.5 17h-19zM12 10v4.5M12 17.2v.3"/>',
   phone: '<path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/>',
   sound: '<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4zM15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>',
-  chat: '<path d="M4 19.5l1.3-3.8A8 8 0 1 1 8.5 19z"/><path d="M9 10.5h6M9 13.5h4"/>'
+  chat: '<path d="M4 19.5l1.3-3.8A8 8 0 1 1 8.5 19z"/><path d="M9 10.5h6M9 13.5h4"/>',
+  lock: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5M12 14.5v2.5"/>',
+  file: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 15.5h6"/>',
+  office: '<path d="M4 20V9l8-5 8 5v11M9 20v-5h6v5M4 20h16"/>',
+  ask: '<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.6a2.3 2.3 0 1 1 3.3 2.1c-.7.4-1.1.9-1.1 1.7M12 16.6v.3"/>'
 };
 function icon(n) { return '<svg class="tc-svg" viewBox="0 0 24 24" aria-hidden="true">' + (IC[n] || IC.spark) + '</svg>'; }
 
 function t2(en, bm) { return { en: en, bm: bm }; }
 
 /* ---------- Screens ---------- */
-var SCREENS = ['start', 'about', 'place', 'daily', 'home', 'money', 'areas', 'items', 'how', 'soon', 'review', 'plan'];
-var GROUP = { about: 1, place: 2, daily: 3, home: 4, money: 4, areas: 5, items: 5, how: 5, soon: 5, review: 6 };
-var GROUPS = [null, t2('About', 'Tentang'), t2('Where', 'Lokasi'), t2('Daily life', 'Harian'), t2('Home and money', 'Rumah dan wang'), t2('Help needed', 'Bantuan'), t2('Check', 'Semak')];
+var SCREENS = ['start', 'about', 'place', 'daily', 'home', 'money', 'areas', 'items', 'how', 'soon', 'forms1', 'forms2', 'review', 'plan'];
+var GROUP = { about: 1, place: 2, daily: 3, home: 4, money: 4, areas: 5, items: 5, how: 5, soon: 5, forms1: 6, forms2: 6, review: 7 };
+var GROUPS = [null, t2('About', 'Tentang'), t2('Where', 'Lokasi'), t2('Daily life', 'Harian'), t2('Home and money', 'Rumah dan wang'), t2('Help needed', 'Bantuan'), t2('For the forms', 'Untuk borang'), t2('Check', 'Semak')];
 
 K.pageInit.scenario = function () {
   A = K.assist;
@@ -89,7 +93,10 @@ K.pageInit.scenario = function () {
   /* ---------- each screen ---------- */
   var draw = {
     start: function () {
-      return head(T('Who is filling this in?', 'Siapa yang mengisi ini?'), T('We will ask a few simple questions, one at a time. You can go back and change any answer.', 'Kami akan tanya beberapa soalan mudah, satu demi satu. Anda boleh kembali dan ubah jawapan.')) +
+      return '<div class="tc-privacy">' + icon('lock') + '<div><b>' + esc(T('Your answers stay on this device', 'Jawapan anda kekal dalam peranti ini')) + '</b><p>' +
+          esc(T('We never ask for a name, MyKad number, address or phone number. You write those on the official form yourself.', 'Kami tidak sekali-kali meminta nama, nombor MyKad, alamat atau nombor telefon. Anda tulis sendiri pada borang rasmi.')) + '</p></div>' +
+          tile('consent', 'yes', T('I understand', 'Saya faham'), { on: s.consent, small: true }) + '</div>' +
+        head(T('Who is filling this in?', 'Siapa yang mengisi ini?'), T('We will ask a few simple questions, one at a time. You can go back and change any answer.', 'Kami akan tanya beberapa soalan mudah, satu demi satu. Anda boleh kembali dan ubah jawapan.')) +
         '<div class="tc-grid is-two">' +
         tile('filler', 'self', L(A.fillers.self), { icon: 'person', desc: T('I am the older person', 'Saya warga emas itu') }) +
         tile('filler', 'helper', L(A.fillers.helper), { icon: 'helper', desc: T('Family, a neighbour or an officer', 'Keluarga, jiran atau pegawai') }) + '</div>' +
@@ -168,6 +175,27 @@ K.pageInit.scenario = function () {
         '<div class="tc-grid">' + map(A.urgencies, function (k) { return tile('urgency', k, L(A.urgencies[k].l), { desc: L(A.urgencies[k].d), icon: 'clock' }); }) + '</div>' +
         '<div class="tc-q"><label class="tc-select"><span>' + esc(T('Anything else we should know? (optional)', 'Ada apa-apa lagi yang perlu kami tahu? (pilihan)')) + '</span><textarea data-f="note" rows="3" maxlength="500">' + esc(s.note) + '</textarea></label></div>';
     },
+    forms1: function () {
+      return head(T('A few questions the aid forms ask', 'Beberapa soalan dalam borang bantuan'), T('Zakat, Baitulmal and JKM forms ask these. Every one is optional.', 'Borang zakat, Baitulmal dan JKM bertanya perkara ini. Semuanya pilihan.')) +
+        '<button type="button" class="tc-link tc-skip" data-go="review">' + esc(T('Skip these questions', 'Langkau soalan ini')) + '</button>' +
+        group('tcMuslim', Q('Are you Muslim?', 'Adakah anda beragama Islam?', 'Are they Muslim?', 'Adakah dia beragama Islam?'), map(A.muslims, function (k) { return tile('muslim', k, L(A.muslims[k]), { small: true }); }), T('Zakat help is for Muslims.', 'Bantuan zakat untuk orang Islam.')) +
+        group('tcCitizen', T('Malaysian citizen?', 'Warganegara Malaysia?'), map(A.yesNo, function (k) { return tile('citizen', k, L(A.yesNo[k]), { small: true }); })) +
+        group('tcKedah', Q('How long have you lived in Kedah?', 'Berapa lama anda tinggal di Kedah?', 'How long have they lived in Kedah?', 'Berapa lama dia tinggal di Kedah?'), map(A.kedahYears, function (k) { return tile('kedahYears', k, L(A.kedahYears[k]), { small: true }); })) +
+        group('tcHousehold', Q('How many people live in the home, including you?', 'Berapa orang tinggal di rumah, termasuk anda?', 'How many people live in the home, including them?', 'Berapa orang tinggal di rumah, termasuk dia?'),
+          A.households.map(function (h) { return tile('household', h, h === '6+' ? T('6 or more', '6 atau lebih') : h, { small: true }); }).join('')) +
+        group('tcEarners', T('How many of them have an income?', 'Berapa orang yang ada pendapatan?'), map(A.earners, function (k) { return tile('earners', k, L(A.earners[k]), { small: true }); })) +
+        group('tcHouse', T('The house is', 'Rumah ini'), map(A.houses, function (k) { return tile('house', k, L(A.houses[k]), { small: true }); }));
+    },
+    forms2: function () {
+      return head(T('Health and money details for the forms', 'Butiran kesihatan dan wang untuk borang'), T('These decide which schemes fit and which papers to bring. All optional.', 'Ini menentukan skim yang sesuai dan dokumen yang perlu dibawa. Semuanya pilihan.')) +
+        '<button type="button" class="tc-link tc-skip" data-go="review">' + esc(T('Skip these questions', 'Langkau soalan ini')) + '</button>' +
+        group('tcChronic', T('Long-term illness (choose any)', 'Penyakit kronik (pilih mana-mana)'), map(A.chronics, function (k) { return tile('chronic', k, L(A.chronics[k]), { small: true }); }), T('Only to show which help fits. Not a diagnosis.', 'Hanya untuk menunjukkan bantuan yang sesuai. Bukan diagnosis.')) +
+        group('tcOku', T('OKU card', 'Kad OKU'), map(A.okus, function (k) { return tile('oku', k, L(A.okus[k]), { small: true }); })) +
+        group('tcGovt', T('Treated at a government clinic or hospital?', 'Dirawat di klinik atau hospital kerajaan?'), map(A.yesNo, function (k) { return tile('govtCare', k, L(A.yesNo[k]), { small: true }); })) +
+        group('tcCosts', T('Big monthly costs', 'Perbelanjaan besar setiap bulan'), map(A.costs, function (k) { return tile('costs', k, L(A.costs[k]), { small: true }); })) +
+        group('tcBank', Q('Bank account in your name?', 'Akaun bank atas nama anda?', 'Bank account in their name?', 'Akaun bank atas namanya?'), map(A.yesNo, function (k) { return tile('bank', k, L(A.yesNo[k]), { small: true }); }), T('Most aid is paid into a bank account.', 'Kebanyakan bantuan dibayar ke akaun bank.')) +
+        group('tcOnline', T('How would you like to apply?', 'Bagaimana anda mahu memohon?'), map(A.onlines, function (k) { return tile('online', k, L(A.onlines[k]), { small: true }); }));
+    },
     review: function () {
       function row(label, value, go) { return '<div class="tc-rv"><dt>' + esc(label) + '</dt><dd>' + esc(value || '·') + '</dd><dd><button type="button" class="tc-link" data-go="' + go + '">' + esc(T('Change', 'Ubah')) + '</button></dd></div>'; }
       return head(T('Check the case', 'Semak kes ini'), T('Make sure this is right. Then we make one plan for all of it.', 'Pastikan ini betul. Kemudian kami buat satu pelan untuk semuanya.')) +
@@ -180,10 +208,17 @@ K.pageInit.scenario = function () {
         row(T('Money', 'Wang'), [s.income ? L(A.incomes[s.income]) : ''].concat(s.supports.map(function (k) { return L(A.supports[k]); })).concat(s.pay ? [L(A.pays[s.pay])] : []).filter(Boolean).join(' · '), 'money') +
         row(T('Needs', 'Keperluan'), s.needs.map(function (n) { return L(A.items[n.item].l) + ' (' + L(A.modes[n.mode]).toLowerCase() + ')'; }).join(' · '), 'items') +
         row(T('How soon', 'Bila'), s.urgency ? L(A.urgencies[s.urgency].l) : '', 'soon') +
+        (A.needsForms(s) ? row(T('For the forms', 'Untuk borang'), formsText(), 'forms1') : '') +
         '</dl>';
     },
     plan: function () { return planHtml(A.plan(s)); }
   };
+  function formsText() {
+    return [s.muslim ? T('Muslim: ', 'Islam: ') + L(A.muslims[s.muslim]).toLowerCase() : '', s.citizen === 'yes' ? T('Citizen', 'Warganegara') : '',
+      s.kedahYears ? L(A.kedahYears[s.kedahYears]) + T(' in Kedah', ' di Kedah') : '', s.household ? s.household + T(' at home', ' di rumah') : '',
+      s.house ? L(A.houses[s.house]) : ''].concat(s.chronic.filter(function (c) { return c !== 'none'; }).map(function (c) { return L(A.chronics[c]); }))
+      .concat(s.oku ? [L(A.okus[s.oku])] : []).concat(s.bank === 'yes' ? [T('Has a bank account', 'Ada akaun bank')] : []).filter(Boolean).join(' · ');
+  }
   function ageText() { return s.age ? (A.ageLabel[s.age] ? L(A.ageLabel[s.age]) : s.age.replace('-', T(' to ', ' hingga '))) + T(' years', ' tahun') : ''; }
 
   /* ---------- the Assistance Plan ---------- */
@@ -262,6 +297,92 @@ K.pageInit.scenario = function () {
   }
   var canSpeak = !!(window.speechSynthesis && window.SpeechSynthesisUtterance);
 
+  /* ---------- getting ready to apply: schemes, papers, where to go, a form summary ---------- */
+  var FIT = { likely: t2('Likely fits', 'Mungkin sesuai'), check: t2('Needs a check', 'Perlu disemak'), unlikely: t2('May not fit', 'Mungkin tidak sesuai') };
+  function officeUrl(sc) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(sc.office + ' ' + (s.district || 'Kedah')); }
+  function masjidUrl() { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('masjid ' + [s.mukim, s.district, 'Kedah'].filter(Boolean).join(', ')); }
+  function schemeCard(x) {
+    var sc = x.scheme, counterFirst = s.online === 'counter';
+    var onlineBtn = sc.online ? '<a class="btn ' + (counterFirst ? 'btn-quiet' : 'btn-paddy') + '" href="' + sc.online + '" target="_blank" rel="noopener">' + icon('file') + '<span>' + esc(T('Apply online', 'Mohon dalam talian')) + '</span></a>' : '';
+    var officeBtn = '<a class="btn ' + (sc.online && !counterFirst ? 'btn-quiet' : 'btn-paddy') + '" href="' + officeUrl(sc) + '" target="_blank" rel="noopener">' + icon('office') + '<span>' + esc(L(sc.counter)) + '</span></a>';
+    return '<article class="tc-scheme is-' + x.status + '"><header><span class="tc-agency">' + esc(sc.agency) + '</span><div><h4>' + esc(L(sc.l)) + '</h4><small>' + esc(sc.by) + '</small></div>' +
+        '<span class="tc-fit tc-fit-' + x.status + '">' + esc(L(FIT[x.status])) + '</span></header>' +
+      '<ul class="tc-reasons">' + x.reasons.map(function (r) {
+        return '<li class="' + (r.ok === true ? 'ok' : r.ok === false ? 'no' : 'ask') + '">' + icon(r.ok === true ? 'check' : r.ok === false ? 'alert' : 'ask') + '<span>' + esc(L(r.t)) + '</span></li>';
+      }).join('') + '</ul>' +
+      (x.forItems.length ? '<p class="tc-for"><span>' + esc(T('For', 'Untuk')) + '</span>' + x.forItems.map(function (k) { return '<em>' + esc(L(A.items[k].l)) + '</em>'; }).join('') + '</p>' : '') +
+      '<div class="tc-docs-head"><b>' + esc(T('What to bring', 'Apa yang perlu dibawa')) + '</b><span>' + x.ready + ' / ' + x.docs.length + ' ' + esc(T('ready', 'sedia')) + '</span></div>' +
+      '<ul class="tc-docs">' + x.docs.map(function (d) {
+        var doc = A.docs[d.key];
+        return '<li><button type="button" class="tc-doc" aria-pressed="' + d.ready + '" data-doc="' + d.key + '"><span class="tc-box" aria-hidden="true">' + icon('check') + '</span><span><b>' + esc(L(doc.l)) + '</b><small>' + esc(L(doc.w)) + '</small></span></button>' +
+          (d.key === 'imam' ? '<a class="tc-doc-link" href="' + masjidUrl() + '" target="_blank" rel="noopener">' + icon('pin') + esc(T('Find a masjid nearby', 'Cari masjid berdekatan')) + '</a>' : '') + '</li>';
+      }).join('') + '</ul>' +
+      '<div class="tc-apply-acts">' + (counterFirst ? officeBtn + onlineBtn : onlineBtn + officeBtn) +
+        '<button type="button" class="btn btn-quiet" data-act="sheet" data-k="' + sc.k + '">' + icon('print') + '<span>' + esc(T('Print a form summary', 'Cetak ringkasan borang')) + '</span></button></div>' +
+      (sc.time ? '<p class="tc-time">' + icon('clock') + esc(L(sc.time)) + '</p>' : '') +
+      '<p class="tc-checked">' + esc(T('From the agency\'s public information, checked October 2026. Rules can change; the agency decides.', 'Daripada maklumat awam agensi, disemak Oktober 2026. Peraturan boleh berubah; agensi yang membuat keputusan.')) +
+        ' <a href="' + sc.source + '" target="_blank" rel="noopener">' + esc(T('Source', 'Sumber')) + '</a></p></article>';
+  }
+  function applyHtml(p) {
+    var ap = p.apply; if (!ap || !ap.schemes.length) return '';
+    return '<section class="tc-apply" aria-labelledby="tcApplyTitle"><div class="tc-apply-head"><div><h3 id="tcApplyTitle">' + esc(T('Get ready to apply', 'Bersedia untuk memohon')) + '</h3><p class="tc-hint">' +
+        esc(T(ap.schemes.length + (ap.schemes.length > 1 ? ' schemes' : ' scheme') + ' may fit. Tick each paper once; it counts for every form.', ap.schemes.length + ' skim mungkin sesuai. Tandakan setiap dokumen sekali; ia dikira untuk semua borang.')) + '</p></div>' +
+        '<div class="tc-docmeter" role="img" aria-label="' + esc(T(ap.ready + ' of ' + ap.docs.length + ' papers ready', ap.ready + ' daripada ' + ap.docs.length + ' dokumen sedia')) + '"><b>' + ap.ready + '<small>/' + ap.docs.length + '</small></b><span>' + esc(T('papers ready', 'dokumen sedia')) + '</span></div></div>' +
+      '<div class="tc-schemes">' + ap.schemes.map(schemeCard).join('') + '</div>' +
+      '<div class="tc-apply-foot"><button type="button" class="btn btn-quiet" data-act="remind-year">' + icon('clock') + '<span>' + esc(T('Remind me every year to update details', 'Ingatkan saya setiap tahun untuk kemas kini maklumat')) + '</span></button>' +
+        '<p class="tc-hint">' + esc(T('Some aid stops if the details are not kept up to date.', 'Sesetengah bantuan dihentikan jika maklumat tidak dikemas kini.')) + '</p></div></section>';
+  }
+  /* a one-page summary laid out like the form; personal details are blank lines to write by hand */
+  function sheetHtml(x, p) {
+    var sc = x.scheme;
+    function both(en, bm) { return '<dt>' + esc(bm) + ' <i>' + esc(en) + '</i></dt>'; }
+    function row(en, bm, val) { return '<div>' + both(en, bm) + '<dd>' + (val ? esc(val) : '<span class="tc-blank"></span>') + '</dd></div>'; }
+    function blank(en, bm) { return '<div>' + both(en, bm) + '<dd><span class="tc-blank"></span></dd></div>'; }
+    function sec(en, bm, body) { return '<section><h3>' + esc(bm) + ' <i>' + esc(en) + '</i></h3><dl>' + body + '</dl></section>'; }
+    var items = (x.forItems.length ? x.forItems : p.lines.map(function (l) { return l.need.item; })).map(function (k) {
+      var n = s.needs.filter(function (q) { return q.item === k; })[0];
+      return L(A.items[k].l) + (n ? ' (' + L(A.modes[n.mode]).toLowerCase() + ')' : '');
+    }).join(', ');
+    var signers = x.docs.map(function (d) { return d.key; }).filter(function (k) { return k === 'imam' || k === 'govDoctor' || k === 'doctorRec'; });
+    return '<section class="tc-sheet" data-k="' + sc.k + '"><header><p>Kedah Silver Economy · Ringkasan borang <i>Form summary</i></p><h2>' + esc(L(sc.l)) + '</h2>' +
+        '<p>' + esc(sc.by) + ' · ' + esc(p.caseId) + '</p><p class="tc-sheet-note">Gunakan ini untuk mengisi borang rasmi. Ini bukan borang rasmi. <i>Use this to fill in the official form. It is not the official form.</i></p></header>' +
+      sec('Applicant', 'Pemohon', blank('Name', 'Nama') + blank('MyKad number', 'No. MyKad') + blank('Address', 'Alamat') + blank('Phone', 'Telefon') +
+        row('Age', 'Umur', ageText()) + row('Gender', 'Jantina', s.gender ? L(A.genders[s.gender]) : '') + row('Citizen', 'Warganegara', s.citizen ? L(A.yesNo[s.citizen]) : '') +
+        (sc.agency !== 'JKM' ? row('Muslim', 'Islam', s.muslim ? L(A.muslims[s.muslim]) : '') : '') +
+        row('District and mukim', 'Daerah dan mukim', [s.district, s.mukim].filter(Boolean).join(', ')) + row('Years in Kedah', 'Tempoh di Kedah', s.kedahYears ? L(A.kedahYears[s.kedahYears]) : '')) +
+      sec('Household', 'Isi rumah', row('People at home', 'Bilangan isi rumah', s.household) + row('With an income', 'Yang berpendapatan', s.earners ? L(A.earners[s.earners]) : '') +
+        row('Lives', 'Tinggal', s.living ? L(A.livings[s.living]) : '') + row('Main carer', 'Penjaga utama', [s.carer ? L(A.carers[s.carer]) : '', s.carerTime ? L(A.carerTimes[s.carerTime]) : ''].filter(Boolean).join(', ')) +
+        row('House', 'Rumah', s.house ? L(A.houses[s.house]) : '')) +
+      sec('Income and costs', 'Pendapatan dan perbelanjaan', row('Household income a month', 'Pendapatan isi rumah sebulan', s.income ? L(A.incomes[s.income]) : '') +
+        row('Aid already received', 'Bantuan sedia ada', s.supports.map(function (k) { return L(A.supports[k]); }).join(', ')) +
+        row('Big monthly costs', 'Perbelanjaan besar', s.costs.map(function (k) { return L(A.costs[k]); }).join(', ')) +
+        row('Can pay', 'Kemampuan membayar', s.pay ? L(A.pays[s.pay]) : '') + row('Bank account', 'Akaun bank', s.bank ? L(A.yesNo[s.bank]) : '')) +
+      sec('Health', 'Kesihatan', row('Day to day', 'Kehidupan harian', s.level ? L(A.levels[s.level].l) : '') +
+        row('Hard to do', 'Sukar dilakukan', s.difficulties.map(function (d) { return L(A.difficulties[d].l); }).join(', ')) +
+        row('Long-term illness', 'Penyakit kronik', s.chronic.map(function (c) { return L(A.chronics[c]); }).join(', ')) +
+        row('OKU card', 'Kad OKU', s.oku ? L(A.okus[s.oku]) : '') + row('Government treatment', 'Rawatan kerajaan', s.govtCare ? L(A.yesNo[s.govtCare]) : '') +
+        row('Home from hospital', 'Baru keluar hospital', s.recentHospital ? L(A.yesNo.yes) : '')) +
+      sec('Help asked for', 'Bantuan dipohon', row('Items', 'Perkara', items) + row('How soon', 'Bila diperlukan', s.urgency ? L(A.urgencies[s.urgency].l) : '')) +
+      '<section><h3>Dokumen <i>Documents</i></h3><ul class="tc-sheet-docs">' + x.docs.map(function (d) {
+        return '<li><span class="tc-box' + (d.ready ? ' is-on' : '') + '">' + (d.ready ? icon('check') : '') + '</span>' + esc(A.docs[d.key].l.bm) + ' <i>' + esc(A.docs[d.key].l.en) + '</i></li>';
+      }).join('') + '</ul></section>' +
+      '<section><h3>Pengesahan <i>Certification</i></h3><dl class="tc-signs">' + blank('Applicant signature and date', 'Tandatangan pemohon dan tarikh') +
+        (signers.indexOf('imam') >= 0 ? blank('Imam or mosque committee (stamp)', 'Imam atau Jawatankuasa Kariah (cop)') : '') +
+        (signers.indexOf('govDoctor') >= 0 ? blank('Government medical officer (stamp)', 'Pegawai Perubatan Kerajaan (cop)') : '') +
+        (signers.indexOf('doctorRec') >= 0 ? blank('Doctor or JKM officer recommending', 'Doktor atau pegawai JKM yang mengesyorkan') : '') + '</dl></section>' +
+      '<footer>Disemak Oktober 2026 daripada maklumat awam agensi. <i>Checked October 2026 from the agency\'s public information.</i> ' + esc(sc.source) + '</footer></section>';
+  }
+  function yearIcs(p) {
+    var d = new Date(); d.setFullYear(d.getFullYear() + 1);
+    function ymd(x) { return x.getFullYear() + ('0' + (x.getMonth() + 1)).slice(-2) + ('0' + x.getDate()).slice(-2); }
+    var end = new Date(d.getTime() + 86400000);
+    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kedah Silver Economy//Try a case//EN', 'BEGIN:VEVENT', 'UID:year-' + p.caseId + '@kedah-silver-economy',
+      'DTSTAMP:' + ymd(new Date()) + 'T000000Z', 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(end), 'RRULE:FREQ=YEARLY',
+      'SUMMARY:' + T('Update the aid details ', 'Kemas kini maklumat bantuan ') + p.caseId,
+      'DESCRIPTION:' + T('Check that LZNK\\, MAIK and JKM have the latest income\\, address and household details.', 'Pastikan LZNK\\, MAIK dan JKM ada maklumat pendapatan\\, alamat dan isi rumah yang terkini.'),
+      'BEGIN:VALARM', 'TRIGGER:-PT9H', 'ACTION:DISPLAY', 'DESCRIPTION:' + T('Update the aid details', 'Kemas kini maklumat bantuan'), 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+  }
+
   function planHtml(p) {
     var s0 = p.input, ring = p.total ? Math.round(p.covered / p.total * 100) : 0;
     var who = [ageText(), s0.gender && s0.gender !== 'prefer-not' ? L(A.genders[s0.gender]) : '', s0.district].filter(Boolean).join(' · ');
@@ -282,6 +403,7 @@ K.pageInit.scenario = function () {
           '<a class="btn btn-quiet" href="https://wa.me/?text=' + encodeURIComponent(planText(p)) + '" target="_blank" rel="noopener">' + icon('chat') + '<span>' + esc(T('Send to family on WhatsApp', 'Hantar kepada keluarga di WhatsApp')) + '</span></a>' +
           '<button type="button" class="btn btn-quiet" data-act="remind">' + icon('clock') + '<span>' + esc(T('Remind me in ' + followDays(p.input.urgency) + (followDays(p.input.urgency) > 1 ? ' days' : ' day'), 'Ingatkan saya dalam ' + followDays(p.input.urgency) + ' hari')) + '</span></button>' +
         '</div></section>' : '') +
+      applyHtml(p) +
       '<p class="tc-sample">' + icon('alert') + '<span>' + esc(T('Sample matching. What each organisation can offer is an example until Phase 1 checks it. This plan shows possible matches only; it does not promise help or decide who qualifies.', 'Padanan contoh. Apa yang setiap organisasi boleh tawarkan ialah contoh sehingga Fasa 1 menyemaknya. Pelan ini hanya menunjukkan padanan yang mungkin; ia tidak menjanjikan bantuan atau menentukan kelayakan.')) + '</span></p>' +
       '<ol class="tc-lines">' + p.lines.map(function (line, i) {
         var it = line.item;
@@ -297,7 +419,7 @@ K.pageInit.scenario = function () {
         '<button type="button" class="btn btn-quiet" data-go="review">' + icon('edit') + '<span>' + esc(T('Change answers', 'Ubah jawapan')) + '</span></button>' +
         '<button type="button" class="btn btn-quiet" data-act="restart">' + icon('restart') + '<span>' + esc(T('Start a new case', 'Mula kes baharu')) + '</span></button>' +
         '<p class="tc-copied" id="tcCopied" aria-live="polite"></p>' +
-      '</div></div>';
+      '</div>' + (p.apply && p.apply.schemes.length ? '<div class="tc-sheets" aria-hidden="true">' + p.apply.schemes.map(function (x) { return sheetHtml(x, p); }).join('') + '</div>' : '') + '</div>';
   }
   function planText(p) {
     var out = ['Kedah Silver Economy · ' + T('Assistance plan', 'Pelan bantuan'), T('Case ', 'Kes ') + p.caseId + ' · ' + T('rules ', 'peraturan ') + p.version, ''];
@@ -308,6 +430,10 @@ K.pageInit.scenario = function () {
     if (p.contacts && p.contacts.length) {
       out.push('', T('Places', 'Tempat') + ':');
       p.contacts.forEach(function (c) { out.push('- ' + c.record.name + ', ' + c.record.district + ': ' + mapUrl(c.record)); });
+    }
+    if (p.apply && p.apply.schemes.length) {
+      out.push('', T('Schemes that may fit', 'Skim yang mungkin sesuai') + ':');
+      p.apply.schemes.forEach(function (x) { out.push('- ' + L(x.scheme.l) + ' (' + x.scheme.agency + '): ' + L(FIT[x.status]).toLowerCase() + '. ' + T('Papers ready: ', 'Dokumen sedia: ') + x.ready + '/' + x.docs.length); });
     }
     out.push('', T('Sample matching only. Eligibility, availability and cost must be confirmed.', 'Padanan contoh sahaja. Kelayakan, ketersediaan dan kos mesti disahkan.'));
     return out.join('\n');
@@ -325,6 +451,7 @@ K.pageInit.scenario = function () {
     add('recentHospital', T('Hospital', 'Hospital'), s.recentHospital ? T('Home recently', 'Baru pulang') : '');
     add('home', T('Home', 'Rumah'), [s.living ? L(A.livings[s.living]) : '', s.carer ? L(A.carers[s.carer]) : ''].filter(Boolean).join(' · '));
     add('money', T('Money', 'Wang'), [s.income ? L(A.incomes[s.income]) : '', s.pay ? L(A.pays[s.pay]) : ''].filter(Boolean).join(' · '));
+    add('forms', T('For forms', 'Untuk borang'), formsText());
     var needs = s.needs.map(function (n) { return '<li' + (lastAdded === 'need-' + n.item ? ' class="is-new"' : '') + '><span class="tc-ic">' + icon(A.areas[A.items[n.item].area].i) + '</span>' + esc(L(A.items[n.item].l)) + '<small>' + esc(L(A.modes[n.mode])) + '</small></li>'; }).join('');
     var filled = rows.length + s.needs.length;
     return '<div class="tc-card-head"><span>' + esc(T('The case so far', 'Kes setakat ini')) + '</span><code>' + esc(A.caseId(s)) + '</code></div>' +
@@ -346,7 +473,7 @@ K.pageInit.scenario = function () {
   }
   function ready() {
     switch (at) {
-      case 'start': return s.filler === 'self' || !!s.relation;
+      case 'start': return s.consent && (s.filler === 'self' || !!s.relation);
       case 'about': return !!(s.age && s.gender);
       case 'place': return !!s.district;
       case 'daily': return !!s.level;
@@ -366,7 +493,7 @@ K.pageInit.scenario = function () {
       '<button type="button" class="btn btn-paddy" data-nav="next"' + (ready() ? '' : ' aria-disabled="true"') + '>' + esc(next) + '</button></div>';
   }
   /* the screen is redrawn after each tap, so keep keyboard focus on the same control */
-  var KEYS = ['data-item', 'data-area', 'data-need-mode', 'data-need-dur', 'data-nav', 'data-suggest-all'];
+  var KEYS = ['data-item', 'data-area', 'data-need-mode', 'data-need-dur', 'data-nav', 'data-suggest-all', 'data-doc'];
   function focusKey() {
     var el = document.activeElement; if (!el || !root.contains(el)) return null;
     if (el.hasAttribute('data-f')) return '[data-f="' + el.getAttribute('data-f') + '"]' + (el.hasAttribute('data-v') ? '[data-v="' + el.getAttribute('data-v') + '"]' : '');
@@ -390,25 +517,31 @@ K.pageInit.scenario = function () {
   function next() {
     if (!ready()) { var w = root.querySelector('.tc-wait'); if (w) { w.classList.remove('is-shake'); void w.offsetWidth; w.classList.add('is-shake'); } return; }
     if (at === 'how' && !s.needs.length) return go('items');
+    if (at === 'soon' && !A.needsForms(s)) return go('review');
     go(SCREENS[SCREENS.indexOf(at) + 1]);
   }
-  function back() { var i = SCREENS.indexOf(at); if (i > 0) go(SCREENS[i - 1]); }
+  function back() {
+    if (at === 'review' && !A.needsForms(s)) return go('soon');
+    var i = SCREENS.indexOf(at); if (i > 0) go(SCREENS[i - 1]);
+  }
 
   /* ---------- answers ---------- */
-  var MULTI = { difficulties: 1, supports: 1 };
+  var MULTI = { difficulties: 1, supports: 1, chronic: 1, costs: 1 }, NONE_FIRST = { supports: 1, chronic: 1, costs: 1 };
+  var FORMS = { muslim: 1, citizen: 1, kedahYears: 1, household: 1, earners: 1, house: 1, chronic: 1, oku: 1, govtCare: 1, costs: 1, bank: 1, online: 1 };
   function setField(f, v) {
     if (f === 'recentHospital') { s.recentHospital = !s.recentHospital; lastAdded = 'recentHospital'; return; }
+    if (f === 'consent') { s.consent = !s.consent; return; }
     if (MULTI[f]) {
       var a = s[f], i = a.indexOf(v);
-      if (f === 'supports' && v === 'none') s.supports = i >= 0 ? [] : ['none'];
-      else { if (i >= 0) a.splice(i, 1); else a.push(v); if (f === 'supports') s.supports = s.supports.filter(function (x) { return x !== 'none'; }); }
-      lastAdded = f === 'supports' ? 'money' : f; return;
+      if (NONE_FIRST[f] && v === 'none') s[f] = i >= 0 ? [] : ['none'];
+      else { if (i >= 0) a.splice(i, 1); else a.push(v); if (NONE_FIRST[f]) s[f] = s[f].filter(function (x) { return x !== 'none'; }); }
+      lastAdded = f === 'supports' ? 'money' : FORMS[f] ? 'forms' : f; return;
     }
     s[f] = v;
     if (f === 'filler' && v === 'self') s.relation = '';
     if (f === 'district') s.mukim = '';
     if (f === 'carer' && v === 'none') s.carerTime = '';
-    lastAdded = { age: 'person', gender: 'person', district: 'place', mukim: 'place', living: 'home', carer: 'home', carerTime: 'home', income: 'money', pay: 'money', relation: 'filler', filler: 'filler' }[f] || f;
+    lastAdded = FORMS[f] ? 'forms' : ({ age: 'person', gender: 'person', district: 'place', mukim: 'place', living: 'home', carer: 'home', carerTime: 'home', income: 'money', pay: 'money', relation: 'filler', filler: 'filler' }[f] || f);
   }
   function toggleItem(k) {
     var i = -1; s.needs.forEach(function (n, j) { if (n.item === k) i = j; });
@@ -428,6 +561,9 @@ K.pageInit.scenario = function () {
     if (act === 'copy') return copy();
     if (act === 'listen') return listen();
     if (act === 'remind') return remind();
+    if (act === 'remind-year') return download(yearIcs(A.plan(s)), 'update-details-' + A.caseId(s) + '.ics', T('A yearly reminder was saved. Open it to add it to the calendar.', 'Peringatan tahunan telah disimpan. Buka untuk menambahkannya ke kalendar.'));
+    if (act === 'sheet') return printSheet(b.getAttribute('data-k'));
+    if (b.hasAttribute('data-doc')) { var dk = b.getAttribute('data-doc'), di = s.docs.indexOf(dk); if (di >= 0) s.docs.splice(di, 1); else s.docs.push(dk); return render(false); }
     if (b.hasAttribute('data-suggest-all')) { A.suggestions(s).forEach(function (x) { if (chosenAreas.indexOf(x.area) < 0) chosenAreas.push(x.area); }); return render(false); }
     if (b.hasAttribute('data-area')) { var ak = b.getAttribute('data-area'), ai = chosenAreas.indexOf(ak); if (ai >= 0) { chosenAreas.splice(ai, 1); s.needs = s.needs.filter(function (n) { return A.items[n.item].area !== ak; }); } else chosenAreas.push(ak); return render(false); }
     if (b.hasAttribute('data-item')) { toggleItem(b.getAttribute('data-item')); return render(false); }
@@ -448,6 +584,21 @@ K.pageInit.scenario = function () {
     var v = sp.getVoices().filter(function (x) { return x.lang && x.lang.toLowerCase().indexOf(K.lang === 'bm' ? 'ms' : 'en') === 0; })[0]; if (v) u.voice = v;
     sp.speak(u);
   }
+  function download(text, name, msg) {
+    var blob = new Blob([text], { type: 'text/calendar' }), a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    var out = $('#tcCopied'); if (out) out.textContent = msg;
+  }
+  /* print only one form summary, then put the page back */
+  function printSheet(k) {
+    var sh = root.querySelector('.tc-sheet[data-k="' + k + '"]'); if (!sh) return;
+    root.setAttribute('data-print', k); sh.classList.add('is-print');
+    function done() { root.removeAttribute('data-print'); sh.classList.remove('is-print'); window.removeEventListener('afterprint', done); }
+    window.addEventListener('afterprint', done);
+    window.print();
+    setTimeout(function () { if (root.hasAttribute('data-print') && !window.matchMedia('print').matches) done(); }, 1500);
+  }
   function remind() {
     var p = A.plan(s), blob = new Blob([icsFor(p)], { type: 'text/calendar' }), a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = 'follow-up-' + p.caseId + '.ics'; document.body.appendChild(a); a.click();
@@ -462,19 +613,20 @@ K.pageInit.scenario = function () {
   }
 
   /* ---------- play an example: the case fills in screen by screen ---------- */
-  var ORDER = [['start', ['filler', 'relation']], ['about', ['age', 'gender']], ['place', ['district', 'mukim']], ['daily', ['level', 'difficulties', 'recentHospital']],
-    ['home', ['living', 'carer', 'carerTime']], ['money', ['income', 'supports', 'pay']], ['areas', []], ['items', ['needs']], ['how', []], ['soon', ['urgency']], ['review', []], ['plan', []]];
+  var ORDER = [['start', ['filler', 'relation', 'consent']], ['about', ['age', 'gender']], ['place', ['district', 'mukim']], ['daily', ['level', 'difficulties', 'recentHospital']],
+    ['home', ['living', 'carer', 'carerTime']], ['money', ['income', 'supports', 'pay']], ['areas', []], ['items', ['needs']], ['how', []], ['soon', ['urgency']],
+    ['forms1', ['muslim', 'citizen', 'kedahYears', 'household', 'earners', 'house']], ['forms2', ['chronic', 'oku', 'govtCare', 'costs', 'bank', 'online', 'docs']], ['review', []], ['plan', []]];
   function play(ex) {
-    var src = A.normalize(ex.s), step = 0, run = ++playing;
+    var src = A.normalize(ex.s), step = 0, run = ++playing; src.consent = true;
     s = A.blank(); chosenAreas = [];
     if (K.reduceMotion) { s = src; src.needs.forEach(function (n) { var a = A.items[n.item].area; if (chosenAreas.indexOf(a) < 0) chosenAreas.push(a); }); return go('plan'); }
     (function tick() {
       if (run !== playing) return;
       var o = ORDER[step]; if (!o) return;
-      o[1].forEach(function (f) { s[f] = Array.isArray(src[f]) ? src[f].slice() : src[f]; lastAdded = f === 'needs' ? '' : ({ age: 'person', gender: 'person', district: 'place', mukim: 'place', living: 'home', carer: 'home', carerTime: 'home', income: 'money', supports: 'money', pay: 'money', relation: 'filler' }[f] || f); });
+      o[1].forEach(function (f) { s[f] = Array.isArray(src[f]) ? src[f].slice() : src[f]; lastAdded = f === 'needs' ? '' : FORMS[f] ? 'forms' : ({ age: 'person', gender: 'person', district: 'place', mukim: 'place', living: 'home', carer: 'home', carerTime: 'home', income: 'money', supports: 'money', pay: 'money', relation: 'filler' }[f] || f); });
       if (o[0] === 'areas') src.needs.forEach(function (n) { var a = A.items[n.item].area; if (chosenAreas.indexOf(a) < 0) chosenAreas.push(a); });
       at = o[0]; render(o[0] === 'plan'); step++;
-      if (step < ORDER.length) setTimeout(tick, o[0] === 'items' || o[0] === 'daily' ? 1500 : 1100);
+      if (step < ORDER.length) setTimeout(tick, o[0] === 'items' || o[0] === 'daily' || o[0] === 'forms2' ? 1500 : 1100);
     })();
   }
   /* any real tap stops a running example */
