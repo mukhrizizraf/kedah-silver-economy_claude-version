@@ -49,7 +49,7 @@ V.constellation = function (svg, legend, intro) {
   });
   /* The hub is the person the network is meant to serve: a round portrait
      clipped to it, like the Me pin in Find My. K.elderArt can override it. */
-  var elderSrc = K.elderArt || 'assets/img/map-elder.webp';
+  var elderSrc = K.elderArt || 'assets/img/map-elder.webp?v=3d';
   var elder = '<clipPath id="elderClip"><circle r="31"/></clipPath>' +
     '<image href="' + elderSrc + '" x="-31" y="-31" width="62" height="62" clip-path="url(#elderClip)" preserveAspectRatio="xMidYMid slice"/>';
   var core = '<circle class="halo" r="48"/><circle class="core" r="34"/>' +
