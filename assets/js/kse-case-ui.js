@@ -400,9 +400,11 @@ K.pageInit.scenario = function () {
         '</div><ol class="tc-contact-list">' + p.contacts.map(contactCard).join('') + '</ol>' +
         '<div class="tc-share">' +
           (canSpeak ? '<button type="button" class="btn btn-quiet" data-act="listen">' + icon('sound') + '<span>' + esc(T('Listen to the plan', 'Dengar pelan ini')) + '</span></button>' : '') +
-          '<a class="btn btn-quiet" href="https://wa.me/?text=' + encodeURIComponent(planText(p)) + '" target="_blank" rel="noopener">' + icon('chat') + '<span>' + esc(T('Send to family on WhatsApp', 'Hantar kepada keluarga di WhatsApp')) + '</span></a>' +
+          '<button type="button" class="btn btn-quiet" data-act="whatsapp">' + icon('chat') + '<span>' + esc(T('Send to family on WhatsApp', 'Hantar kepada keluarga di WhatsApp')) + '</span></button>' +
           '<button type="button" class="btn btn-quiet" data-act="remind">' + icon('clock') + '<span>' + esc(T('Remind me in ' + followDays(p.input.urgency) + (followDays(p.input.urgency) > 1 ? ' days' : ' day'), 'Ingatkan saya dalam ' + followDays(p.input.urgency) + ' hari')) + '</span></button>' +
-        '</div></section>' : '') +
+        '</div><div class="tc-share-note" id="tcShareNote" hidden><p>' + esc(T('If WhatsApp did not open, copy this message and paste it into WhatsApp.', 'Jika WhatsApp tidak terbuka, salin mesej ini dan tampal ke dalam WhatsApp.')) + '</p>' +
+          '<textarea readonly rows="6" aria-label="' + esc(T('The plan as a message', 'Pelan sebagai mesej')) + '">' + esc(planText(p)) + '</textarea>' +
+          '<button type="button" class="btn btn-paddy" data-act="copy-note">' + icon('copy') + '<span>' + esc(T('Copy the message', 'Salin mesej')) + '</span></button><p class="tc-copied" id="tcNoteStatus" aria-live="polite"></p></div></section>' : '') +
       applyHtml(p) +
       '<p class="tc-sample">' + icon('alert') + '<span>' + esc(T('Sample matching. What each organisation can offer is an example until Phase 1 checks it. This plan shows possible matches only; it does not promise help or decide who qualifies.', 'Padanan contoh. Apa yang setiap organisasi boleh tawarkan ialah contoh sehingga Fasa 1 menyemaknya. Pelan ini hanya menunjukkan padanan yang mungkin; ia tidak menjanjikan bantuan atau menentukan kelayakan.')) + '</span></p>' +
       '<ol class="tc-lines">' + p.lines.map(function (line, i) {
@@ -559,6 +561,8 @@ K.pageInit.scenario = function () {
     if (act === 'print') return window.print();
     if (act === 'restart') { s = A.blank(); chosenAreas = []; return go('start'); }
     if (act === 'copy') return copy();
+    if (act === 'whatsapp') return whatsapp();
+    if (act === 'copy-note') return copyNote();
     if (act === 'listen') return listen();
     if (act === 'remind') return remind();
     if (act === 'remind-year') return download(yearIcs(A.plan(s)), 'update-details-' + A.caseId(s) + '.ics', T('A yearly reminder was saved. Open it to add it to the calendar.', 'Peringatan tahunan telah disimpan. Buka untuk menambahkannya ke kalendar.'));
@@ -605,11 +609,37 @@ K.pageInit.scenario = function () {
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
     var out = $('#tcCopied'); if (out) out.textContent = T('A reminder was saved. Open it to add it to the calendar.', 'Peringatan telah disimpan. Buka untuk menambahkannya ke kalendar.');
   }
+  /* phones and tablets: the phone's own share menu (WhatsApp is in it);
+     computers: WhatsApp Web in a new tab. Either way the message is shown so
+     it can be copied if nothing opened (embedded previews, blocked tabs). */
+  function whatsapp() {
+    var text = planText(A.plan(s)), note = $('#tcShareNote');
+    if (note) { note.hidden = false; }
+    var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+    if (touch && navigator.share) {
+      navigator.share({ title: 'Kedah Silver Economy', text: text }).catch(function () {});
+      return;
+    }
+    var w = null;
+    try { w = window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank'); } catch (e) {}
+    if (w) { try { w.opener = null; } catch (e) {} }
+    var st = $('#tcNoteStatus');
+    if (st) st.textContent = w ? T('WhatsApp opened in a new tab.', 'WhatsApp dibuka dalam tab baharu.') : T('A new tab could not open here. Copy the message instead.', 'Tab baharu tidak dapat dibuka di sini. Salin mesej ini.');
+    if (note && !w) note.querySelector('textarea').focus();
+  }
+  function copyNote() {
+    var note = $('#tcShareNote'), ta = note && note.querySelector('textarea'), st = $('#tcNoteStatus');
+    if (!ta) return;
+    function done(ok) { if (st) st.textContent = ok ? T('Copied. Open WhatsApp and paste it.', 'Disalin. Buka WhatsApp dan tampal.') : T('Select the text and copy it.', 'Pilih teks dan salin.'); }
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(ta.value).then(function () { done(true); }, function () { ta.select(); done(document.execCommand && document.execCommand('copy')); }); }
+    else { ta.select(); done(document.execCommand && document.execCommand('copy')); }
+  }
   function copy() {
     var text = planText(A.plan(s)), out = $('#tcCopied');
     function done(ok) { if (out) out.textContent = ok ? T('Copied. You can paste it in a message.', 'Disalin. Anda boleh tampal dalam mesej.') : T('Could not copy. Use Print instead.', 'Tidak dapat menyalin. Gunakan Cetak.'); }
-    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
-    else done(false);
+    function fallback() { var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) {} ta.remove(); done(ok); }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+    else fallback();
   }
 
   /* ---------- play an example: the case fills in screen by screen ---------- */
