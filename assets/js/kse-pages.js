@@ -57,7 +57,10 @@ K.pageInit.overview = function () {
     app: { n: '10', l: { en: 'app screens', bm: 'skrin aplikasi' } }
   };
   /* the map draws on its own, so a problem there never blanks the lists below */
-  K.onLang.push(function () { K.viz.constellation(svg, $('#consLegend'), first); first = false; });
+  K.onLang.push(function () {
+    K.viz.constellation(svg, $('#consLegend'), first); first = false;
+    K.viz.needPicker(svg, $('#needBar'), $('#needOut'));
+  });
   K.onLang.push(function () {
     $('#why').innerHTML = K.why.map(function (w) {
       return '<div class="fig"><b>' + esc(K.L(w.big)) + '</b><p>' + esc(K.L(w.t)) + '</p><small>' + esc(K.T('Source: ', 'Sumber: ') + K.L(w.src)) + '</small></div>';
