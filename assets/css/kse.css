@@ -145,7 +145,7 @@ kbd{font:600 11px var(--sans);padding:1px 6px;border:1px solid var(--line);borde
 .brand-mark .vein{fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .brand-mark .node{fill:var(--gold);stroke:var(--bg);stroke-width:1.2}
 .brand b{display:block;font:750 17px/1.05 var(--display);font-stretch:88%;letter-spacing:.005em}
-.brand small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.brand small{display:block;font-size:14px;color:var(--muted);margin-top:2px}
 .tools{display:flex;align-items:center;gap:8px;flex:none}
 .lang{display:flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
 .lang-btn{appearance:none;border:0;background:none;padding:5px 11px;border-radius:999px;font:700 11.5px var(--sans);letter-spacing:.06em;color:var(--muted);cursor:pointer;transition:background-color .15s var(--ease),color .15s var(--ease)}

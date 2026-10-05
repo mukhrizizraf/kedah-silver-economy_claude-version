@@ -34,6 +34,13 @@ and gives them a new look and feel:
   (`assets/art/songket-crest.svg`, from `tools/songket_art.py`).
 - **Team portraits:** from the main version, at the owner's request.
 
+## Copyright copy
+
+A separate folder, `ICC copyright version` (outside this repo), holds a
+four-page, offline copy for a UUM copyright filing: Overview, Try a case, Data
+blueprint and Our Silver App. It has no picture files; every picture is drawn
+in code. It is not published here.
+
 ## Run it
 
 No build step. Open `index.html` in a browser, or serve the folder with any
