@@ -3,7 +3,9 @@
    One question per screen for an older person or a helper. A case card fills
    in beside the questions as each answer is given, and the case ends as one
    Assistance Plan. The rules live in kse-assist.js (no DOM); this file only
-   draws and listens.
+   draws and listens. The first screen also asks whether the person wants to
+   get help or to give (sedekah, waqf, things or time); the giving rules live
+   in kse-give.js and end as one giving plan.
    ============================================================================ */
 (function (K) {
 'use strict';
@@ -52,7 +54,9 @@ var IC = {
   lock: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5M12 14.5v2.5"/>',
   file: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 15.5h6"/>',
   office: '<path d="M4 20V9l8-5 8 5v11M9 20v-5h6v5M4 20h16"/>',
-  ask: '<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.6a2.3 2.3 0 1 1 3.3 2.1c-.7.4-1.1.9-1.1 1.7M12 16.6v.3"/>'
+  ask: '<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.6a2.3 2.3 0 1 1 3.3 2.1c-.7.4-1.1.9-1.1 1.7M12 16.6v.3"/>',
+  heart: '<path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.2a4.2 4.2 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/>',
+  give: '<path d="M3 15.5h3.5l3 2h5.5a1.6 1.6 0 0 0 0-3.2H11M6.5 15.5V21H3M15 14.3l4.4-2.2a1.6 1.6 0 0 1 1.6 2.8L15 19.5"/><path d="M14 9.6s-3.5-2.1-3.5-4.7A2 2 0 0 1 14 3.7a2 2 0 0 1 3.5 1.2c0 2.6-3.5 4.7-3.5 4.7z"/>'
 };
 function icon(n) { return '<svg class="tc-svg" viewBox="0 0 24 24" aria-hidden="true">' + (IC[n] || IC.spark) + '</svg>'; }
 
@@ -62,11 +66,25 @@ function t2(en, bm) { return { en: en, bm: bm }; }
 var SCREENS = ['start', 'about', 'place', 'daily', 'home', 'money', 'areas', 'items', 'how', 'soon', 'forms1', 'forms2', 'review', 'plan'];
 var GROUP = { about: 1, place: 2, daily: 3, home: 4, money: 4, areas: 5, items: 5, how: 5, soon: 5, forms1: 6, forms2: 6, review: 7 };
 var GROUPS = [null, t2('About', 'Tentang'), t2('Where', 'Lokasi'), t2('Daily life', 'Harian'), t2('Home and money', 'Rumah dan wang'), t2('Help needed', 'Bantuan'), t2('For the forms', 'Untuk borang'), t2('Check', 'Semak')];
+/* the giving side (rules in kse-give.js): the same start and place screens, then its own */
+var GSCREENS = ['start', 'place', 'gwhat', 'gmoney', 'gtime', 'greview', 'gplan'];
+var GGROUP = { place: 1, gwhat: 2, gmoney: 3, gtime: 4, greview: 5 };
+var GGROUPS = [null, t2('Where', 'Lokasi'), t2('Ways to give', 'Cara menyumbang'), t2('Money', 'Wang'), t2('Time', 'Masa'), t2('Check', 'Semak')];
 
 K.pageInit.scenario = function () {
   A = K.assist;
-  var root = $('#tc'); if (!root || !A) return;
+  var G = K.give;
+  var root = $('#tc'); if (!root || !A || !G) return;
   var s = A.blank(), at = 'start', chosenAreas = [], playing = 0, lastAdded = '';
+  /* path: '' until chosen, then 'get' (help for an older person) or 'give' (sedekah, waqf, time) */
+  var path = '', g = G.blank();
+  function giving() { return path === 'give'; }
+  function scr() { return giving() ? GSCREENS : SCREENS; }
+  function skip(id) {
+    if (giving()) { if (id === 'gmoney') return !G.hasMoney(g); if (id === 'gtime') return !G.hasTime(g); }
+    else if (id === 'forms1' || id === 'forms2') return !A.needsForms(s);
+    return false;
+  }
 
   /* the same question, worded for the person or for a helper */
   function Q(selfEn, selfBm, otherEn, otherBm) { return s.filler === 'helper' ? T(otherEn, otherBm) : T(selfEn, selfBm); }
@@ -96,15 +114,18 @@ K.pageInit.scenario = function () {
       return '<div class="tc-privacy">' + icon('lock') + '<div><b>' + esc(T('Your answers stay on this device', 'Jawapan anda kekal dalam peranti ini')) + '</b><p>' +
           esc(T('We never ask for a name, MyKad number, address or phone number. You write those on the official form yourself.', 'Kami tidak sekali-kali meminta nama, nombor MyKad, alamat atau nombor telefon. Anda tulis sendiri pada borang rasmi.')) + '</p></div>' +
           tile('consent', 'yes', T('I understand', 'Saya faham'), { on: s.consent, small: true }) + '</div>' +
-        head(T('Who is filling this in?', 'Siapa yang mengisi ini?'), T('We will ask a few simple questions, one at a time. You can go back and change any answer.', 'Kami akan tanya beberapa soalan mudah, satu demi satu. Anda boleh kembali dan ubah jawapan.')) +
+        head(T('What would you like to do today?', 'Apa yang anda mahu lakukan hari ini?'), T('Older people can get help, and they can give it too.', 'Warga emas boleh mendapat bantuan, dan boleh juga memberi.')) +
+        '<div class="tc-grid is-two tc-paths">' + map(G.paths, function (k) { return tile('path', k, L(G.paths[k].l), { icon: k === 'give' ? 'give' : 'care', desc: L(G.paths[k].d), on: path === k }); }) + '</div>' +
+        '<h3 class="tc-subq">' + esc(T('Who is filling this in?', 'Siapa yang mengisi ini?')) + '</h3><p class="tc-help">' + esc(T('We will ask a few simple questions, one at a time. You can go back and change any answer.', 'Kami akan tanya beberapa soalan mudah, satu demi satu. Anda boleh kembali dan ubah jawapan.')) + '</p>' +
         '<div class="tc-grid is-two">' +
         tile('filler', 'self', L(A.fillers.self), { icon: 'person', desc: T('I am the older person', 'Saya warga emas itu') }) +
         tile('filler', 'helper', L(A.fillers.helper), { icon: 'helper', desc: T('Family, a neighbour or an officer', 'Keluarga, jiran atau pegawai') }) + '</div>' +
         (s.filler === 'helper' ? group('tcRel', T('Who are you to them?', 'Apakah hubungan anda dengannya?'), map(A.relations, function (k) { return tile('relation', k, L(A.relations[k]), { small: true }); })) : '') +
         '<div class="tc-examples"><h3>' + esc(T('Or watch a full example', 'Atau tonton contoh lengkap')) + '</h3><div class="tc-ex-list">' +
+        (giving() ? '<button type="button" class="tc-ex" data-gexample><span class="tc-ex-play">' + icon('play') + '</span><span><b>' + esc(L(G.example.l)) + '</b><small>' + esc(L(G.example.d)) + '</small></span></button>' :
         A.examples.map(function (e, i) {
           return '<button type="button" class="tc-ex" data-example="' + i + '"><span class="tc-ex-play">' + icon('play') + '</span><span><b>' + esc(L(e.l)) + '</b><small>' + esc(L(e.d)) + '</small></span></button>';
-        }).join('') + '</div></div>';
+        }).join('')) + '</div></div>';
     },
     about: function () {
       return head(Q('How old are you?', 'Berapakah umur anda?', 'How old are they?', 'Berapakah umurnya?')) +
@@ -211,8 +232,56 @@ K.pageInit.scenario = function () {
         (A.needsForms(s) ? row(T('For the forms', 'Untuk borang'), formsText(), 'forms1') : '') +
         '</dl>';
     },
-    plan: function () { return planHtml(A.plan(s)); }
+    plan: function () { return planHtml(A.plan(s)); },
+
+    /* ---------- the giving side ---------- */
+    gwhat: function () {
+      function tiles(keys) { return keys.map(function (k) { return gtile('types', k, L(G.types[k].l), { icon: G.types[k].i, desc: L(G.types[k].d) }); }).join(''); }
+      return head(Q('How would you like to give?', 'Bagaimana anda mahu menyumbang?', 'How would they like to give?', 'Bagaimana dia mahu menyumbang?'), T('Choose all that fit. You can give money, things or time.', 'Pilih semua yang sesuai. Anda boleh beri wang, barang atau masa.')) +
+        '<div class="tc-q"><h3 id="tcGMoney">' + esc(T('Money and things', 'Wang dan barang')) + '</h3><div class="tc-grid" role="group" aria-labelledby="tcGMoney">' + tiles(['sedekah', 'wakaf', 'sponsor', 'goods']) + '</div></div>' +
+        '<div class="tc-q"><h3 id="tcGTime">' + esc(T('Time', 'Masa')) + '</h3><div class="tc-grid" role="group" aria-labelledby="tcGTime">' + tiles(['volunteer', 'mentor', 'peer']) + '</div></div>';
+    },
+    gmoney: function () {
+      var n = G.normalize(g);
+      return head(T('About the money', 'Tentang wang'), T('We never ask how much you give.', 'Kami tidak pernah bertanya berapa banyak yang anda beri.')) +
+        (n.types.indexOf('sedekah') >= 0 ? group('tcGCause', T('Where should the sedekah go?', 'Ke mana sedekah ini patut pergi?'), map(G.causes, function (k) { return gtile('causes', k, L(G.causes[k]), { small: true }); }), T('Choose any.', 'Pilih mana-mana.')) : '') +
+        group('tcGOften', T('How often?', 'Berapa kerap?'), map(G.often, function (k) { return gtile('often', k, L(G.often[k]), { small: true }); })) +
+        group('tcGPay', T('How would you like to pay?', 'Bagaimana anda mahu membayar?'), map(G.payWays, function (k) { return gtile('pay', k, L(G.payWays[k]), { small: true }); })) +
+        (n.types.indexOf('wakaf') >= 0 ? '<p class="tc-note">' + icon('office') + '<span>' + esc(T('In Kedah, waqf is held by MAIK. The plan shows MAIK\'s official ways to give.', 'Di Kedah, wakaf dipegang oleh MAIK. Pelan ini menunjukkan saluran rasmi MAIK.')) + '</span></p>' : '');
+    },
+    gtime: function () {
+      var n = G.normalize(g);
+      return head(Q('About your time', 'Tentang masa anda', 'About their time', 'Tentang masanya'), T('We point you to groups that need help. They decide with you how to join.', 'Kami tunjukkan kumpulan yang memerlukan bantuan. Mereka berbincang dengan anda cara untuk menyertai.')) +
+        (n.types.indexOf('volunteer') >= 0 ? group('tcGSkill', Q('What would you like to do?', 'Apa yang anda mahu lakukan?', 'What would they like to do?', 'Apa yang dia mahu lakukan?'), map(G.skills, function (k) { return gtile('skills', k, L(G.skills[k].l), { small: true }); }), T('Choose all that fit.', 'Pilih semua yang sesuai.')) : '') +
+        group('tcGHours', T('How much time?', 'Berapa banyak masa?'), map(G.hours, function (k) { return gtile('hours', k, L(G.hours[k]), { small: true, icon: 'clock' }); })) +
+        group('tcGTravel', T('Getting there', 'Cara ke sana'), map(G.travels, function (k) { return gtile('travel', k, L(G.travels[k]), { small: true }); }));
+    },
+    greview: function () {
+      function row(label, value, go) { return '<div class="tc-rv"><dt>' + esc(label) + '</dt><dd>' + esc(value || '·') + '</dd><dd><button type="button" class="tc-link" data-go="' + go + '">' + esc(T('Change', 'Ubah')) + '</button></dd></div>'; }
+      return head(T('Check your answers', 'Semak jawapan anda'), T('Make sure this is right. Then we make one plan for giving.', 'Pastikan ini betul. Kemudian kami buat satu pelan sumbangan.')) +
+        '<dl class="tc-review">' +
+        row(T('Filled in by', 'Diisi oleh'), L(A.fillers[s.filler]) + (s.relation ? ' · ' + L(A.relations[s.relation]) : ''), 'start') +
+        row(T('Place', 'Lokasi'), [s.district, s.mukim].filter(Boolean).join(' · '), 'place') +
+        row(T('Ways to give', 'Cara menyumbang'), gText('types'), 'gwhat') +
+        (G.hasMoney(g) ? row(T('Money', 'Wang'), gText('money'), 'gmoney') : '') +
+        (G.hasTime(g) ? row(T('Time', 'Masa'), gText('time'), 'gtime') : '') +
+        '</dl>';
+    },
+    gplan: function () { return giveHtml(G.plan(g, s)); }
   };
+  /* a tile for a giving answer: data-g instead of data-f, so the help case is never touched */
+  function gtile(field, value, label, opts) {
+    opts = opts || {};
+    opts.on = Array.isArray(g[field]) ? g[field].indexOf(value) >= 0 : g[field] === value;
+    opts.attr = ' data-g="' + field + '" data-v="' + esc(value) + '"';
+    return tile('', value, label, opts);
+  }
+  function gText(part) {
+    var n = G.normalize(g);
+    if (part === 'types') return n.types.map(function (k) { return L(G.types[k].l); }).join(' · ');
+    if (part === 'money') return n.causes.map(function (k) { return L(G.causes[k]); }).concat(n.often ? [L(G.often[n.often])] : []).concat(n.pay ? [L(G.payWays[n.pay])] : []).join(' · ');
+    return n.skills.map(function (k) { return L(G.skills[k].l); }).concat(n.hours ? [L(G.hours[n.hours])] : []).concat(n.travel ? [L(G.travels[n.travel])] : []).join(' · ');
+  }
   function formsText() {
     return [s.muslim ? T('Muslim: ', 'Islam: ') + L(A.muslims[s.muslim]).toLowerCase() : '', s.citizen === 'yes' ? T('Citizen', 'Warganegara') : '',
       s.kedahYears ? L(A.kedahYears[s.kedahYears]) + T(' in Kedah', ' di Kedah') : '', s.household ? s.household + T(' at home', ' di rumah') : '',
@@ -415,6 +484,8 @@ K.pageInit.scenario = function () {
             : '<p class="tc-gapnote">' + icon('alert') + esc(T('No organisation on our list offers this yet. This is a gap the project will map.', 'Belum ada organisasi dalam senarai kami yang menawarkan ini. Ini jurang yang akan dipetakan oleh projek.')) + '</p>') +
           '<details class="tc-steps" open><summary>' + esc(T('Steps', 'Langkah')) + '</summary><ol>' + steps(p, line).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol></details></li>';
       }).join('') + '</ol>' +
+      '<div class="tc-cross">' + icon('give') + '<span><b>' + esc(Q('Would you like to give too?', 'Mahu menyumbang juga?', 'Would they like to give too?', 'Adakah dia mahu menyumbang juga?')) + '</b><small>' + esc(T('Older people can give sedekah, waqf or some time, even while getting help.', 'Warga emas boleh memberi sedekah, wakaf atau sedikit masa, walaupun sedang menerima bantuan.')) + '</small></span>' +
+        '<button type="button" class="btn btn-quiet" data-act="to-give">' + esc(T('Give or volunteer', 'Menyumbang')) + '</button></div>' +
       '<div class="tc-plan-actions">' +
         '<button type="button" class="btn btn-paddy" data-act="copy">' + icon('copy') + '<span>' + esc(T('Copy the plan', 'Salin pelan')) + '</span></button>' +
         '<button type="button" class="btn btn-quiet" data-act="print">' + icon('print') + '<span>' + esc(T('Print or save as PDF', 'Cetak atau simpan PDF')) + '</span></button>' +
@@ -441,10 +512,136 @@ K.pageInit.scenario = function () {
     return out.join('\n');
   }
 
+  /* ---------- the giving plan ---------- */
+  var GREASON = {
+    needsYou: t2('Needs help you can give', 'Memerlukan bantuan yang anda boleh beri'), runsVolunteers: t2('Works with volunteers', 'Bekerja dengan sukarelawan'),
+    seniorCentre: t2('A centre for older people', 'Pusat untuk warga emas'), takesThings: t2('Gives or lends things to older people', 'Memberi atau meminjamkan barang kepada warga emas'),
+    helpsElders: t2('Helps older people in need', 'Membantu warga emas yang memerlukan'), sameDistrict: t2('Same district', 'Daerah yang sama'),
+    statewide: t2('Serves all of Kedah', 'Berkhidmat seluruh Kedah'), fromHome: t2('Can be done from home', 'Boleh dibuat dari rumah'), confirmed: t2('Confirmed on our list', 'Disahkan dalam senarai kami')
+  };
+  var GCAUTION = { otherDistrict: t2('In another district', 'Di daerah lain') };
+  function fitLabel(f) { return G.skills[f] ? L(G.skills[f].l) : L(G.types[f].l); }
+  function routeCard(x) {
+    var r = x.route, cashFirst = g.pay === 'cash', btns = [];
+    if (r.masjid) btns.push('<a class="btn btn-paddy" href="' + masjidUrl() + '" target="_blank" rel="noopener">' + icon('pin') + '<span>' + esc(T('Find a masjid nearby', 'Cari masjid berdekatan')) + '</span></a>');
+    if (r.projects) btns.push('<a class="btn btn-paddy" href="' + r.projects + '" target="_blank" rel="noopener">' + icon('office') + '<span>' + esc(T('See the waqf projects', 'Lihat projek wakaf')) + '</span></a>');
+    if (r.online) btns.push('<a class="btn ' + (cashFirst || r.projects ? 'btn-quiet' : 'btn-paddy') + '" href="' + r.online + '" target="_blank" rel="noopener">' + icon('give') + '<span>' + esc(T('Give online on the official page', 'Beri dalam talian di laman rasmi')) + '</span></a>');
+    if (r.office) btns.push('<a class="btn btn-quiet" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(r.office) + '" target="_blank" rel="noopener">' + icon('pin') + '<span>' + esc(L(r.counter)) + '</span></a>');
+    return '<article class="tc-scheme tc-route"><header><span class="tc-agency">' + esc(r.agency) + '</span><div><h4>' + esc(L(r.l)) + '</h4><small>' + esc(L(r.by)) + '</small></div></header>' +
+      '<p class="tc-for"><span>' + esc(T('For', 'Untuk')) + '</span>' + x.forTypes.map(function (k) { return '<em>' + esc(L(G.types[k].l)) + '</em>'; }).join('') + '</p>' +
+      '<ol class="tc-gsteps">' + r.steps.map(function (st) { return '<li>' + esc(L(st)) + '</li>'; }).join('') + '</ol>' +
+      '<div class="tc-apply-acts">' + btns.join('') + '</div>' +
+      (r.source ? '<p class="tc-checked">' + esc(T('From the agency\'s public page, checked October 2026. The agency\'s own page is where you pay.', 'Daripada laman awam agensi, disemak Oktober 2026. Bayaran dibuat di laman agensi itu sendiri.')) + ' <a href="' + r.source + '" target="_blank" rel="noopener">' + esc(T('Source', 'Sumber')) + '</a></p>' : '') + '</article>';
+  }
+  function sayLine(m) {
+    var what = m.fits.map(fitLabel).join(', ').toLowerCase(), hrs = g.hours ? ', ' + L(G.hours[g.hours]).toLowerCase() : '';
+    if (m.kind === 'goods') return T('Say: "I have things to give to older people. Can you use them?"', 'Katakan: "Saya ada barang untuk diberi kepada warga emas. Boleh pihak tuan gunakan?"');
+    if (m.kind === 'sponsor') return T('Say: "I would like to help one older person every month."', 'Katakan: "Saya mahu membantu seorang warga emas setiap bulan."');
+    return T('Say: "I would like to help with ' + what + hrs + '."', 'Katakan: "Saya mahu membantu dengan ' + what + hrs + '."');
+  }
+  function giveCard(m, desk) {
+    var rec = m.record;
+    return '<li class="tc-contact"><img src="assets/img/' + picFor(rec) + '.webp" alt="" width="560" height="560" loading="lazy">' +
+      '<div class="tc-contact-body"><div class="tc-contact-top"><div><b>' + esc(rec.name) + '</b><small>' + icon('pin') + esc(rec.district + ', Kedah') + '</small></div>' + K.pill(rec.status) + '</div>' +
+      '<p class="tc-contact-for">' + (desk ? '<span>' + esc(T('Finds a group near you', 'Mencari kumpulan berdekatan anda')) + '</span>' : m.fits.map(function (f) { return '<span>' + esc(fitLabel(f)) + '</span>'; }).join('')) + '</p>' +
+      (desk ? '' : '<ul class="tc-why">' + m.reasons.map(function (r) { return '<li class="ok">' + icon('check') + esc(L(GREASON[r])) + '</li>'; }).join('') +
+        m.cautions.map(function (c) { return '<li class="warn">' + icon('alert') + esc(L(GCAUTION[c])) + '</li>'; }).join('') + '</ul>' +
+        '<p class="tc-say">' + icon('chat') + '<span>' + esc(sayLine(m)) + '</span></p>') +
+      '<div class="tc-contact-acts">' +
+        '<a class="btn btn-paddy" href="' + dirUrl(rec) + '" target="_blank" rel="noopener">' + icon('van') + '<span>' + esc(T('Directions', 'Arah')) + '</span></a>' +
+        '<a class="btn btn-quiet" href="' + mapUrl(rec) + '" target="_blank" rel="noopener">' + icon('pin') + '<span>' + esc(T('Open in Google Maps', 'Buka di Google Maps')) + '</span></a>' +
+        '<span class="tc-call">' + icon('phone') + '<span>' + esc(T('Phone number added after the Phase 1 check', 'Nombor telefon ditambah selepas semakan Fasa 1')) + '</span></span>' +
+      '</div></div></li>';
+  }
+  function giveHtml(p) {
+    var n = p.input, places = p.routes.length + p.orgs.length + (p.desk ? 1 : 0);
+    var flags = [];
+    if (p.flags.indexOf('official') >= 0) flags.push(['alert', T('Give only through the official pages below, or at the masjid itself. Never pay into a personal account, even if someone says it is for charity.', 'Beri hanya melalui laman rasmi di bawah, atau di masjid itu sendiri. Jangan sekali-kali bayar ke akaun peribadi, walaupun ada yang kata ia untuk amal.')]);
+    p.notes.forEach(function (x) {
+      var sk = L(G.skills[x.skill].l);
+      flags.push(['person', x.k === 'needsDriver' ? T(sk + ': this needs a driver. Ask the group if someone can drive with you.', sk + ': ini memerlukan pemandu. Tanya kumpulan itu jika ada orang boleh memandu bersama anda.')
+        : T(sk + ': this means going out. Ask the group if there is a way to help from home.', sk + ': ini perlu keluar rumah. Tanya kumpulan itu jika ada cara membantu dari rumah.')]);
+    });
+    if (p.desk) flags.push(['people', T('No volunteer group on our list is in ' + (p.place.district || 'your district') + ' yet. The coordination desk can find one. Phase 1 adds more groups.', 'Belum ada kumpulan sukarelawan dalam senarai kami di ' + (p.place.district || 'daerah anda') + '. Meja penyelarasan boleh mencarinya. Fasa 1 akan menambah lagi kumpulan.')]);
+    return '<div class="tc-plan">' +
+      '<section class="tc-plan-hero" aria-labelledby="tcPlanTitle">' +
+        '<div><p class="tc-mini">' + esc(T('Giving plan', 'Pelan sumbangan')) + '</p><h2 class="tc-title" id="tcPlanTitle" tabindex="-1">' + esc(Q('Your giving plan', 'Pelan sumbangan anda', 'Their giving plan', 'Pelan sumbangannya')) + '</h2>' +
+        '<p class="tc-plan-sub">' + esc([n.types.map(function (k) { return L(G.types[k].l); }).join(', '), [s.mukim, s.district].filter(Boolean).join(', ')].filter(Boolean).join(' · ')) + '</p>' +
+        '<p class="tc-id"><span>' + esc(T('Plan', 'Pelan')) + '</span><code>' + esc(p.caseId) + '</code><span>' + esc(T('Rules', 'Peraturan')) + ' ' + esc(p.version) + '</span></p></div>' +
+        '<div class="tc-ring" style="--v:100" role="img" aria-label="' + esc(T(places + ' places to give', places + ' tempat untuk menyumbang')) + '"><b>' + places + '</b><span>' + esc(T('places to give', 'tempat untuk menyumbang')) + '</span></div>' +
+      '</section>' +
+      (flags.length ? '<ul class="tc-flags">' + flags.map(function (f) { return '<li class="tc-flag' + (f[0] === 'alert' ? ' tc-flag-urgent' : '') + '">' + icon(f[0]) + '<span>' + esc(f[1]) + '</span></li>'; }).join('') + '</ul>' : '') +
+      (p.routes.length ? '<section class="tc-apply" aria-labelledby="tcGiveTitle"><div class="tc-apply-head"><div><h3 id="tcGiveTitle">' + esc(T('Where to give', 'Di mana untuk memberi')) + '</h3><p class="tc-hint">' +
+        esc(T('Official ways from the masjid, LZNK and MAIK. Waqf goes only through MAIK.', 'Saluran rasmi masjid, LZNK dan MAIK. Wakaf hanya melalui MAIK.')) + '</p></div></div>' +
+        '<div class="tc-schemes">' + p.routes.map(routeCard).join('') + '</div></section>' : '') +
+      (p.orgs.length || p.desk ? '<section class="tc-contacts" aria-labelledby="tcVolTitle"><div class="tc-contacts-head"><div><h3 id="tcVolTitle">' + esc(G.hasTime(g) ? T('Where to volunteer', 'Di mana untuk menjadi sukarelawan') : T('Who can pass it on', 'Siapa boleh menyampaikannya')) + '</h3><p class="tc-hint">' +
+        esc(T('Groups on our list that could use this help. Each one decides with you how you can join.', 'Kumpulan dalam senarai kami yang mungkin memerlukan bantuan ini. Setiap satu berbincang dengan anda cara untuk menyertai.')) + '</p></div></div>' +
+        '<ol class="tc-contact-list">' + p.orgs.map(function (m) { return giveCard(m); }).join('') + (p.desk ? giveCard({ record: p.desk.record, fits: [], reasons: [], cautions: [] }, true) : '') + '</ol></section>' : '') +
+      '<div class="tc-share">' +
+        (canSpeak ? '<button type="button" class="btn btn-quiet" data-act="listen">' + icon('sound') + '<span>' + esc(T('Listen to the plan', 'Dengar pelan ini')) + '</span></button>' : '') +
+        '<button type="button" class="btn btn-quiet" data-act="whatsapp">' + icon('chat') + '<span>' + esc(T('Send to family on WhatsApp', 'Hantar kepada keluarga di WhatsApp')) + '</span></button>' +
+        '<button type="button" class="btn btn-quiet" data-act="remind">' + icon('clock') + '<span>' + esc(giveRemindLabel()) + '</span></button>' +
+      '</div><div class="tc-share-note" id="tcShareNote" hidden><p>' + esc(T('If WhatsApp did not open, copy this message and paste it into WhatsApp.', 'Jika WhatsApp tidak terbuka, salin mesej ini dan tampal ke dalam WhatsApp.')) + '</p>' +
+        '<textarea readonly rows="6" aria-label="' + esc(T('The plan as a message', 'Pelan sebagai mesej')) + '">' + esc(giveText(p)) + '</textarea>' +
+        '<button type="button" class="btn btn-paddy" data-act="copy-note">' + icon('copy') + '<span>' + esc(T('Copy the message', 'Salin mesej')) + '</span></button><p class="tc-copied" id="tcNoteStatus" aria-live="polite"></p></div>' +
+      '<p class="tc-sample">' + icon('alert') + '<span>' + esc(T('Sample matching. The groups come from our list, and what each one needs is an example until Phase 1 checks it. The money routes are the agencies\' own public pages; the plan never takes money.', 'Padanan contoh. Kumpulan datang daripada senarai kami, dan keperluan setiap satu ialah contoh sehingga Fasa 1 menyemaknya. Saluran wang ialah laman awam agensi itu sendiri; pelan ini tidak sekali-kali menerima wang.')) + '</span></p>' +
+      '<div class="tc-cross">' + icon('care') + '<span><b>' + esc(Q('Need some help too?', 'Perlukan bantuan juga?', 'Do they need some help too?', 'Adakah dia perlukan bantuan juga?')) + '</b><small>' + esc(T('Giving and getting help can go together.', 'Memberi dan menerima bantuan boleh berjalan bersama.')) + '</small></span>' +
+        '<button type="button" class="btn btn-quiet" data-act="to-get">' + esc(T('Get help', 'Dapatkan bantuan')) + '</button></div>' +
+      '<div class="tc-plan-actions">' +
+        '<button type="button" class="btn btn-paddy" data-act="copy">' + icon('copy') + '<span>' + esc(T('Copy the plan', 'Salin pelan')) + '</span></button>' +
+        '<button type="button" class="btn btn-quiet" data-act="print">' + icon('print') + '<span>' + esc(T('Print or save as PDF', 'Cetak atau simpan PDF')) + '</span></button>' +
+        '<button type="button" class="btn btn-quiet" data-go="greview">' + icon('edit') + '<span>' + esc(T('Change answers', 'Ubah jawapan')) + '</span></button>' +
+        '<button type="button" class="btn btn-quiet" data-act="restart">' + icon('restart') + '<span>' + esc(T('Start again', 'Mula semula')) + '</span></button>' +
+        '<p class="tc-copied" id="tcCopied" aria-live="polite"></p>' +
+      '</div></div>';
+  }
+  function giveText(p) {
+    var out = ['Kedah Silver Economy · ' + T('Giving plan', 'Pelan sumbangan'), T('Plan ', 'Pelan ') + p.caseId + ' · ' + T('rules ', 'peraturan ') + p.version, ''];
+    out.push(T('Ways to give: ', 'Cara menyumbang: ') + p.input.types.map(function (k) { return L(G.types[k].l); }).join(', '));
+    if (p.routes.length) {
+      out.push('', T('Where to give', 'Di mana untuk memberi') + ':');
+      p.routes.forEach(function (x) { out.push('- ' + L(x.route.l) + (x.route.masjid ? ': ' + masjidUrl() : ', ' + x.route.agency + ': ' + (x.route.projects || x.route.online))); });
+    }
+    if (p.orgs.length || p.desk) {
+      out.push('', T('Where to volunteer or give things', 'Di mana untuk menyumbang tenaga atau barang') + ':');
+      p.orgs.forEach(function (m) { out.push('- ' + m.record.name + ', ' + m.record.district + ' (' + m.fits.map(fitLabel).join(', ') + '): ' + mapUrl(m.record)); });
+      if (p.desk) out.push('- ' + p.desk.record.name + ': ' + mapUrl(p.desk.record));
+    }
+    out.push('', T('Give only through official pages or at the masjid itself. Never into a personal account.', 'Beri hanya melalui laman rasmi atau di masjid itu sendiri. Jangan ke akaun peribadi.'));
+    return out.join('\n');
+  }
+  function giveRemindLabel() {
+    return g.often === 'monthly' ? T('Remind me every month', 'Ingatkan saya setiap bulan') : g.often === 'friday' ? T('Remind me every Friday', 'Ingatkan saya setiap Jumaat') : T('Remind me in 7 days', 'Ingatkan saya dalam 7 hari');
+  }
+  function giveIcs(p) {
+    var d = new Date(), rule = '';
+    function ymd(x) { return x.getFullYear() + ('0' + (x.getMonth() + 1)).slice(-2) + ('0' + x.getDate()).slice(-2); }
+    if (g.often === 'friday') { d.setDate(d.getDate() + ((5 - d.getDay() + 7) % 7 || 7)); rule = 'RRULE:FREQ=WEEKLY;BYDAY=FR'; }
+    else if (g.often === 'monthly') { d.setDate(d.getDate() + 30); rule = 'RRULE:FREQ=MONTHLY'; }
+    else d.setDate(d.getDate() + 7);
+    var end = new Date(d.getTime() + 86400000);
+    var text = giveText(p).replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kedah Silver Economy//Try a case//EN', 'BEGIN:VEVENT', 'UID:' + p.caseId + '@kedah-silver-economy',
+      'DTSTAMP:' + ymd(new Date()) + 'T000000Z', 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(end)].concat(rule ? [rule] : []).concat([
+      'SUMMARY:' + T('Giving plan ', 'Pelan sumbangan ') + p.caseId, 'DESCRIPTION:' + text,
+      'BEGIN:VALARM', 'TRIGGER:-PT9H', 'ACTION:DISPLAY', 'DESCRIPTION:' + T('Giving plan', 'Pelan sumbangan'), 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR']).join('\r\n');
+  }
+  /* the text of whichever plan is on screen: copy, WhatsApp and Listen use it */
+  function currentText() { return giving() ? giveText(G.plan(g, s)) : planText(A.plan(s)); }
+
   /* ---------- the case card that fills in as you answer ---------- */
   function card() {
     var rows = [];
     function add(key, label, value) { if (value) rows.push('<div class="tc-cr' + (lastAdded === key ? ' is-new' : '') + '"><dt>' + esc(label) + '</dt><dd>' + esc(value) + '</dd></div>'); }
+    if (giving()) {
+      add('filler', T('Filled in by', 'Diisi oleh'), s.filler === 'helper' ? (s.relation ? L(A.relations[s.relation]) : L(A.fillers.helper)) : (at !== 'start' ? L(A.fillers.self) : ''));
+      add('place', T('Place', 'Lokasi'), [s.mukim, s.district].filter(Boolean).join(', '));
+      add('g-types', T('Ways to give', 'Cara menyumbang'), gText('types'));
+      add('g-money', T('Money', 'Wang'), G.hasMoney(g) ? gText('money') : '');
+      add('g-time', T('Time', 'Masa'), G.hasTime(g) ? gText('time') : '');
+      return '<div class="tc-card-head"><span>' + esc(T('Your giving so far', 'Sumbangan setakat ini')) + '</span><code>' + esc(G.caseId(g, s)) + '</code></div>' +
+        (rows.length ? '<dl class="tc-cr-list">' + rows.join('') + '</dl>' : '<p class="tc-card-empty">' + esc(T('Each answer appears here. Together they become one giving plan.', 'Setiap jawapan muncul di sini. Bersama-sama ia menjadi satu pelan sumbangan.')) + '</p>');
+    }
     add('filler', T('Filled in by', 'Diisi oleh'), s.filler === 'helper' ? (s.relation ? L(A.relations[s.relation]) : L(A.fillers.helper)) : (at !== 'start' ? L(A.fillers.self) : ''));
     add('person', T('Person', 'Orang'), [ageText(), s.gender ? L(A.genders[s.gender]) : ''].filter(Boolean).join(' · '));
     add('place', T('Place', 'Lokasi'), [s.mukim, s.district].filter(Boolean).join(', '));
@@ -464,6 +661,16 @@ K.pageInit.scenario = function () {
 
   /* ---------- progress and the bottom bar ---------- */
   function progress() {
+    if (giving()) {
+      /* the giving steps that apply to this person only, numbered in order */
+      var gn = GGROUP[at] || 0; if (!gn) return '';
+      var shown = []; GGROUPS.forEach(function (lab, n) { if (n && GSCREENS.some(function (x) { return GGROUP[x] === n && !skip(x); })) shown.push(n); });
+      return '<ol class="tc-progress" aria-label="' + esc(T('Steps', 'Langkah')) + '">' + shown.map(function (n, i) {
+        var state = n < gn ? 'done' : n === gn ? 'now' : 'next', first = GSCREENS.filter(function (x) { return GGROUP[x] === n; })[0];
+        return '<li class="is-' + state + '"' + (state === 'now' ? ' aria-current="step"' : '') + '>' + (state === 'done' ? '<button type="button" data-go="' + first + '">' : '<span>') +
+          '<i>' + (state === 'done' ? icon('check') : i + 1) + '</i><em>' + esc(L(GGROUPS[n])) + '</em>' + (state === 'done' ? '</button>' : '</span>') + '</li>';
+      }).join('') + '</ol>';
+    }
     var g = GROUP[at] || 0;
     if (!g) return '';
     return '<ol class="tc-progress" aria-label="' + esc(T('Steps', 'Langkah')) + '">' + GROUPS.slice(1).map(function (lab, i) {
@@ -474,8 +681,12 @@ K.pageInit.scenario = function () {
     }).join('') + '</ol>';
   }
   function ready() {
+    var n = G.normalize(g);
     switch (at) {
-      case 'start': return s.consent && (s.filler === 'self' || !!s.relation);
+      case 'start': return s.consent && !!path && (s.filler === 'self' || !!s.relation);
+      case 'gwhat': return n.types.length > 0;
+      case 'gmoney': return (n.types.indexOf('sedekah') < 0 || n.causes.length > 0) && !!(n.often && n.pay);
+      case 'gtime': return (n.types.indexOf('volunteer') < 0 || n.skills.length > 0) && !!(n.hours && n.travel);
       case 'about': return !!(s.age && s.gender);
       case 'place': return !!s.district;
       case 'daily': return !!s.level;
@@ -488,8 +699,8 @@ K.pageInit.scenario = function () {
     }
   }
   function bar() {
-    if (at === 'plan') return '';
-    var i = SCREENS.indexOf(at), next = at === 'review' ? T('Make the plan', 'Buat pelan') : at === 'start' ? T('Start', 'Mula') : T('Next', 'Seterusnya');
+    if (at === 'plan' || at === 'gplan') return '';
+    var i = scr().indexOf(at), next = at === 'review' || at === 'greview' ? T('Make the plan', 'Buat pelan') : at === 'start' ? T('Start', 'Mula') : T('Next', 'Seterusnya');
     return '<div class="tc-bar">' + (i > 0 ? '<button type="button" class="btn btn-quiet" data-nav="back">' + esc(T('Back', 'Kembali')) + '</button>' : '<span></span>') +
       '<p class="tc-wait" aria-live="polite">' + (ready() ? '' : esc(T('Choose an answer to go on', 'Pilih jawapan untuk teruskan'))) + '</p>' +
       '<button type="button" class="btn btn-paddy" data-nav="next"' + (ready() ? '' : ' aria-disabled="true"') + '>' + esc(next) + '</button></div>';
@@ -499,38 +710,51 @@ K.pageInit.scenario = function () {
   function focusKey() {
     var el = document.activeElement; if (!el || !root.contains(el)) return null;
     if (el.hasAttribute('data-f')) return '[data-f="' + el.getAttribute('data-f') + '"]' + (el.hasAttribute('data-v') ? '[data-v="' + el.getAttribute('data-v') + '"]' : '');
+    if (el.hasAttribute('data-g')) return '[data-g="' + el.getAttribute('data-g') + '"][data-v="' + el.getAttribute('data-v') + '"]';
     for (var i = 0; i < KEYS.length; i++) if (el.hasAttribute(KEYS[i])) return '[' + KEYS[i] + (el.getAttribute(KEYS[i]) ? '="' + el.getAttribute(KEYS[i]) + '"' : '') + ']';
     return el.classList.contains('tc-card-toggle') ? '.tc-card-toggle' : null;
   }
   function render(focus) {
     var keep = focus ? null : focusKey(), cardOpen = !!root.querySelector('.tc-card.is-open');
+    var isPlan = at === 'plan' || at === 'gplan', cardName = giving() ? T('Your giving so far', 'Sumbangan setakat ini') : T('The case so far', 'Kes setakat ini');
+    var count = giving() ? (g.types.length ? g.types.length + ' ' + T(g.types.length > 1 ? 'ways' : 'way', 'cara') : '') : (s.needs.length ? s.needs.length + ' ' + T('needs', 'keperluan') : '');
     root.innerHTML =
-      '<div class="tc-layout' + (at === 'plan' ? ' is-plan' : '') + '">' +
+      '<div class="tc-layout' + (isPlan ? ' is-plan' : '') + '">' +
         '<section class="tc-stage" aria-live="off">' + progress() + '<div class="tc-screen tc-screen-' + at + '">' + draw[at]() + '</div>' + bar() + '</section>' +
-        (at === 'plan' ? '' : '<aside class="tc-card" aria-label="' + esc(T('The case so far', 'Kes setakat ini')) + '"><button type="button" class="tc-card-toggle" aria-expanded="false">' +
-          '<span>' + esc(T('The case so far', 'Kes setakat ini')) + '</span><b>' + (s.needs.length ? s.needs.length + ' ' + T('needs', 'keperluan') : '') + '</b></button><div class="tc-card-body">' + card() + '</div></aside>') +
+        (isPlan ? '' : '<aside class="tc-card" aria-label="' + esc(cardName) + '"><button type="button" class="tc-card-toggle" aria-expanded="false">' +
+          '<span>' + esc(cardName) + '</span><b>' + esc(count) + '</b></button><div class="tc-card-body">' + card() + '</div></aside>') +
       '</div>';
     lastAdded = '';
     if (cardOpen) { var c = root.querySelector('.tc-card'); if (c) { c.classList.add('is-open'); c.querySelector('.tc-card-toggle').setAttribute('aria-expanded', 'true'); } }
     if (keep) { var k = root.querySelector(keep); if (k) k.focus({ preventScroll: true }); }
     if (focus) { var h = root.querySelector('.tc-title'); if (h) h.focus({ preventScroll: true }); var top = root.getBoundingClientRect().top + window.scrollY - 90; if (window.scrollY > top) window.scrollTo({ top: top, behavior: K.reduceMotion ? 'auto' : 'smooth' }); }
   }
-  function go(id) { if (SCREENS.indexOf(id) < 0) return; at = id; render(true); }
+  function go(id) { if (scr().indexOf(id) < 0) return; at = id; render(true); }
+  /* next and back pass over screens that do not apply (the form questions, money or time) */
   function next() {
     if (!ready()) { var w = root.querySelector('.tc-wait'); if (w) { w.classList.remove('is-shake'); void w.offsetWidth; w.classList.add('is-shake'); } return; }
     if (at === 'how' && !s.needs.length) return go('items');
-    if (at === 'soon' && !A.needsForms(s)) return go('review');
-    go(SCREENS[SCREENS.indexOf(at) + 1]);
+    var list = scr(), i = list.indexOf(at) + 1;
+    while (i < list.length - 1 && skip(list[i])) i++;
+    go(list[i]);
   }
   function back() {
-    if (at === 'review' && !A.needsForms(s)) return go('soon');
-    var i = SCREENS.indexOf(at); if (i > 0) go(SCREENS[i - 1]);
+    var list = scr(), i = list.indexOf(at) - 1;
+    while (i > 0 && skip(list[i])) i--;
+    if (i >= 0) go(list[i]);
   }
 
   /* ---------- answers ---------- */
   var MULTI = { difficulties: 1, supports: 1, chronic: 1, costs: 1 }, NONE_FIRST = { supports: 1, chronic: 1, costs: 1 };
   var FORMS = { muslim: 1, citizen: 1, kedahYears: 1, household: 1, earners: 1, house: 1, chronic: 1, oku: 1, govtCare: 1, costs: 1, bank: 1, online: 1 };
+  var GMULTI = { types: 1, causes: 1, skills: 1 };
+  function setGive(f, v) {
+    if (GMULTI[f]) { var a = g[f], i = a.indexOf(v); if (i >= 0) a.splice(i, 1); else a.push(v); }
+    else g[f] = v;
+    lastAdded = f === 'types' ? 'g-types' : f === 'causes' || f === 'often' || f === 'pay' ? 'g-money' : 'g-time';
+  }
   function setField(f, v) {
+    if (f === 'path') { path = v; return; }
     if (f === 'recentHospital') { s.recentHospital = !s.recentHospital; lastAdded = 'recentHospital'; return; }
     if (f === 'consent') { s.consent = !s.consent; return; }
     if (MULTI[f]) {
@@ -554,12 +778,17 @@ K.pageInit.scenario = function () {
   root.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b || !root.contains(b)) return;
     if (b.hasAttribute('data-example')) return play(A.examples[Number(b.getAttribute('data-example'))]);
+    if (b.hasAttribute('data-gexample')) return playGive();
+    if (b.hasAttribute('data-g')) { setGive(b.getAttribute('data-g'), b.getAttribute('data-v')); return render(false); }
     if (b.classList.contains('tc-card-toggle')) { var c = b.closest('.tc-card'), open = !c.classList.contains('is-open'); c.classList.toggle('is-open', open); b.setAttribute('aria-expanded', String(open)); return; }
     var nav = b.getAttribute('data-nav'); if (nav === 'next') return next(); if (nav === 'back') return back();
     if (b.hasAttribute('data-go')) return go(b.getAttribute('data-go'));
     var act = b.getAttribute('data-act');
     if (act === 'print') return window.print();
-    if (act === 'restart') { s = A.blank(); chosenAreas = []; return go('start'); }
+    if (act === 'restart') { s = A.blank(); chosenAreas = []; g = G.blank(); path = ''; return go('start'); }
+    /* cross over between the two sides; who and where carry over */
+    if (act === 'to-give') { path = 'give'; return go(s.district ? 'gwhat' : 'place'); }
+    if (act === 'to-get') { path = 'get'; return go('about'); }
     if (act === 'copy') return copy();
     if (act === 'whatsapp') return whatsapp();
     if (act === 'copy-note') return copyNote();
@@ -583,7 +812,7 @@ K.pageInit.scenario = function () {
   function listen() {
     var sp = window.speechSynthesis;
     if (sp.speaking) { sp.cancel(); return; }
-    var u = new SpeechSynthesisUtterance(planText(A.plan(s)).replace(/https?:\S+/g, '').replace(/·/g, ','));
+    var u = new SpeechSynthesisUtterance(currentText().replace(/https?:\S+/g, '').replace(/·/g, ','));
     u.lang = K.lang === 'bm' ? 'ms-MY' : 'en-GB'; u.rate = .9;
     var v = sp.getVoices().filter(function (x) { return x.lang && x.lang.toLowerCase().indexOf(K.lang === 'bm' ? 'ms' : 'en') === 0; })[0]; if (v) u.voice = v;
     sp.speak(u);
@@ -604,6 +833,7 @@ K.pageInit.scenario = function () {
     setTimeout(function () { if (root.hasAttribute('data-print') && !window.matchMedia('print').matches) done(); }, 1500);
   }
   function remind() {
+    if (giving()) { var gp = G.plan(g, s); return download(giveIcs(gp), 'giving-' + gp.caseId + '.ics', T('A reminder was saved. Open it to add it to the calendar.', 'Peringatan telah disimpan. Buka untuk menambahkannya ke kalendar.')); }
     var p = A.plan(s), blob = new Blob([icsFor(p)], { type: 'text/calendar' }), a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = 'follow-up-' + p.caseId + '.ics'; document.body.appendChild(a); a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
@@ -613,7 +843,7 @@ K.pageInit.scenario = function () {
      computers: WhatsApp Web in a new tab. Either way the message is shown so
      it can be copied if nothing opened (embedded previews, blocked tabs). */
   function whatsapp() {
-    var text = planText(A.plan(s)), note = $('#tcShareNote');
+    var text = currentText(), note = $('#tcShareNote');
     if (note) { note.hidden = false; }
     var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
     if (touch && navigator.share) {
@@ -635,7 +865,7 @@ K.pageInit.scenario = function () {
     else { ta.select(); done(document.execCommand && document.execCommand('copy')); }
   }
   function copy() {
-    var text = planText(A.plan(s)), out = $('#tcCopied');
+    var text = currentText(), out = $('#tcCopied');
     function done(ok) { if (out) out.textContent = ok ? T('Copied. You can paste it in a message.', 'Disalin. Anda boleh tampal dalam mesej.') : T('Could not copy. Use Print instead.', 'Tidak dapat menyalin. Gunakan Cetak.'); }
     function fallback() { var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) {} ta.remove(); done(ok); }
     if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
@@ -648,7 +878,7 @@ K.pageInit.scenario = function () {
     ['forms1', ['muslim', 'citizen', 'kedahYears', 'household', 'earners', 'house']], ['forms2', ['chronic', 'oku', 'govtCare', 'costs', 'bank', 'online', 'docs']], ['review', []], ['plan', []]];
   function play(ex) {
     var src = A.normalize(ex.s), step = 0, run = ++playing; src.consent = true;
-    s = A.blank(); chosenAreas = [];
+    s = A.blank(); chosenAreas = []; path = 'get'; g = G.blank();
     if (K.reduceMotion) { s = src; src.needs.forEach(function (n) { var a = A.items[n.item].area; if (chosenAreas.indexOf(a) < 0) chosenAreas.push(a); }); return go('plan'); }
     (function tick() {
       if (run !== playing) return;
@@ -659,8 +889,27 @@ K.pageInit.scenario = function () {
       if (step < ORDER.length) setTimeout(tick, o[0] === 'items' || o[0] === 'daily' || o[0] === 'forms2' ? 1500 : 1100);
     })();
   }
+  /* the giving example: a retired teacher, filled in screen by screen */
+  function playGive() {
+    var ex = G.example, run = ++playing, steps = [
+      ['start', function () { s.filler = ex.place.filler; s.relation = ''; lastAdded = 'filler'; }],
+      ['place', function () { s.district = ex.place.district; s.mukim = ex.place.mukim; lastAdded = 'place'; }],
+      ['gwhat', function () { g.types = ex.g.types.slice(); lastAdded = 'g-types'; }],
+      ['gmoney', function () { g.causes = ex.g.causes.slice(); g.often = ex.g.often; g.pay = ex.g.pay; lastAdded = 'g-money'; }],
+      ['gtime', function () { g.skills = ex.g.skills.slice(); g.hours = ex.g.hours; g.travel = ex.g.travel; lastAdded = 'g-time'; }],
+      ['greview', function () {}], ['gplan', function () {}]
+    ], step = 0;
+    s = A.blank(); s.consent = true; chosenAreas = []; g = G.blank(); path = 'give';
+    if (K.reduceMotion) { steps.forEach(function (x) { x[1](); }); return go('gplan'); }
+    (function tick() {
+      if (run !== playing) return;
+      var o = steps[step]; if (!o) return;
+      o[1](); at = o[0]; render(o[0] === 'gplan'); step++;
+      if (step < steps.length) setTimeout(tick, 1300);
+    })();
+  }
   /* any real tap stops a running example */
-  root.addEventListener('pointerdown', function (e) { if (!e.target.closest('[data-example]')) playing++; }, true);
+  root.addEventListener('pointerdown', function (e) { if (!e.target.closest('[data-example],[data-gexample]')) playing++; }, true);
 
   K.onLang.push(function () { render(false); });
 };

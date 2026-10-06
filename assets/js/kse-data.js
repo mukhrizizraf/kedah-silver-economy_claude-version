@@ -421,7 +421,7 @@ chain3:'Pasukan bantuan',chain3s:'Penyedia penjagaan, sukarelawan dan bantuan ke
 chainNote:'Kami mahu tahu siapa yang ada, dan bagaimana seseorang dirujuk dari satu pihak ke pihak lain.',
 
 /* try a case */
-labTitle:'Gambarkan seorang warga emas. Dapatkan satu pelan.',labSub:'Jawab soalan mudah tentang seorang warga emas di Kedah. Setiap jawapan masuk ke dalam satu kes, dan kes itu menjadi pelan bantuan yang mungkin.',
+labTitle:'Gambarkan seorang warga emas. Dapatkan satu pelan.',labSub:'Jawab soalan mudah tentang seorang warga emas di Kedah. Dapatkan pelan bantuan yang mungkin, atau pelan untuk menyumbang: sedekah, wakaf atau sedikit masa.',
 labStat:'jenis bantuan yang boleh dipadankan',
 presetLabel:'Contoh simulasi',
 scoreTipTitle:'Cara skor dikira',scoreTipBody:'Mulakan dengan profil warga emas. Tambah atau tolak pelarasan bagi setiap keperluan, daerah dan pendapatan. Beberapa keperluan turut mengambil kira penyelarasan. Skor contoh akhir dihadkan antara 20 hingga 96.',
