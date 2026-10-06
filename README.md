@@ -62,3 +62,20 @@ static server. The page transitions need http(s) (they do not run from
   What each organisation can offer is sample data until Phase 1 checks it;
   scheme rules come from the agencies' public pages (checked October 2026).
   The plan never promises help or decides who qualifies.
+- **Try a case also has a giving side** (October 2026), from the i-CareElder
+  framework's "Contribution and reciprocity": the first screen asks whether
+  the older person wants to get help or to give. Giving covers sedekah or a
+  donation, cash waqf, sponsoring an older person, giving things,
+  volunteering, sharing skills and peer support, and ends in one giving plan.
+  It never asks how much. Money goes only through official routes: the kariah
+  masjid (tabung or its own DuitNow QR), LZNK Sadaqah4Ummah, MAIK infaq, and
+  waqf only through MAIK; the plan never takes money and shows no account
+  numbers. Volunteers are pointed first to the JKM volunteer scheme (every
+  district, no upper age limit), then to a PAWE centre in their district (16
+  on JKM's register) and to NGOs from their own public pages. The NGOs show as
+  "To check" until Phase 1 confirms they take older volunteers. The giving
+  rules live in `assets/js/kse-give.js`; the help rules are unchanged.
+- **Our Silver App** mock has thirteen screens: the help path, plus a giving
+  branch shaped like a digital masjid tabung (one link per masjid, once, every
+  Friday or every month, private giving, the masjid's own DuitNow QR, a giving
+  record kept on the phone). The app never holds money.
