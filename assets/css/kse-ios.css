@@ -1137,3 +1137,12 @@ body[data-page="network"] .data-table th:nth-child(5){width:18%}
 .need-cta:hover{color:var(--on-paddy);transform:translateY(-1px)}
 .need-cta:active{transform:scale(.97)}
 @media (max-width:520px){.need-list a{grid-template-columns:auto 1fr}.need-list .pill{grid-column:2;justify-self:start}}
+
+/* ---------- Silver App mock: the giving screens (Sujood-style digital tabung) ---------- */
+.mock-screen .mock-small{margin:4px 0 10px;font-size:14px;line-height:1.45;color:var(--ink-2)}
+.mock-screen[data-flow="give"] .mock-primary,.mock-screen[data-flow="give"] .mock-secondary{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px}
+.mock-screen[data-flow="give"] .mock-pills{margin:6px 0}
+.mock-screen[data-flow="give"] .mock-note{margin:12px 0 0;font-size:13px;line-height:1.4}
+.mock-screen[data-flow="give"] .mock-kicker+.mock-timeline{margin-top:4px}
+.mock-screen[data-flow="give"] p.mock-kicker:not(:first-child){margin:16px 0 6px;text-align:left;letter-spacing:0;text-transform:none}
+.mock-give{margin-top:10px}

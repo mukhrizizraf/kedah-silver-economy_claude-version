@@ -380,3 +380,7 @@
 @media print{
   .tc-cross{display:none}
 }
+.tc-place-what{margin:0;font-size:15.5px;line-height:1.45;color:var(--ink-2)}
+.tc-jkm-wrap{margin-bottom:14px}
+.tc-jkm-wrap .tc-scheme{background:var(--paddy-soft)}
+.tc-places-note{margin-top:14px}

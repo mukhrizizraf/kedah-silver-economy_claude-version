@@ -1,20 +1,19 @@
 /* ============================================================================
-   Kedah Silver Economy: the giving side of Try a case (rules 2026.10.06)
+   Kedah Silver Economy: the giving side of Try a case (rules 2026.10.07)
    The i-CareElder framework treats an older person as someone who can also
    give: sedekah, cash waqf, sponsoring another older person, giving things,
    volunteering, sharing skills and supporting others of the same age.
    This file holds the rules only (no DOM). Money always goes through the
    official page of LZNK, MAIK or the masjid itself; the plan never takes
-   money and never shows an account number. Volunteers are pointed to the
-   organisations on our list, as the lead researcher asked.
-   It reads K.assist (kse-assist.js) for the sample abilities of each
-   organisation, and leaves those rules untouched.
+   money and never shows an account number. Volunteers are pointed to the JKM
+   volunteer scheme, the PAWE centres and NGOs in Kedah, as the lead
+   researcher asked. The help rules in kse-assist.js are left untouched.
    ============================================================================ */
 (function (K) {
 'use strict';
-var VERSION = '2026.10.06';
+var VERSION = '2026.10.07';
 function t(en, bm) { return { en: en, bm: bm }; }
-var G = {}, A = K.assist;
+var G = {};
 G.version = VERSION;
 
 /* ---------- The first question of Try a case: get help, or give ---------- */
@@ -55,21 +54,18 @@ G.payWays = {
   cash: t('Cash, in person', 'Tunai, secara bersemuka')
 };
 
-/* what a volunteer can do: it = the items on the help side that this skill serves;
-   away = has to leave home; drive = needs to drive */
+/* what a volunteer can do: away = has to leave home; drive = needs to drive */
 G.skills = {
-  visit: { l: t('Visiting and keeping company', 'Menziarah dan menemani'), it: ['visits'], away: true },
-  phone: { l: t('Phone calls to check on others', 'Telefon bertanya khabar'), it: ['checkins'] },
-  drive: { l: t('Driving or going along to the clinic', 'Memandu atau menemani ke klinik'), it: ['escort', 'apptTransport', 'dialysis', 'rehab'], away: true, drive: true },
-  cook: { l: t('Cooking or packing food', 'Memasak atau membungkus makanan'), it: ['meals', 'mealDelivery', 'foodBasket'], away: true },
-  quran: { l: t('Teaching Quran or giving religious talks', 'Mengajar mengaji atau tazkirah'), it: ['spiritual'] },
-  errands: { l: t('Shopping and errands', 'Membeli barang dan urusan'), it: ['groceries', 'pharmacy'], away: true },
-  fix: { l: t('Small repairs or cleaning', 'Pembaikan kecil atau mengemas'), it: ['repairs', 'cleaning'], away: true },
-  digital: { l: t('Teaching phone use', 'Mengajar guna telefon'), it: ['digital'] },
-  activities: { l: t('Leading activities, like exercise or crafts', 'Memimpin aktiviti, seperti senaman atau kraf'), it: ['activities', 'dayCare'], away: true }
+  visit: { l: t('Visiting and keeping company', 'Menziarah dan menemani'), away: true },
+  phone: { l: t('Phone calls to check on others', 'Telefon bertanya khabar') },
+  drive: { l: t('Driving or going along to the clinic', 'Memandu atau menemani ke klinik'), away: true, drive: true },
+  cook: { l: t('Cooking or packing food', 'Memasak atau membungkus makanan'), away: true },
+  quran: { l: t('Teaching Quran or giving religious talks', 'Mengajar mengaji atau tazkirah') },
+  errands: { l: t('Shopping and errands', 'Membeli barang dan urusan'), away: true },
+  fix: { l: t('Small repairs or cleaning', 'Pembaikan kecil atau mengemas'), away: true },
+  digital: { l: t('Teaching phone use', 'Mengajar guna telefon') },
+  activities: { l: t('Leading activities, like exercise or crafts', 'Memimpin aktiviti, seperti senaman atau kraf'), away: true }
 };
-/* sharing skills and peer support look for the same help as these */
-var TYPE_ITEMS = { mentor: ['activities', 'digital', 'spiritual'], peer: ['activities', 'visits', 'checkins'] };
 G.hours = { month: t('A few hours a month', 'Beberapa jam sebulan'), week: t('A few hours a week', 'Beberapa jam seminggu'), more: t('A day a week or more', 'Sehari seminggu atau lebih') };
 G.travels = {
   drive: t('I can drive or ride', 'Saya boleh memandu atau menunggang'),
@@ -152,54 +148,82 @@ function routesFor(g) {
   return out.map(function (r) { return { route: r, forTypes: g.types.filter(function (k) { return r.types.indexOf(k) >= 0; }) }; });
 }
 
-/* ---------- Time and things: which organisations on our list fit ---------- */
-function capFor(rec) {
-  for (var i = 0; i < A.providers.length; i++) if (rec.name.indexOf(A.providers[i].p) === 0) return A.providers[i];
-  return null;
+/* ---------- Time and things: real places to volunteer in Kedah ----------
+   Checked 6 to 7 October 2026. The JKM volunteer scheme and the PAWE centres come
+   from JKM's own pages and register (status Verified: they exist and are run for
+   or with older people). The NGOs are from their own public pages (status
+   Candidate: whether each takes older volunteers is for Phase 1 to confirm).
+   No phone numbers here: each card links to the official page or to Google Maps. */
+var JKM_VOL = 'https://www.jkm.gov.my/main/article/sukarelawan-komuniti';
+var PAWE_REG = 'https://wargaemas.jkm.gov.my/komuniti/pawe/index';
+G.jkm = {
+  l: t('Register as a JKM volunteer (Sukarelawan JKM)', 'Daftar sebagai Sukarelawan JKM'), by: t('Jabatan Kebajikan Masyarakat, every district', 'Jabatan Kebajikan Masyarakat, setiap daerah'),
+  online: 'https://komuniti.jkm.gov.my/', source: JKM_VOL,
+  steps: [
+    t('Register once online on JKM\'s e-Komuniti portal, or at the district welfare office.', 'Daftar sekali dalam talian di portal e-Komuniti JKM, atau di Pejabat Kebajikan Masyarakat Daerah.'),
+    t('For citizens aged 18 or older. There is no upper age limit, and it is free.', 'Untuk warganegara berumur 18 tahun ke atas. Tiada had umur maksimum, dan percuma.'),
+    t('JKM volunteers help with home visits and home help, religious and cultural programmes, and floods.', 'Sukarelawan JKM membantu lawatan dan bantuan di rumah, program keagamaan dan kebudayaan, serta bencana banjir.')
+  ]
+};
+var PAWE_SKILLS = ['activities', 'quran', 'digital', 'phone', 'visit', 'cook'];
+function pawe(name, district, members) {
+  return { name: name, district: district, status: 'Verified', kinds: ['peer', 'mentor', 'volunteer'], skills: PAWE_SKILLS, members: members, pawe: true,
+    what: t('A JKM activity centre run for and with older people.', 'Pusat aktiviti JKM untuk dan bersama warga emas.'), link: PAWE_REG, linkL: t('JKM list of PAWE centres', 'Senarai PAWE JKM'), q: name + ', ' + district + ', Kedah', source: PAWE_REG };
 }
-/* money agencies and paid businesses are not where volunteers go */
-function takesPeople(rec, cap) { return cap && !cap.elig && cap.cost !== 'paid'; }
-var GOODS_ITEMS = ['wheelchair', 'walker', 'stick', 'hospitalBed', 'showerChair', 'diapers', 'underpads', 'foodBasket', 'emergencyFood', 'essentials'];
-var SPONSOR_ITEMS = ['monthlyAid', 'foodBasket', 'visits', 'emergencyCash'];
-
-function wantedFor(g) {
-  var want = {};
-  function add(items, why) { items.forEach(function (k) { (want[k] = want[k] || []).indexOf(why) < 0 && want[k].push(why); }); }
-  g.skills.forEach(function (sk) { add(G.skills[sk].it, sk); });
-  if (g.types.indexOf('mentor') >= 0) add(TYPE_ITEMS.mentor, 'mentor');
-  if (g.types.indexOf('peer') >= 0) add(TYPE_ITEMS.peer, 'peer');
-  return want;
+G.places = [
+  pawe('PAWE Kota Setar', 'Kota Setar', 177), pawe('PAWE Alor Setar', 'Kota Setar', 176), pawe('PAWE Masjid Aman', 'Kota Setar', 255), pawe('PAWE LKPI', 'Kota Setar', 117),
+  pawe('PAWE Kubang Pasu', 'Kubang Pasu', 391), pawe('PAWE Padang Terap', 'Padang Terap', 379), pawe('PAWE Kg Nawa Pokok Sena', 'Pokok Sena', 72),
+  pawe('PAWE Sungai Petani', 'Sungai Petani', 391), pawe('PAWE Permatang Katong', 'Sungai Petani', 212), pawe('PAWE Kulim', 'Kulim', 514),
+  pawe('PAWE Bandar Baharu', 'Bandar Baharu', 287), pawe('PAWE Baling', 'Baling', 234), pawe('PAWE Sik', 'Sik', 256), pawe('PAWE Yan', 'Yan', 160),
+  pawe('PAWE Pendang', 'Pendang', 257), pawe('PAWE Langkawi', 'Langkawi', 295),
+  { name: 'Food Bank Malaysia', district: 'Kota Setar', status: 'Candidate', kinds: ['volunteer', 'goods'], skills: ['cook', 'errands', 'drive'],
+    what: t('Packs and gives out food to families in need. HQ in Taman Aman, Alor Setar; open 9am to 5pm, not on Thursday, Sunday or public holidays.', 'Membungkus dan mengagihkan makanan kepada keluarga yang memerlukan. Ibu pejabat di Taman Aman, Alor Setar; buka 9 pagi hingga 5 petang, kecuali Khamis, Ahad dan cuti umum.'),
+    link: 'https://foodbankmalaysia.com/contact-us/', linkL: t('Official page', 'Laman rasmi'), q: 'Food Bank Malaysia, Jalan Sultanah, Taman Aman, Alor Setar', source: 'https://foodbankmalaysia.com/contact-us/' },
+  { name: 'PEWARIS Kubang Pasu', district: 'Kubang Pasu', status: 'Candidate', kinds: ['volunteer', 'mentor', 'goods'], skills: ['quran', 'visit', 'cook', 'activities'],
+    what: t('A welfare body for older people, building a home for older single mothers, with classes and a food bank.', 'Pertubuhan kebajikan warga emas yang membina asrama untuk ibu tunggal warga emas, dengan kelas ilmu dan bank makanan.'),
+    link: 'https://www.facebook.com/pewarislangkasukakubangpasu/', linkL: t('Facebook page', 'Laman Facebook'), q: 'Pewaris Langkasuka Kubang Pasu', source: 'https://sumbangan.com/penganjur/pewaris' },
+  { name: 'IKRAM Kedah', districts: ['Kota Setar', 'Sungai Petani', 'Kulim'], status: 'Candidate', kinds: ['volunteer'], skills: ['cook', 'errands', 'fix', 'visit', 'drive'],
+    what: t('Community and flood-relief volunteers, with offices in Alor Setar, Sungai Petani and Kulim.', 'Sukarelawan komuniti dan bantuan banjir, dengan pejabat di Alor Setar, Sungai Petani dan Kulim.'),
+    link: 'https://ikram.org.my/kedah/', linkL: t('Official page', 'Laman rasmi'), q: 'Pertubuhan IKRAM Malaysia Kedah', source: 'https://ikram.org.my/kedah/' },
+  { name: 'Bulan Sabit Merah Malaysia, Kedah', district: 'state', status: 'Candidate', kinds: ['volunteer'], skills: ['drive', 'visit', 'cook', 'errands'],
+    what: t('First aid, ambulance and flood help, with branches across Kedah.', 'Pertolongan cemas, ambulans dan bantuan banjir, dengan cawangan di seluruh Kedah.'),
+    link: 'https://www.redcrescent.org.my/', linkL: t('Official page', 'Laman rasmi'), q: 'Bulan Sabit Merah Malaysia Kedah', source: 'https://www.redcrescent.org.my/' },
+  { name: 'Persatuan Hospis Kedah', district: 'state', status: 'Candidate', kinds: ['volunteer'], skills: ['visit', 'phone'],
+    what: t('Home care for people who are very ill, run from Alor Setar with teams in the districts.', 'Jagaan di rumah untuk pesakit tenat, dari Alor Setar dengan pasukan di daerah.'),
+    link: 'https://aphn.org/services/persatuan-hospis-kedah-hospice-society-kedah/', linkL: t('Listing page', 'Laman senarai'), q: 'Persatuan Hospis Kedah Alor Setar', source: 'https://aphn.org/services/persatuan-hospis-kedah-hospice-society-kedah/' },
+  { name: 'WANIDA Kedah', district: 'state', status: 'Candidate', partner: true, kinds: ['volunteer', 'goods'], skills: ['visit', 'cook', 'phone', 'activities'],
+    what: t('Welfare programmes and volunteer groups across Kedah.', 'Program kebajikan dan kumpulan sukarelawan di seluruh Kedah.'), q: 'WANIDA Kedah' },
+  { name: 'PERKIM Kedah', district: 'state', status: 'Candidate', partner: true, kinds: ['volunteer', 'mentor'], skills: ['quran', 'visit'],
+    what: t('Faith-based welfare and support for new Muslims.', 'Kebajikan berasaskan agama dan sokongan untuk saudara baru.'), q: 'PERKIM Kedah Alor Setar' },
+  { name: 'Persatuan Warga Emas Alor Setar', district: 'Kota Setar', status: 'Candidate', kinds: ['peer', 'mentor'], skills: ['activities', 'visit'],
+    what: t('An association run by older people, a member of the national council of senior citizens (NACSCOM).', 'Persatuan yang dikendalikan oleh warga emas, ahli majlis kebangsaan warga emas (NACSCOM).'), q: 'Persatuan Warga Emas Alor Setar' },
+  { name: 'Senior Citizens Association Sungai Petani', district: 'Sungai Petani', status: 'Candidate', kinds: ['peer', 'mentor'], skills: ['activities', 'visit'],
+    what: t('An association run by older people, a member of NACSCOM.', 'Persatuan yang dikendalikan oleh warga emas, ahli NACSCOM.'), q: 'Senior Citizens Association Sungai Petani' }
+];
+function placeIn(pl, district) { return pl.districts ? pl.districts.indexOf(district) >= 0 : pl.district === district; }
+function matchPlace(g, district, pl) {
+  var fits = [], reasons = [], cautions = [], pts = 40;
+  if (pl.kinds.indexOf('volunteer') >= 0) g.skills.forEach(function (sk) { if (pl.skills.indexOf(sk) >= 0) fits.push(sk); });
+  ['mentor', 'peer', 'goods'].forEach(function (k) { if (g.types.indexOf(k) >= 0 && pl.kinds.indexOf(k) >= 0) fits.push(k); });
+  if (!fits.length) return null;
+  pts += Math.min(24, fits.length * 8); reasons.push(fits.length === 1 && fits[0] === 'goods' ? 'takesThings' : 'needsYou');
+  if (pl.pawe && (fits.indexOf('peer') >= 0 || fits.indexOf('mentor') >= 0)) { pts += 8; reasons.push('seniorCentre'); }
+  if (placeIn(pl, district)) { pts += 25; reasons.push('sameDistrict'); }
+  else if (pl.district === 'state') { pts += 10; reasons.push('statewide'); }
+  else if (g.travel === 'home' && fits.every(function (f) { return G.skills[f] && !G.skills[f].away; })) { pts += 2; reasons.push('fromHome'); }
+  else { pts -= 15; cautions.push('otherDistrict'); }
+  if (pl.status === 'Verified') { pts += 8; reasons.push('official'); }
+  if (pl.partner) { pts += 6; reasons.push('partner'); }
+  return { place: pl, fits: fits, pts: Math.max(5, Math.min(99, pts)), reasons: reasons, cautions: cautions };
 }
-function matchOrg(g, district, rec, idx, cap, want, kind) {
-  var reasons = [], cautions = [], pts = 40, fits = [];
-  if (kind === 'time') {
-    Object.keys(want).forEach(function (item) { if (cap.it.indexOf(item) >= 0) want[item].forEach(function (w) { if (fits.indexOf(w) < 0) fits.push(w); }); });
-    if (!fits.length) return null;
-    pts += Math.min(30, fits.length * 12); reasons.push('needsYou');
-    if (rec.type === 'Volunteer' || rec.type === 'NGO') { pts += 5; reasons.push('runsVolunteers'); }
-    if (/^PAWE/.test(rec.name) && (fits.indexOf('peer') >= 0 || fits.indexOf('mentor') >= 0)) { pts += 10; reasons.push('seniorCentre'); }
-  } else {
-    var list = kind === 'goods' ? GOODS_ITEMS : SPONSOR_ITEMS;
-    var hits = list.filter(function (k) { return cap.it.indexOf(k) >= 0; });
-    if (!hits.length || (kind === 'goods' && cap.m.indexOf('donate') < 0 && cap.m.indexOf('borrow') < 0)) return null;
-    fits = [kind]; pts += Math.min(24, hits.length * 6); reasons.push(kind === 'goods' ? 'takesThings' : 'helpsElders');
-  }
-  var remote = kind === 'time' && g.travel === 'home';
-  if (rec.district === district) { pts += 20; reasons.push('sameDistrict'); }
-  else if (cap.scope === 'state') { pts += 10; reasons.push('statewide'); }
-  else if (remote && fits.every(function (f) { return G.skills[f] ? !G.skills[f].away : false; })) { pts += 6; reasons.push('fromHome'); }
-  else { pts -= 6; cautions.push('otherDistrict'); }
-  if (rec.status === 'Verified') { pts += 10; reasons.push('confirmed'); } else if (rec.status === 'Candidate') pts += 4;
-  return { index: idx, record: rec, kind: kind, fits: fits, pts: Math.max(5, Math.min(99, pts)), reasons: reasons, cautions: cautions };
-}
-function orgsFor(g, district, kind) {
-  var want = wantedFor(g), out = [];
-  K.records.forEach(function (rec, idx) {
-    var cap = capFor(rec); if (!takesPeople(rec, cap)) return;
-    var m = matchOrg(g, district, rec, idx, cap, want, kind); if (m) out.push(m);
-  });
-  out.sort(function (a, b) { return b.pts - a.pts || a.record.name.localeCompare(b.record.name); });
-  return out.slice(0, 3);
+function placesFor(g, district) {
+  var out = [];
+  G.places.forEach(function (pl) { var m = matchPlace(g, district, pl); if (m) out.push(m); });
+  out.sort(function (a, b) { return b.pts - a.pts || a.place.name.localeCompare(b.place.name); });
+  /* places in another district only when nothing nearer fits */
+  var near = out.filter(function (m) { return !m.cautions.length; }), list = near.length ? near : out, pawes = 0;
+  /* at most two PAWE centres, so other groups get a place too */
+  return list.filter(function (m) { return !m.place.pawe || ++pawes <= 2; }).slice(0, 4);
 }
 
 /* things a volunteer should hear before they start */
@@ -228,17 +252,9 @@ G.caseId = function (g, place) {
 G.plan = function (input, place) {
   var g = G.normalize(input), p = place || {}, district = p.district || '';
   var money = any(g.types, G.moneyTypes) || g.types.indexOf('goods') >= 0 ? routesFor(g) : [];
-  var orgs = [];
-  if (any(g.types, G.timeTypes)) orgsFor(g, district, 'time').forEach(function (m) { orgs.push(m); });
-  if (g.types.indexOf('goods') >= 0) orgsFor(g, district, 'goods').forEach(function (m) { if (!orgs.some(function (o) { return o.index === m.index; })) orgs.push(m); });
-  if (g.types.indexOf('sponsor') >= 0) orgsFor(g, district, 'sponsor').forEach(function (m) { if (!orgs.some(function (o) { return o.index === m.index; })) orgs.push(m); });
-  var flags = [];
-  if (money.length) flags.push('official');
-  if (any(g.types, G.timeTypes) && !orgs.some(function (o) { return o.kind === 'time' && o.record.district === district; })) flags.push('noneNear');
-  /* the coordination desk is the fallback for a volunteer with no group nearby */
-  var desk = null;
-  K.records.forEach(function (rec, idx) { if (!desk && /Coordination Desk/.test(rec.name)) desk = { index: idx, record: rec }; });
-  return { version: VERSION, caseId: G.caseId(g, p), input: g, place: p, routes: money, orgs: orgs, notes: skillNotes(g), flags: flags, desk: flags.indexOf('noneNear') >= 0 ? desk : null };
+  var time = any(g.types, G.timeTypes);
+  var places = time || g.types.indexOf('goods') >= 0 ? placesFor(g, district) : [];
+  return { version: VERSION, caseId: G.caseId(g, p), input: g, place: p, routes: money, jkm: time ? G.jkm : null, places: places, notes: skillNotes(g), flags: money.length ? ['official'] : [] };
 };
 
 /* a worked example for the pitch: a retired teacher in Kubang Pasu */

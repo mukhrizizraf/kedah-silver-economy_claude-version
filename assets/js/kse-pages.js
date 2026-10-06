@@ -271,27 +271,36 @@ K.pageInit.network = function () {
 /* ---------- 08 Our Silver App ---------- */
 K.pageInit.app = function () {
   var current = 0, screens = K.$$('[data-screen]'), dots = $('#appDots'), progress = $('#appProgress');
+  /* two paths share the welcome screen: getting help (screens 1 to 9) and giving (data-flow="give") */
+  function num(s) { return Number(s.getAttribute('data-screen')); }
+  var flows = { help: [0], give: [0] };
+  screens.forEach(function (s) { if (num(s)) flows[s.getAttribute('data-flow') === 'give' ? 'give' : 'help'].push(num(s)); });
+  var flow = flows.help;
   function show(n) {
-    current = Math.max(0, Math.min(screens.length - 1, n));
-    screens.forEach(function (s) { s.classList.toggle('is-active', Number(s.getAttribute('data-screen')) === current); });
-    if (progress) progress.style.setProperty('--v', ((current + 1) / screens.length * 100) + '%');
-    if (dots) dots.innerHTML = screens.map(function (s, i) { return '<button type="button" class="' + (i === current ? 'is-on' : '') + '" data-app-dot="' + i + '" aria-label="Screen ' + (i + 1) + '"></button>'; }).join('');
-    /* the last screen draws a Lottie tick each time it is reached */
+    if (n !== 0 && flows.give.indexOf(n) > 0) flow = flows.give; else if (n !== 0) flow = flows.help;
+    current = n;
+    var at = flow.indexOf(current);
+    screens.forEach(function (s) { s.classList.toggle('is-active', num(s) === current); });
+    if (progress) progress.style.setProperty('--v', ((at + 1) / flow.length * 100) + '%');
+    if (dots) dots.innerHTML = flow.map(function (sn, i) { return '<button type="button" class="' + (sn === current ? 'is-on' : '') + '" data-app-dot="' + sn + '" aria-label="Screen ' + (i + 1) + '"></button>'; }).join('');
+    /* the last help screen draws a Lottie tick each time it is reached */
     var done = $('#appDone');
-    if (done && K.lottie && current === screens.length - 1) K.lottie(done, 'check', { loop: false });
+    if (done && K.lottie && current === flows.help[flows.help.length - 1]) K.lottie(done, 'check', { loop: false });
     var back = $('#appScreenBack');
     if (back) {
       back.disabled = !current;
       back.style.visibility = current ? 'visible' : 'hidden';
     }
   }
-  function move(n) { show(n); }
+  function step(d) { var i = flow.indexOf(current) + d; if (i >= 0 && i < flow.length) show(flow[i]); }
+  function move(n) { if (n === 0) flow = flows.help; show(n); }
   $('#appLaunch').addEventListener('click', function () { move(0); document.querySelector('.phone-mock').scrollIntoView({ behavior: K.reduceMotion ? 'auto' : 'smooth', block: 'center' }); });
   $('#appScreens').addEventListener('click', function (e) {
-    var next = e.target.closest('[data-app-next]'), reset = e.target.closest('[data-app-reset]'), choice = e.target.closest('.mock-choices button'), lang = e.target.closest('[data-app-lang]');
-    if (next) move(current + 1); if (reset) move(0); if (choice) { var grp = choice.parentNode; if (grp.hasAttribute('data-multi')) { var on = !choice.classList.contains('is-selected'); choice.classList.toggle('is-selected', on); choice.setAttribute('aria-pressed', String(on)); } else { [].forEach.call(grp.querySelectorAll('button'), function (b) { b.classList.remove('is-selected'); b.setAttribute('aria-pressed', 'false'); }); choice.classList.add('is-selected'); choice.setAttribute('aria-pressed', 'true'); } } if (lang) K.setLang(K.lang === 'bm' ? 'en' : 'bm');
+    var next = e.target.closest('[data-app-next]'), reset = e.target.closest('[data-app-reset]'), choice = e.target.closest('.mock-choices button'), lang = e.target.closest('[data-app-lang]'), jump = e.target.closest('[data-app-go]');
+    if (jump) return show(Number(jump.getAttribute('data-app-go')));
+    if (next) { if (current === 0) flow = flows.help; step(1); } if (reset) move(0); if (choice) { var grp = choice.parentNode; if (grp.hasAttribute('data-multi')) { var on = !choice.classList.contains('is-selected'); choice.classList.toggle('is-selected', on); choice.setAttribute('aria-pressed', String(on)); } else { [].forEach.call(grp.querySelectorAll('button'), function (b) { b.classList.remove('is-selected'); b.setAttribute('aria-pressed', 'false'); }); choice.classList.add('is-selected'); choice.setAttribute('aria-pressed', 'true'); } } if (lang) K.setLang(K.lang === 'bm' ? 'en' : 'bm');
   });
-  $('#appScreenBack').addEventListener('click', function () { move(current - 1); });
+  $('#appScreenBack').addEventListener('click', function () { step(-1); });
   $('#appDots').addEventListener('click', function (e) { var b = e.target.closest('[data-app-dot]'); if (b) move(Number(b.getAttribute('data-app-dot'))); });
   show(0);
 };
