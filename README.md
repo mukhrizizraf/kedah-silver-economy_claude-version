@@ -43,7 +43,9 @@ in code. Since October 2026 it carries the name "Silver Economy" (the Overview
 title is "Integrated Islamic care for older people") and the giving side of
 Try a case. It is not published in this repo; it has its own repo,
 [mukhrizizraf/silver-economy-icc-uum-version-](https://github.com/mukhrizizraf/silver-economy-icc-uum-version-),
-with a full source listing (`SOURCE-CODE.pdf`, SHA-256 per file).
+with a full source listing (`SOURCE-CODE.pdf`, SHA-256 per file), live at
+<https://mukhrizizraf.github.io/silver-economy-icc-uum-version-/>. Its
+workbook is `Silver Economy Data Blueprint.xlsx`.
 
 ## Run it
 
