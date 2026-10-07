@@ -39,7 +39,11 @@ and gives them a new look and feel:
 A separate folder, `ICC copyright version` (outside this repo), holds a
 four-page, offline copy for a UUM copyright filing: Overview, Try a case, Data
 blueprint and Our Silver App. It has no picture files; every picture is drawn
-in code. It is not published here.
+in code. Since October 2026 it carries the name "Silver Economy" (the Overview
+title is "Integrated Islamic care for older people") and the giving side of
+Try a case. It is not published in this repo; it has its own repo,
+[mukhrizizraf/silver-economy-icc-uum-version-](https://github.com/mukhrizizraf/silver-economy-icc-uum-version-),
+with a full source listing (`SOURCE-CODE.pdf`, SHA-256 per file).
 
 ## Run it
 
