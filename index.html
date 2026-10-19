@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="icon" href="assets/art/songket-crest.svg" type="image/svg+xml">
-<title>Kedah Silver Economy</title>
+<title>i-CareElder: Integrated Islamic Elderly Care Dashboard</title>
 <meta name="description" content="Integrated Islamic care for older people in Kedah. UUM Scale-Up Research Grant 2026.">
 <script>try{var lk=localStorage.getItem('kse-look')||localStorage.getItem('kse-tc-theme');if(lk&&lk!=='padi')document.documentElement.setAttribute('data-look',lk)}catch(e){}try{var t=localStorage.getItem('kse-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}(function(){var P=['index','ecosystem','network','scenario','roadmap','evidence','data','app'],f=(location.pathname.split('/').pop()||'index.html').replace(/\.html$/,''),i=P.indexOf(f),d=document.documentElement;if(i<0)i=0;function go(){try{var p=parseInt(sessionStorage.getItem('kse-idx'),10);d.setAttribute('data-dir',!isNaN(p)&&i<p?'back':'forward');sessionStorage.setItem('kse-idx',i)}catch(e){}}if(document.prerendering)document.addEventListener('prerenderingchange',go,{once:true});else go()})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,8 +25,9 @@
     <div class="hero-sheet">
       <span class="grabber" aria-hidden="true"></span>
       <div class="hero-copy">
-        <h1 data-i18n="title">Integrated Islamic care for older people in Kedah</h1>
-        <p class="lede" data-i18n="lede">Many older people need help from several places at once. We link them to Islamic bodies, welfare agencies, health services and volunteers in Kedah, and show where those links break.</p>
+        <p class="hero-kicker">i-CareElder</p>
+        <h1 data-i18n="title">Integrated Islamic Elderly Care Dashboard</h1>
+        <p class="lede" data-i18n="lede">Many older people need help from several places at once. This dashboard maps the Islamic bodies, welfare agencies, health services and volunteers in Kedah, matches each need to the right ones and gives a suggested support plan. Older people can also give back through sadaqah, waqf or their time.</p>
         <div class="actions">
           <a class="btn btn-gold" href="ecosystem.html"><span data-i18n="ctaWalk">See how it works</span><span class="btn-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>
           <a class="btn btn-ghost" href="scenario.html"><span class="btn-ai" data-icon="scenario"></span><span data-i18n="ctaScenario">Try a case</span></a>
@@ -54,6 +55,21 @@
       <div class="cons-legend" id="consLegend"></div>
       <figcaption data-i18n="consCap">Each dot is an organisation on our list. Confirmed ones sit near the centre. The outer rings still need checking or are only examples. Tap a need to see who can help, or click a dot for details.</figcaption>
     </figure>
+  </section>
+
+  <section class="wrap people-shelf fn-shelf" aria-labelledby="fnTitle">
+    <div class="shelf-head">
+      <h2 id="fnTitle" data-i18n="fnTitle">Six functions, one dashboard</h2>
+      <p data-i18n="fnSub">What i-CareElder does, and where to see each part working.</p>
+    </div>
+    <div class="data-grid">
+      <article class="card data-card fn-card"><span class="data-no">01</span><h3 data-i18n="fn1t">Ecosystem Mapping</h3><p data-i18n="fn1b">Shows the organisations that help older people, what each one does and how they link to each other.</p><a class="fn-go" href="network.html"><span data-i18n="fn1w">Who can help</span> <span aria-hidden="true">→</span></a></article>
+      <article class="card data-card fn-card"><span class="data-no">02</span><h3 data-i18n="fn2t">Needs–Services Matching</h3><p data-i18n="fn2b">Matches each need of one older person to organisations, aid schemes and community help.</p><a class="fn-go" href="scenario.html"><span data-i18n="fn2w">Try a case: get help</span> <span aria-hidden="true">→</span></a></article>
+      <article class="card data-card fn-card"><span class="data-no">03</span><h3 data-i18n="fn3t">Access to Assistance</h3><p data-i18n="fn3b">Shows who may qualify, how to apply and who to contact, with a get-ready checklist for each scheme.</p><a class="fn-go" href="scenario.html"><span data-i18n="fn3w">Try a case: get ready to apply</span> <span aria-hidden="true">→</span></a></article>
+      <article class="card data-card fn-card"><span class="data-no">04</span><h3 data-i18n="fn4t">Community Contributions</h3><p data-i18n="fn4b">Lets anyone, older people too, give sadaqah or cash waqf, or volunteer, through official channels only.</p><a class="fn-go" href="scenario.html"><span data-i18n="fn4w">Try a case: give</span> <span aria-hidden="true">→</span></a></article>
+      <article class="card data-card fn-card"><span class="data-no">05</span><h3 data-i18n="fn5t">Institutional Coordination</h3><p data-i18n="fn5b">Puts each organisation next to the others, so partners can see their own role, the gaps and the overlaps.</p><a class="fn-go" href="ecosystem.html"><span data-i18n="fn5w">How it works</span> <span aria-hidden="true">→</span></a></article>
+      <article class="card data-card fn-card"><span class="data-no">06</span><h3 data-i18n="fn6t">Personalised Elderly Care Planning</h3><p data-i18n="fn6b">Builds one suggested support plan: the services, the organisations and the next steps for this person.</p><a class="fn-go" href="scenario.html"><span data-i18n="fn6w">Try a case: the support plan</span> <span aria-hidden="true">→</span></a></article>
+    </div>
   </section>
 
   <div class="wrap">
@@ -116,7 +132,7 @@
       <details class="home-drawer">
             <summary><span><b class="tile" data-icon="network"></b><span data-i18n="teamEyebrow">The team</span></span><strong role="heading" aria-level="2" data-i18n="teamTitle">Six researchers from UUM</strong><i class="drawer-toggle" aria-hidden="true"><b></b></i></summary>
             <div class="drawer-body"><div class="shead">
-                            <p data-i18n="teamSub">From UUM's School of Economics, Finance and Banking (SEFB). We have studied ageing in Malaysia for over ten years.</p>
+                            <p data-i18n="teamSub">From Universiti Utara Malaysia: the College of Business, the College of Law, Government and International Studies, and the Department of Student Affairs. We have studied ageing in Malaysia for over ten years.</p>
             </div>
             <ul class="people" id="team"></ul>
             <h3 class="track-head" data-i18n="trackTitle">We build on four earlier studies. Three of them covered 2,966 people in total.</h3>

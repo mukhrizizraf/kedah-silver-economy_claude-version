@@ -1,10 +1,10 @@
 /* ============================================================================
-   Kedah Silver Economy: Try a case screens (rules 2026.10.03)
+   i-CareElder: Try a case screens (rules 2026.10.03)
    One question per screen for an older person or a helper. A case card fills
    in beside the questions as each answer is given, and the case ends as one
    Assistance Plan. The rules live in kse-assist.js (no DOM); this file only
    draws and listens. The first screen also asks whether the person wants to
-   get help or to give (sedekah, waqf, things or time); the giving rules live
+   get help or to give (sadaqah, waqf, things or time); the giving rules live
    in kse-give.js and end as one giving plan.
    ============================================================================ */
 (function (K) {
@@ -76,7 +76,7 @@ K.pageInit.scenario = function () {
   var G = K.give;
   var root = $('#tc'); if (!root || !A || !G) return;
   var s = A.blank(), at = 'start', chosenAreas = [], playing = 0, lastAdded = '';
-  /* path: '' until chosen, then 'get' (help for an older person) or 'give' (sedekah, waqf, time) */
+  /* path: '' until chosen, then 'get' (help for an older person) or 'give' (sadaqah, waqf, time) */
   var path = '', g = G.blank();
   function giving() { return path === 'give'; }
   function scr() { return giving() ? GSCREENS : SCREENS; }
@@ -244,7 +244,7 @@ K.pageInit.scenario = function () {
     gmoney: function () {
       var n = G.normalize(g);
       return head(T('About the money', 'Tentang wang'), T('We never ask how much you give.', 'Kami tidak pernah bertanya berapa banyak yang anda beri.')) +
-        (n.types.indexOf('sedekah') >= 0 ? group('tcGCause', T('Where should the sedekah go?', 'Ke mana sedekah ini patut pergi?'), map(G.causes, function (k) { return gtile('causes', k, L(G.causes[k]), { small: true }); }), T('Choose any.', 'Pilih mana-mana.')) : '') +
+        (n.types.indexOf('sedekah') >= 0 ? group('tcGCause', T('Where should the sadaqah go?', 'Ke mana sedekah ini patut pergi?'), map(G.causes, function (k) { return gtile('causes', k, L(G.causes[k]), { small: true }); }), T('Choose any.', 'Pilih mana-mana.')) : '') +
         group('tcGOften', T('How often?', 'Berapa kerap?'), map(G.often, function (k) { return gtile('often', k, L(G.often[k]), { small: true }); })) +
         group('tcGPay', T('How would you like to pay?', 'Bagaimana anda mahu membayar?'), map(G.payWays, function (k) { return gtile('pay', k, L(G.payWays[k]), { small: true }); })) +
         (n.types.indexOf('wakaf') >= 0 ? '<p class="tc-note">' + icon('office') + '<span>' + esc(T('In Kedah, waqf is held by MAIK. The plan shows MAIK\'s official ways to give.', 'Di Kedah, wakaf dipegang oleh MAIK. Pelan ini menunjukkan saluran rasmi MAIK.')) + '</span></p>' : '');
@@ -360,7 +360,7 @@ K.pageInit.scenario = function () {
     function ymd(x) { return x.getFullYear() + ('0' + (x.getMonth() + 1)).slice(-2) + ('0' + x.getDate()).slice(-2); }
     var end = new Date(d.getTime() + 86400000);
     var text = planText(p).replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
-    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kedah Silver Economy//Try a case//EN', 'BEGIN:VEVENT', 'UID:' + p.caseId + '@kedah-silver-economy',
+    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//i-CareElder//Try a case//EN', 'BEGIN:VEVENT', 'UID:' + p.caseId + '@i-careelder',
       'DTSTAMP:' + ymd(new Date()) + 'T000000Z', 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(end),
       'SUMMARY:' + T('Follow up the care plan ', 'Susulan pelan bantuan ') + p.caseId, 'DESCRIPTION:' + text,
       'BEGIN:VALARM', 'TRIGGER:-PT9H', 'ACTION:DISPLAY', 'DESCRIPTION:' + T('Follow up the care plan', 'Susulan pelan bantuan'), 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
@@ -414,7 +414,7 @@ K.pageInit.scenario = function () {
       return L(A.items[k].l) + (n ? ' (' + L(A.modes[n.mode]).toLowerCase() + ')' : '');
     }).join(', ');
     var signers = x.docs.map(function (d) { return d.key; }).filter(function (k) { return k === 'imam' || k === 'govDoctor' || k === 'doctorRec'; });
-    return '<section class="tc-sheet" data-k="' + sc.k + '"><header><p>Kedah Silver Economy · Ringkasan borang <i>Form summary</i></p><h2>' + esc(L(sc.l)) + '</h2>' +
+    return '<section class="tc-sheet" data-k="' + sc.k + '"><header><p>i-CareElder · Ringkasan borang <i>Form summary</i></p><h2>' + esc(L(sc.l)) + '</h2>' +
         '<p>' + esc(sc.by) + ' · ' + esc(p.caseId) + '</p><p class="tc-sheet-note">Gunakan ini untuk mengisi borang rasmi. Ini bukan borang rasmi. <i>Use this to fill in the official form. It is not the official form.</i></p></header>' +
       sec('Applicant', 'Pemohon', blank('Name', 'Nama') + blank('MyKad number', 'No. MyKad') + blank('Address', 'Alamat') + blank('Phone', 'Telefon') +
         row('Age', 'Umur', ageText()) + row('Gender', 'Jantina', s.gender ? L(A.genders[s.gender]) : '') + row('Citizen', 'Warganegara', s.citizen ? L(A.yesNo[s.citizen]) : '') +
@@ -446,7 +446,7 @@ K.pageInit.scenario = function () {
     var d = new Date(); d.setFullYear(d.getFullYear() + 1);
     function ymd(x) { return x.getFullYear() + ('0' + (x.getMonth() + 1)).slice(-2) + ('0' + x.getDate()).slice(-2); }
     var end = new Date(d.getTime() + 86400000);
-    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kedah Silver Economy//Try a case//EN', 'BEGIN:VEVENT', 'UID:year-' + p.caseId + '@kedah-silver-economy',
+    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//i-CareElder//Try a case//EN', 'BEGIN:VEVENT', 'UID:year-' + p.caseId + '@i-careelder',
       'DTSTAMP:' + ymd(new Date()) + 'T000000Z', 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(end), 'RRULE:FREQ=YEARLY',
       'SUMMARY:' + T('Update the aid details ', 'Kemas kini maklumat bantuan ') + p.caseId,
       'DESCRIPTION:' + T('Check that LZNK\\, MAIK and JKM have the latest income\\, address and household details.', 'Pastikan LZNK\\, MAIK dan JKM ada maklumat pendapatan\\, alamat dan isi rumah yang terkini.'),
@@ -485,7 +485,7 @@ K.pageInit.scenario = function () {
             : '<p class="tc-gapnote">' + icon('alert') + esc(T('No organisation on our list offers this yet. This is a gap the project will map.', 'Belum ada organisasi dalam senarai kami yang menawarkan ini. Ini jurang yang akan dipetakan oleh projek.')) + '</p>') +
           '<details class="tc-steps" open><summary>' + esc(T('Steps', 'Langkah')) + '</summary><ol>' + steps(p, line).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol></details></li>';
       }).join('') + '</ol>' +
-      '<div class="tc-cross">' + icon('give') + '<span><b>' + esc(Q('Would you like to give too?', 'Mahu menyumbang juga?', 'Would they like to give too?', 'Adakah dia mahu menyumbang juga?')) + '</b><small>' + esc(T('Older people can give sedekah, waqf or some time, even while getting help.', 'Warga emas boleh memberi sedekah, wakaf atau sedikit masa, walaupun sedang menerima bantuan.')) + '</small></span>' +
+      '<div class="tc-cross">' + icon('give') + '<span><b>' + esc(Q('Would you like to give too?', 'Mahu menyumbang juga?', 'Would they like to give too?', 'Adakah dia mahu menyumbang juga?')) + '</b><small>' + esc(T('Older people can give sadaqah, waqf or some time, even while getting help.', 'Warga emas boleh memberi sedekah, wakaf atau sedikit masa, walaupun sedang menerima bantuan.')) + '</small></span>' +
         '<button type="button" class="btn btn-quiet" data-act="to-give">' + esc(T('Give or volunteer', 'Menyumbang')) + '</button></div>' +
       '<div class="tc-plan-actions">' +
         '<button type="button" class="btn btn-paddy" data-act="copy">' + icon('copy') + '<span>' + esc(T('Copy the plan', 'Salin pelan')) + '</span></button>' +
@@ -496,7 +496,7 @@ K.pageInit.scenario = function () {
       '</div>' + (p.apply && p.apply.schemes.length ? '<div class="tc-sheets" aria-hidden="true">' + p.apply.schemes.map(function (x) { return sheetHtml(x, p); }).join('') + '</div>' : '') + '</div>';
   }
   function planText(p) {
-    var out = ['Kedah Silver Economy · ' + T('Assistance plan', 'Pelan bantuan'), T('Case ', 'Kes ') + p.caseId + ' · ' + T('rules ', 'peraturan ') + p.version, ''];
+    var out = ['i-CareElder · ' + T('Assistance plan', 'Pelan bantuan'), T('Case ', 'Kes ') + p.caseId + ' · ' + T('rules ', 'peraturan ') + p.version, ''];
     p.lines.forEach(function (line, i) {
       out.push((i + 1) + '. ' + L(line.item.l) + ' (' + L(A.modes[line.need.mode]) + ', ' + L(A.durations[line.need.duration]) + ')');
       out.push('   ' + (line.best ? T('Possible match: ', 'Padanan mungkin: ') + provName(line.best) + ' (' + L(K.status[line.best.record.status]) + ')' : T('No match on our list yet', 'Belum ada padanan dalam senarai kami')));
@@ -612,7 +612,7 @@ K.pageInit.scenario = function () {
       '</div></div>';
   }
   function giveText(p) {
-    var out = ['Kedah Silver Economy · ' + T('Giving plan', 'Pelan sumbangan'), T('Plan ', 'Pelan ') + p.caseId + ' · ' + T('rules ', 'peraturan ') + p.version, ''];
+    var out = ['i-CareElder · ' + T('Giving plan', 'Pelan sumbangan'), T('Plan ', 'Pelan ') + p.caseId + ' · ' + T('rules ', 'peraturan ') + p.version, ''];
     out.push(T('Ways to give: ', 'Cara menyumbang: ') + p.input.types.map(function (k) { return L(G.types[k].l); }).join(', '));
     if (p.routes.length) {
       out.push('', T('Where to give', 'Di mana untuk memberi') + ':');
@@ -637,7 +637,7 @@ K.pageInit.scenario = function () {
     else d.setDate(d.getDate() + 7);
     var end = new Date(d.getTime() + 86400000);
     var text = giveText(p).replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
-    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Kedah Silver Economy//Try a case//EN', 'BEGIN:VEVENT', 'UID:' + p.caseId + '@kedah-silver-economy',
+    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//i-CareElder//Try a case//EN', 'BEGIN:VEVENT', 'UID:' + p.caseId + '@i-careelder',
       'DTSTAMP:' + ymd(new Date()) + 'T000000Z', 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(end)].concat(rule ? [rule] : []).concat([
       'SUMMARY:' + T('Giving plan ', 'Pelan sumbangan ') + p.caseId, 'DESCRIPTION:' + text,
       'BEGIN:VALARM', 'TRIGGER:-PT9H', 'ACTION:DISPLAY', 'DESCRIPTION:' + T('Giving plan', 'Pelan sumbangan'), 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR']).join('\r\n');
@@ -863,7 +863,7 @@ K.pageInit.scenario = function () {
     if (note) { note.hidden = false; }
     var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
     if (touch && navigator.share) {
-      navigator.share({ title: 'Kedah Silver Economy', text: text }).catch(function () {});
+      navigator.share({ title: 'i-CareElder', text: text }).catch(function () {});
       return;
     }
     var w = null;

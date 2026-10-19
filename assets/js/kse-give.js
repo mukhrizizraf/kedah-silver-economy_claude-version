@@ -1,7 +1,7 @@
 /* ============================================================================
-   Kedah Silver Economy: the giving side of Try a case (rules 2026.10.07)
+   i-CareElder: the giving side of Try a case (rules 2026.10.07)
    The i-CareElder framework treats an older person as someone who can also
-   give: sedekah, cash waqf, sponsoring another older person, giving things,
+   give: sadaqah, cash waqf, sponsoring another older person, giving things,
    volunteering, sharing skills and supporting others of the same age.
    This file holds the rules only (no DOM). Money always goes through the
    official page of LZNK, MAIK or the masjid itself; the plan never takes
@@ -19,12 +19,12 @@ G.version = VERSION;
 /* ---------- The first question of Try a case: get help, or give ---------- */
 G.paths = {
   get: { l: t('Get help', 'Dapatkan bantuan'), d: t('Care, aid, equipment or company', 'Penjagaan, bantuan, peralatan atau teman') },
-  give: { l: t('Give or volunteer', 'Menyumbang atau menjadi sukarelawan'), d: t('Sedekah, waqf, sponsor an older person or give your time', 'Sedekah, wakaf, tanggung warga emas atau beri masa anda') }
+  give: { l: t('Give or volunteer', 'Menyumbang atau menjadi sukarelawan'), d: t('Sadaqah, waqf, sponsor an older person or give your time', 'Sedekah, wakaf, tanggung warga emas atau beri masa anda') }
 };
 
 /* ---------- Ways to give: money and things, or time ---------- */
 G.types = {
-  sedekah: { l: t('Sedekah or a donation', 'Sedekah atau derma'), d: t('Money for people in need or a good cause', 'Wang untuk orang yang memerlukan atau tujuan yang baik'), i: 'coins', money: true },
+  sedekah: { l: t('Sadaqah or a donation', 'Sedekah atau derma'), d: t('Money for people in need or a good cause', 'Wang untuk orang yang memerlukan atau tujuan yang baik'), i: 'coins', money: true },
   wakaf: { l: t('Cash waqf', 'Wakaf tunai'), d: t('A lasting gift, held by MAIK', 'Pemberian yang kekal, dipegang oleh MAIK'), i: 'office', money: true },
   sponsor: { l: t('Sponsor an older person', 'Tanggung warga emas lain'), d: t('Help one older person near you, often every month', 'Bantu seorang warga emas berdekatan, selalunya setiap bulan'), i: 'heart', money: true },
   goods: { l: t('Give things', 'Derma barang'), d: t('A wheelchair, walker or food you can spare', 'Kerusi roda, rangka berjalan atau makanan yang boleh diberi'), i: 'wheelchair', goods: true },
@@ -35,7 +35,7 @@ G.types = {
 G.moneyTypes = ['sedekah', 'wakaf', 'sponsor'];
 G.timeTypes = ['volunteer', 'mentor', 'peer'];
 
-/* where a sedekah should go */
+/* where a sadaqah should go */
 G.causes = {
   masjid: t('My masjid', 'Masjid kariah saya'),
   elderly: t('Older people near me', 'Warga emas berdekatan'),
@@ -137,7 +137,7 @@ G.hasGoods = function (g) { return G.normalize(g).types.indexOf('goods') >= 0; }
 function routesFor(g) {
   var out = G.routes.filter(function (r) {
     if (!any(g.types, r.types)) return false;
-    /* a sedekah-only route shows when one of its causes is chosen, or no cause yet */
+    /* a sadaqah-only route shows when one of its causes is chosen, or no cause yet */
     var onlySedekah = r.types.length === 1 && r.types[0] === 'sedekah';
     if (onlySedekah && g.causes.length && !any(g.causes, r.causes)) return false;
     return true;
@@ -260,7 +260,7 @@ G.plan = function (input, place) {
 /* a worked example for the pitch: a retired teacher in Kubang Pasu */
 G.example = {
   l: t('A retired teacher who wants to give back', 'Pesara guru yang mahu menyumbang'),
-  d: t('67, Kubang Pasu: monthly sedekah, cash waqf, teaching Quran and phone calls', '67, Kubang Pasu: sedekah bulanan, wakaf tunai, mengajar mengaji dan telefon bertanya khabar'),
+  d: t('67, Kubang Pasu: monthly sadaqah, cash waqf, teaching Quran and phone calls', '67, Kubang Pasu: sedekah bulanan, wakaf tunai, mengajar mengaji dan telefon bertanya khabar'),
   place: { filler: 'self', district: 'Kubang Pasu', mukim: 'Jitra' },
   g: { types: ['sedekah', 'wakaf', 'volunteer', 'mentor'], causes: ['masjid', 'elderly'], often: 'monthly', pay: 'helper', skills: ['quran', 'phone', 'visit'], hours: 'week', travel: 'lift' }
 };

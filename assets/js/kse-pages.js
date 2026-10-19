@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Kedah Silver Economy: page controllers
+   i-CareElder: page controllers
    One init per body[data-page]. Each init binds events once and pushes its
    render functions onto K.onLang, which the shell runs on load and on every
    language switch.
@@ -268,7 +268,7 @@ K.pageInit.network = function () {
 
 /* ---------- 04 Try a case: see kse-assist.js (rules) and kse-case-ui.js (screens) ---------- */
 
-/* ---------- 08 Our Silver App ---------- */
+/* ---------- 08 The i-CareElder App ---------- */
 K.pageInit.app = function () {
   var current = 0, screens = K.$$('[data-screen]'), dots = $('#appDots'), progress = $('#appProgress');
   /* two paths share the welcome screen: getting help (screens 1 to 9) and giving (data-flow="give") */

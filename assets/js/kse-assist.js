@@ -1,5 +1,5 @@
 /* ============================================================================
-   Kedah Silver Economy: Try a case, rules version 2026.10.04
+   i-CareElder: Try a case, rules version 2026.10.04
    The assistance model and the matching engine. No DOM work here, so the same
    state shape and rules can move to SwiftUI and Android Compose unchanged.
 

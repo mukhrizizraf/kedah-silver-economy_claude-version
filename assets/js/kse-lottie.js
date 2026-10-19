@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Kedah Silver Economy (iOS version): Lottie animations
+   i-CareElder (iOS version): Lottie animations
    Three small Lottie (bodymovin 5.7) animations, kept as JS objects so the
    site still runs from file:// with no fetch(). Layers carry a class (cl)
    so kse-ios.css can recolour them from the theme tokens.

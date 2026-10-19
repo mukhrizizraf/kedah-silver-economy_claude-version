@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Kedah Silver Economy: shared shell
+   i-CareElder: shared shell
    Placed as the FIRST child of <body data-page="…">. It injects the top bar
    and drawer immediately (no layout jump), then on DOMContentLoaded adds the
    footer pager + tooltip, runs the page's init (kse-pages.js) and applies the
@@ -43,7 +43,7 @@ K.PAGES = [
  desc:{en:'The documents behind this dashboard and the reviewer comments.',bm:'Dokumen di sebalik dashboard ini dan ulasan penilai.'}}
 ,{id:'data',href:'data.html',label:{en:'Data blueprint',bm:'Pelan data'},
  desc:{en:'The data this prototype needs before it can work for real.',bm:'Data yang prototaip ini perlukan sebelum boleh digunakan secara sebenar.'}}
-,{id:'app',href:'app.html',label:{en:'Our Silver App',bm:'Aplikasi Silver Kami'},
+,{id:'app',href:'app.html',label:{en:'The i-CareElder App',bm:'Aplikasi i-CareElder'},
  desc:{en:'Tap through a mock app for an older person looking for help.',bm:'Cuba aplikasi simulasi untuk warga emas yang mencari bantuan.'}}
 ];
 K.page = body.getAttribute('data-page') || 'overview';
@@ -188,12 +188,12 @@ function renderChrome() {
   chrome.innerHTML =
     '<a class="skip" href="#main">' + K.T('Skip to content', 'Langkau ke kandungan') + '</a>' +
     '<aside class="sidebar" aria-label="' + K.T('Pages', 'Halaman') + '">' +
-      '<a class="brand" href="index.html">' + K.mark + '<span><b>Kedah Silver Economy</b><small>' + K.T('UUM Scale-Up Research Grant 2026', 'Geran Penyelidikan Scale-Up UUM 2026') + '</small></span></a>' +
+      '<a class="brand" href="index.html">' + K.mark + '<span><b>i-CareElder</b><small>' + K.T('Integrated Islamic Elderly Care Dashboard', 'Papan Pemuka Penjagaan Warga Emas Islam Bersepadu') + '</small></span></a>' +
       '<nav class="side-list" aria-label="' + K.T('Pages', 'Halaman') + '">' + rows + '</nav>' +
       '<div class="side-foot">' + langSwitch() + '</div>' +
     '</aside>' +
     '<header class="navbar"><div class="navbar-row">' +
-      '<a class="brand nav-brand" href="index.html">' + K.mark + '<span><b>Kedah Silver Economy</b></span></a>' +
+      '<a class="brand nav-brand" href="index.html">' + K.mark + '<span><b>i-CareElder</b></span></a>' +
       '<span class="nav-title" aria-hidden="true">' + K.esc(K.L(cur.label)) + '</span>' +
       '<div class="tools"><span class="nav-spinner" aria-hidden="true"></span>' + langSwitch() + lookMenu() +
         '<button class="iconbtn" id="themeBtn" aria-label="' + (dark ? K.T('Switch to light theme', 'Tukar ke tema cerah') : K.T('Switch to dark theme', 'Tukar ke tema gelap')) + '">' + K.icon(dark ? 'sun' : 'moon') + '</button>' +
@@ -387,10 +387,10 @@ function renderFooter() {
   var i = K.pageIndex, prev = K.PAGES[i - 1], next = K.PAGES[i + 1] || K.PAGES[0];
   var nextDir = K.PAGES[i + 1] ? K.T('Next', 'Seterusnya') : K.T('Back to the start', 'Kembali ke permulaan');
   var mainFooter = K.page === 'overview' ? '<section class="site-foot-main" aria-label="' + K.T('Project navigation', 'Navigasi projek') + '">' +
-    '<div class="site-foot-brand">' + K.mark + '<div><b>Kedah Silver Economy</b><p>' + K.T('A prototype that shows how older people in Kedah could be linked to help.', 'Prototaip yang menunjukkan cara warga emas di Kedah boleh dihubungkan dengan bantuan.') + '</p></div></div>' +
+    '<div class="site-foot-brand">' + K.mark + '<div><b>i-CareElder</b><p>' + K.T('Integrated Islamic Elderly Care Dashboard. A proof of concept that shows how older people in Kedah could be linked to help, and help others.', 'Papan Pemuka Penjagaan Warga Emas Islam Bersepadu. Bukti konsep yang menunjukkan cara warga emas di Kedah boleh dihubungkan dengan bantuan, dan membantu orang lain.') + '</p></div></div>' +
     '<div class="site-foot-links">' +
       '<div><span>' + K.T('Dashboard', 'Dashboard') + '</span><a href="index.html">' + K.T('Overview', 'Latar belakang') + '</a><a href="ecosystem.html">' + K.T('How it works', 'Cara ia berfungsi') + '</a><a href="network.html">' + K.T('Who can help', 'Siapa boleh membantu') + '</a><a href="scenario.html">' + K.T('Try a case', 'Cuba satu kes') + '</a></div>' +
-      '<div><span>' + K.T('Project', 'Projek') + '</span><a href="roadmap.html">' + K.T('Plan &amp; budget', 'Pelan &amp; bajet') + '</a><a href="evidence.html">' + K.T('Sources', 'Sumber') + '</a><a href="data.html">' + K.T('Data blueprint', 'Pelan data') + '</a><a href="app.html">' + K.T('Our Silver App', 'Aplikasi Silver Kami') + '</a></div>' +
+      '<div><span>' + K.T('Project', 'Projek') + '</span><a href="roadmap.html">' + K.T('Plan &amp; budget', 'Pelan &amp; bajet') + '</a><a href="evidence.html">' + K.T('Sources', 'Sumber') + '</a><a href="data.html">' + K.T('Data blueprint', 'Pelan data') + '</a><a href="app.html">' + K.T('The i-CareElder App', 'Aplikasi i-CareElder') + '</a></div>' +
       '<div><span>' + K.T('About', 'Tentang') + '</span><p>' + K.T('9 months, Nov 2026 to Jul 2027', '9 bulan, Nov 2026 hingga Jul 2027') + '</p><p>' + K.T('Kedah pilot concept', 'Konsep percubaan Kedah') + '</p></div>' +
     '</div>' +
   '</section>' : '';
@@ -400,7 +400,7 @@ function renderFooter() {
       '<a class="next" href="' + next.href + '"' + (K.PAGES[i + 1] ? ' rel="next"' : '') + '><span class="pg-icon">' + K.pageIcon(next.id) + '</span><span class="dir">' + nextDir + ' · ' + no(K.PAGES.indexOf(next)) + K.icon('right') + '</span><b>' + K.esc(K.L(next.label)) + '</b></a>' +
     '</nav>' +
     mainFooter +
-    '<div class="foot-row"><span>' + K.T('Prototype for the UUM Scale-Up Research Grant 2026. The organisation list is a sample only.', 'Prototaip untuk Geran Penyelidikan Scale-Up UUM 2026. Senarai organisasi hanyalah contoh.') + '</span>' +
+    '<div class="foot-row"><span>' + K.T('© 2026 Universiti Utara Malaysia. i-CareElder is a proof of concept (TRL 3) for the UUM Scale-Up Research Grant 2026. The organisation list is a sample only.', '© 2026 Universiti Utara Malaysia. i-CareElder ialah bukti konsep (TRL 3) untuk Geran Penyelidikan Scale-Up UUM 2026. Senarai organisasi hanyalah contoh.') + '</span>' +
     '<span class="keys-hint"><kbd>←</kbd> <kbd>→</kbd> ' + K.T('move between pages', 'bergerak antara halaman') + '</span></div>' +
   '</div></footer>';
   K.$$('.step[data-step]').forEach(function (el) {

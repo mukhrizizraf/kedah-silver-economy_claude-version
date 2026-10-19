@@ -1,6 +1,7 @@
-# Kedah Silver Economy (Claude version)
+# i-CareElder: Integrated Islamic Elderly Care Dashboard (Claude version)
 
-A redesign of the Kedah Silver Economy pitch dashboard for the UUM Scale-Up
+Formerly "Kedah Silver Economy"; renamed on 19 Oct 2026 to match the UUM
+IP (copyright) application. A redesign of the pitch dashboard for the UUM Scale-Up
 Research Grant 2026 proposal *Integrated Islamic Elderly Care Ecosystem: A
 Proof-of-Concept Study for Kedah State*.
 
@@ -38,7 +39,7 @@ and gives them a new look and feel:
 
 A separate folder, `ICC copyright version` (outside this repo), holds a
 four-page, offline copy for a UUM copyright filing: Overview, Try a case, Data
-blueprint and Our Silver App. It has no picture files; every picture is drawn
+blueprint and The i-CareElder App. It has no picture files; every picture is drawn
 in code. Since October 2026 it carries the name "Silver Economy" (the Overview
 title is "Integrated Islamic care for older people") and the giving side of
 Try a case. It is not published in this repo; it has its own repo,
@@ -81,7 +82,7 @@ static server. The page transitions need http(s) (they do not run from
   on JKM's register) and to NGOs from their own public pages. The NGOs show as
   "To check" until Phase 1 confirms they take older volunteers. The giving
   rules live in `assets/js/kse-give.js`; the help rules are unchanged.
-- **Our Silver App** mock has thirteen screens: the help path, plus a giving
+- **The i-CareElder App** mock has thirteen screens: the help path, plus a giving
   branch shaped like a digital masjid tabung (one link per masjid, once, every
   Friday or every month, private giving, the masjid's own DuitNow QR, a giving
   record kept on the phone). The app never holds money.
